@@ -4,8 +4,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link href="/css/bootstrap.css" rel="stylesheet">
-
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
 
     <style>
         [class*="col-"] {
@@ -26,12 +26,12 @@
         <div class="row">
             <div class="col-xs-6">
                 <h3>Администрирование</h3>
-                <hr/>
+
             </div>
 
             <div class="col-xs-4">
                 Администратор: ${user}
-                <hr/>
+
             </div>
 
             <div class="col-xs-2">
@@ -64,7 +64,7 @@
     </div>
     <div class="col-xs-1"></div>
     <div class="col-xs-7">
-        <hr/>
+
 
     </div>
 </div>
@@ -72,14 +72,14 @@
 
 <div class="col-xs-12">
     <h4 class="bg-primary"> Контакты: </h4>
-    Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;
-    <p>Торговые представители в регионах: </p>
+    <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
+    <h4>Торговые представители в регионах: </h4>
 
-    <p>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </p>
+    <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
 
 </div>
-<script type="text/javascript" src="/js/jquery-ui.js"></script>
-<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 </div>
 </div>
 </body>
