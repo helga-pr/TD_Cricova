@@ -9,14 +9,15 @@
 
     <style>
         [class*="col-"] {
-            background-color: #eee;
-            border-right: 2px solid #fff;
+        / / background-color : #eee;
+        / / border-right : 2 px solid #fff;
             text-align: center;
             padding-top: 15px;
             padding-bottom: 15px;
             font-size: 2rem;
         }
     </style>
+
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>

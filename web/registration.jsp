@@ -22,22 +22,16 @@
         <div class="col-xs-11">
 
             <form name="loginForm" method="POST" action="controller">
-                <input type="hidden" name="command" value="login"/>
+                <input type="hidden" name="command" value="new_client"/>
                 Логин:<br/>
-                <input type="text" name="login" value=""/>
+                <input type="text" name="login" value="your e-mail"/>
                 <br/>
                 <br/>Пароль:<br/>
                 <input type="password" name="password" value=""/>
                 <br/>
+                <br/>Повторите Пароль:<br/>
+                <input type="password" name="password" value=""/>
                 <br/>
-
-                <div>Войти как <br/>
-                    <input type="radio" name="adminflag" value="администратор"/>
-                    администратор
-                    <br/>
-                    <input type="radio" name="adminflag" value="клиент" checked="true"/>
-                    клиент
-                </div>
 
                 <br/>
                 ${errorLoginPassMessage}
@@ -48,12 +42,6 @@
                 <br/>
                 <input type="submit" value="Log in"/>
 
-            </form>
-            <hr/>
-            <form name="newClientForm" method="POST" action="controller">
-                <input type="hidden" name="command" value="no_registration"/>
-                <input type="submit" value="Зарегистрироваться" class="btn-link"/>
-            </form>
         </div>
     </div>
     <div class="col-xs-12">
