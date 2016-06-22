@@ -27,36 +27,52 @@
 <body class="main-background">
 <div class="container-fluid">
 
-    <form name="index" method="POST" action="controller">
+    <form name="index" method="POST" action="ServletController">
         <div class="row">
-            <div class="col-xs-10">Торговый Дом &quotКрикова&quot</div>
+            <div class="col-xs-10">
+                <h1>Торговый Дом &quotКрикова&quot</h1>
+            </div>
             <div class="col-xs-2">
-                <input type="hidden" name="command" value="login"/>
+                <input type="hidden" name="command" value="to_login_page"/>
                 <input type="submit" value="Log in"/>
             </div>
         </div>
     </form>
-        <div class="row">
-            <div class="col-xs-12">
-                <h3> Страница с текстом и картинками </h3>
-            </div>
-            <div class="col-xs-5">
-                <div class="row">
-                    <div class="col-xs-12">Колонка 1</div>
-                    <div class="col-xs-6">Колонка 1-1</div>
-                    <div class="col-xs-6">Колонка 1-2</div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-xs-offset-1">Колонка 2</div>
-
-            <div class="col-xs-12">
-                <h4 class="bg-primary"> Контакты: </h4>
-                <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
-                <h4>Торговые представители в регионах: </h4>
-
-                <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
-            </div>
+    <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <h3> Страница с текстом и картинками </h3>
         </div>
+        <div class="col-xs-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-4">Article-1-picture</div>
+        <div class="col-xs-4">Article-1-text</div>
+        <div class="col-xs-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-4">Article-2-picture</div>
+        <div class="col-xs-4">Article-2-text</div>
+        <div class="col-xs-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <h4 class="bg-primary"> Контакты: </h4>
+            <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
+            <h4>Торговые представители в регионах: </h4>
+
+            <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+
+</div>
 
 </div>
 

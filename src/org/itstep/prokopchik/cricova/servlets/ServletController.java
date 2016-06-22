@@ -3,7 +3,6 @@ package org.itstep.prokopchik.cricova.servlets;
 import org.itstep.prokopchik.cricova.command.ActionCommand;
 import org.itstep.prokopchik.cricova.command.factory.ActionFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,7 @@ import java.io.IOException;
 /**
  * Servlet implementation class Controller
  */
-@WebServlet("/controller")
+@WebServlet("/ServletController")
 public class ServletController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -52,7 +51,8 @@ public class ServletController extends HttpServlet {
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request);
 
-  /*
+        System.out.println("processRequest Работает!!!");
+        /**
      * вызов реализованного метода execute() и передача параметров
      * классу-обработчику конкретной команды
   */
@@ -61,16 +61,18 @@ public class ServletController extends HttpServlet {
         // page = null; // поэксперементировать!
 
         if (page != null) {
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            // RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
 
             // вызов страницы ответа на запрос
-            dispatcher.forward(request, response);
+            // dispatcher.forward(request, response);
+
+            request.getRequestDispatcher(page).forward(request, response);
 
         } else {
             // установка страницы c cообщением об ошибке
 
             // page = ConfigurationManager.getProperty("path.page.index");
-            page = "index.jsp";
+            page = "/index.jsp";
 
             //request.getSession().setAttribute("nullPage", MessageManager.getProperty("message.nullpage"));
             request.getSession().setAttribute("nullPage", "Page not found. Business logic error");

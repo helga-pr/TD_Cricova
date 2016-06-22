@@ -27,7 +27,7 @@
 <body class="main-background">
 <div class="container-fluid">
 
-    <form name="index" method="POST" action="controller">
+    <form name="index" method="POST" action="ServletController">
         <div class="row">
             <div class="col-xs-10">Торговый Дом &quotКрикова&quot</div>
             <div class="col-xs-2">
@@ -49,12 +49,16 @@
         </div>
         <div class="col-xs-6 col-xs-offset-1">Колонка 2</div>
 
-        <div class="col-xs-12">
-            <h4 class="bg-primary"> Контакты: </h4>
-            <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
-            <h4>Торговые представители в регионах: </h4>
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-8">
+                <h4 class="bg-primary"> Контакты: </h4>
+                <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
+                <h4>Торговые представители в регионах: </h4>
 
-            <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
+                <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
+            </div>
+            <div class="col-xs-2"></div>
         </div>
     </div>
 

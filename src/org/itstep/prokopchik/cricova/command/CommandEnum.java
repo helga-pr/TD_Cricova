@@ -3,6 +3,12 @@ package org.itstep.prokopchik.cricova.command;
 //«хранилище» команд
 public enum CommandEnum {
 
+    TO_LOGIN_PAGE {
+        {
+            this.command = new ToLoginPage();
+        }
+    },
+
     LOGIN {
         {
             this.command = new LoginCommand();
