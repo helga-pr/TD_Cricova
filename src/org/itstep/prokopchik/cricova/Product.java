@@ -2,12 +2,20 @@ package org.itstep.prokopchik.cricova;
 
 abstract class Product {
 
+    private Integer id;
     private String name;
-    private Double price;
-    private Double ndsRate;
-    private String image;
+    private Integer price;
+    private Integer ndsRate;
+    private Object image;
     private String annotation;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -17,25 +25,24 @@ abstract class Product {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         if (price > 0)
             this.price = price;
     }
 
-    public Double getNdsRate() {
+    public Integer getNdsRate() {
         return ndsRate;
     }
 
-    public void setNdsRate(Double ndsRate) {
-        if (ndsRate >= 0)
-            this.ndsRate = ndsRate;
+    public void setNdsRate(Integer ndsRate) {
+        this.ndsRate = ndsRate;
     }
 
-    public String getImage() {
+    public Object getImage() {
         return image;
     }
 
@@ -54,35 +61,37 @@ abstract class Product {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Product)) return false;
 
         Product product = (Product) o;
 
+        if (annotation != null ? !annotation.equals(product.annotation) : product.annotation != null) return false;
+        if (!id.equals(product.id)) return false;
         if (!name.equals(product.name)) return false;
-        if (!price.equals(product.price)) return false;
         if (!ndsRate.equals(product.ndsRate)) return false;
-        if (image != null ? !image.equals(product.image) : product.image != null) return false;
-        return annotation.equals(product.annotation);
+        if (!price.equals(product.price)) return false;
 
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
         result = 31 * result + price.hashCode();
         result = 31 * result + ndsRate.hashCode();
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + annotation.hashCode();
+        result = 31 * result + (annotation != null ? annotation.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", price=" + price +
                 ", ndsRate=" + ndsRate +
-                ", image='" + image + '\'' +
+                ", image=" + image +
                 ", annotation='" + annotation + '\'' +
                 '}';
     }

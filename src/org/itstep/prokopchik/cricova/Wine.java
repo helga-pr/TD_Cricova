@@ -85,27 +85,13 @@ public class Wine extends Product {
         this.wineCollection = wineCollection;
     }
 
-    @Override
-    public String toString() {
-        return "Wine{" +
-                "wineType=" + wineType +
-                ", wineColor=" + wineColor +
-                ", wineAge=" + wineAge +
-                ", wineSugarContent=" + wineSugarContent +
-                ", wineSpiritContent=" + wineSpiritContent +
-                ", wineCollection=" + wineCollection +
-                '}';
-    }
-
     /**
      * override methods
      */
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Wine)) return false;
         if (!super.equals(o)) return false;
 
         Wine wine = (Wine) o;
@@ -132,4 +118,15 @@ public class Wine extends Product {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Wine{" + super.toString() +
+                " (wineType=" + wineType +
+                ", wineColor=" + wineColor +
+                ", wineAge=" + wineAge +
+                ", wineSugarContent=" + wineSugarContent +
+                ", wineSpiritContent=" + wineSpiritContent +
+                ", wineCollection=" + wineCollection +
+                "} ";
+    }
 }

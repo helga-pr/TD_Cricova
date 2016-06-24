@@ -4,11 +4,20 @@ public class Admin {
     /**
      * must be an unique e-mail like login
      */
+    private Integer id;
     private String login;
     private String password;
 
     public Admin() {
 
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -29,38 +38,32 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "org.itstep.prokopchik.cricova.Admin " + this.login;
+        return "Admin{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Admin)) return false;
+
+        Admin admin = (Admin) o;
+
+        if (!id.equals(admin.id)) return false;
+        if (!login.equals(admin.login)) return false;
+        if (!password.equals(admin.password)) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        int result = id.hashCode();
+        result = 31 * result + login.hashCode();
+        result = 31 * result + password.hashCode();
         return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Admin other = (Admin) obj;
-
-        if (login == null) {
-            if (other.login != null)
-                return false;
-        } else if (!login.equals(other.login))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        return true;
     }
 }

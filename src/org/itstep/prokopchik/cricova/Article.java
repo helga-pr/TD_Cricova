@@ -4,6 +4,8 @@ package org.itstep.prokopchik.cricova;
  * класс используется ддя нзаполнения страниц index.jsp и products_view.jsp статьями
  */
 public class Article {
+
+    private Integer id;
     /**
      * название статьи
      */
@@ -12,11 +14,14 @@ public class Article {
      * контент (текст, изображение)
      */
     private String content;
+
+
     /**
-     * путь к файлу ? имя файла в БД
+     *? путь к файлу ? имя файла в БД
+     * в БД применен тип BLOB (может хранить до 64 килобайт информации)
      */
-    private String image;
-    private Integer id;
+    private Object image;
+
 
     public Integer getId() {
         return id;
@@ -42,11 +47,11 @@ public class Article {
         this.content = content;
     }
 
-    public String getImage() {
+    public Object getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Object image) {
         this.image = image;
     }
 

@@ -27,7 +27,7 @@
 <body class="main-background">
 <div class="container-fluid">
 
-    <form name="index" method="POST" action="ServletController">
+    <form name="index" method="POST" action="controller">
         <div class="row">
             <div class="col-xs-10">
                 <h1>Торговый Дом &quotКрикова&quot</h1>
@@ -38,6 +38,7 @@
             </div>
         </div>
     </form>
+
     <div class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">

@@ -21,7 +21,7 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-11">
 
-            <form name="loginForm" method="POST" action="ServletController">
+            <form name="loginForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="new_client"/>
                 Логин:<br/>
                 <input type="text" name="login" value="your e-mail"/>
@@ -41,6 +41,7 @@
                 ${nullPage}
                 <br/>
                 <input type="submit" value="Log in"/>
+            </form>
 
         </div>
     </div>

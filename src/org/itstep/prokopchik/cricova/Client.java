@@ -5,7 +5,10 @@ package org.itstep.prokopchik.cricova;
  */
 
 public class Client {
-    private String login;//unique e-mail. возможно работа с БД без id типа int?
+
+    private Integer id; //PK
+
+    private String login;//unique
     private String password;
 
     private String name;
@@ -21,6 +24,13 @@ public class Client {
     /**
      * methods
      */
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;
@@ -70,81 +80,34 @@ public class Client {
         this.contacts = contacts;
     }
 
-    /**
-     * @see Object#hashCode()
-     */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
-        result = prime * result + ((middleName == null) ? 0 : middleName.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Client)) return false;
+
+        Client client = (Client) o;
+
+        if (!contacts.equals(client.contacts)) return false;
+        if (id != null ? !id.equals(client.id) : client.id != null) return false;
+        if (lastname != null ? !lastname.equals(client.lastname) : client.lastname != null) return false;
+        if (login != null ? !login.equals(client.login) : client.login != null) return false;
+        if (!middleName.equals(client.middleName)) return false;
+        if (name != null ? !name.equals(client.name) : client.name != null) return false;
+        if (password != null ? !password.equals(client.password) : client.password != null) return false;
+
+        return true;
     }
 
-    /**
-     * @see Object#equals(Object)
-     */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Client)) {
-            return false;
-        }
-        Client other = (Client) obj;
-
-        if (lastname == null) {
-            if (other.lastname != null) {
-                return false;
-            }
-        } else if (!lastname.equals(other.lastname)) {
-            return false;
-        }
-        if (login == null) {
-            if (other.login != null) {
-                return false;
-            }
-        } else if (!login.equals(other.login)) {
-            return false;
-        }
-        if (middleName == null) {
-            if (other.middleName != null) {
-                return false;
-            }
-        } else if (!middleName.equals(other.middleName)) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (password == null) {
-            if (other.password != null) {
-                return false;
-            }
-        } else if (!password.equals(other.password)) {
-            return false;
-        }
-        if (contacts == null) {
-            if (other.contacts != null) {
-                return false;
-            }
-        } else if (!contacts.equals(other.contacts)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + middleName.hashCode();
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + contacts.hashCode();
+        return result;
     }
 
     /**
