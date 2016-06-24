@@ -3,8 +3,8 @@ package org.itstep.prokopchik.cricova.logic;
 
 import org.itstep.prokopchik.cricova.Admin;
 import org.itstep.prokopchik.cricova.Client;
-import org.itstep.prokopchik.cricova.database.dao.admin.DAOAdminImpl;
-import org.itstep.prokopchik.cricova.database.dao.client.DAOClientImpl;
+import org.itstep.prokopchik.cricova.database.dao.admin.AdminsEntity;
+import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
 
 public class LoginLogic {
 
@@ -14,7 +14,7 @@ public class LoginLogic {
         if (adminflag.equals("администратор")) {
             Admin admin = new Admin();
 
-            admin = new DAOAdminImpl().getAdmin(enterLogin, enterPass);
+            admin = new AdminsEntity().getAdmin(enterLogin, enterPass);
 
             return admin != null &&
                     admin.getPassword().equals(enterPass);
@@ -22,7 +22,7 @@ public class LoginLogic {
 
             Client client = new Client();
 
-            client = new DAOClientImpl().getClient(enterLogin);
+            client = new ClientsEntity().getClient(enterLogin);
 
             return client != null &&
                     client.getPassword().equals(enterPass);

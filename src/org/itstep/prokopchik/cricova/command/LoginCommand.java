@@ -2,7 +2,7 @@ package org.itstep.prokopchik.cricova.command;
 
 
 import org.itstep.prokopchik.cricova.Client;
-import org.itstep.prokopchik.cricova.database.dao.client.DAOClientImpl;
+import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
 import org.itstep.prokopchik.cricova.logic.LoginLogic;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +51,7 @@ public class LoginCommand implements ActionCommand {
             else {
                 page = "/receive_price.jsp";
                 Client client = new Client();
-                client = new DAOClientImpl().getClient(login);
+                client = new ClientsEntity().getClient(login);
 
                 String fio = client.getLastname() + " " + client.getName() + " " + client.getMiddleName();
                 request.setAttribute("fio", fio);
