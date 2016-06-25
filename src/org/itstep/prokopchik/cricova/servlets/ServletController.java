@@ -30,7 +30,7 @@ public class ServletController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**
@@ -51,11 +51,12 @@ public class ServletController extends HttpServlet {
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request);
 
-        System.out.println("processRequest Работает!!!");
+        //  для отладки:
+        // System.out.println("processRequest Работает!!!");
         /**
-     * вызов реализованного метода execute() и передача параметров
-     * классу-обработчику конкретной команды
-  */
+         * вызов реализованного метода execute() и передача параметров
+         * классу-обработчику конкретной команды
+         */
         page = command.execute(request);
         // метод возвращает страницу ответа
 

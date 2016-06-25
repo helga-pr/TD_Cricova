@@ -27,46 +27,59 @@
 <body class="main-background">
 <div class="container-fluid">
 
-    <form name="index" method="POST" action="controller">
-        <div class="row">
-            <div class="col-xs-10">Торговый Дом &quotКрикова&quot</div>
-            <div class="col-xs-2">
-                <input type="hidden" name="command" value="login"/>
-                <input type="submit" value="Log in"/>
-            </div>
+    <div id="header" class="row">
+        <div class="col-xs-2">
+            <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
         </div>
-    </form>
-    <div class="row">
-        <div class="col-xs-12">
-            <h3> Страница с текстом и картинками </h3>
-        </div>
-        <div class="col-xs-5">
-            <div class="row">
-                <div class="col-xs-12">Колонка 1</div>
-                <div class="col-xs-6">Колонка 1-1</div>
-                <div class="col-xs-6">Колонка 1-2</div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-xs-offset-1">Колонка 2</div>
 
-        <div class="row">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-8">
-                <h4 class="bg-primary"> Контакты: </h4>
-                <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
-                <h4>Торговые представители в регионах: </h4>
-
-                <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
-            </div>
-            <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <h1>Торговый Дом &quotКрикова&quot</h1>
         </div>
+        <div class="col-xs-2"></div>
     </div>
 
-</div>
+    <form name="loginForm" method="POST" action="controller">
+        <input type="hidden" name="command" value="receive_price"/>
+        <br/>e-mail:<br/>
+        <input type="text" name="new_email" value=""/>
+
+        <div>Использовать мой зарегистрированный e-mail
+            <input type="checkbox" checked="checked" name="my_email_flag" value="my_email"/>
+        </div>
+
+        ${errorLoginPassMessage}
+        <br/>
+        ${wrongAction}
+        <br/>
+        ${nullPage}
+        <br/>
+        <input type="submit" value="Log in"/>
+
+    </form>
 
 
-<script type="text/javascript" src="js/jquery-ui.js"></script>
-<script type="text/javascript" src="js/bootstrap.js"></script>
+    <div class="row">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-11">
+
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-8">
+                    <h4 class="bg-primary"> Контакты: </h4>
+                    <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
+                    <h4>Торговые представители в регионах: </h4>
+
+                    <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
+                </div>
+                <div class="col-xs-2"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
 
 </body>
 </html>

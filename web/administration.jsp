@@ -7,58 +7,57 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
 
-    <style>
-        [class*="col-"] {
-        / / background-color : #eee;
-        / / border-right : 2 px solid #fff;
-            text-align: center;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            font-size: 2rem;
-        }
-    </style>
 
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>
 <body>
 <div class="container-fluid">
-    <form name="administrationForm" method="POST" action="ServletController">
-        <div class="row">
-            <div class="col-xs-6">
-                <h3>Администрирование</h3>
 
-            </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>Администрирование</h3>
 
-            <div class="col-xs-4">
-                Администратор: ${user}
+        </div>
 
-            </div>
+        <div class="col-xs-4">
+            Администратор: ${user}
 
-            <div class="col-xs-2">
+        </div>
 
+        <div class="col-xs-2">
+            <form name="administrationForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="logout"/>
                 <input type="submit" value="Log out"/>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
+
 
     <div class="row">
         <div class="col-xs-4">
-            <input type="hidden" name="command" value="show_price"/>
-            <input type="submit" value="Прайс продукции" class="btn btn-info"/>
+            <form name="administrationForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="show_price"/>
+                <input type="submit" value="Прайс продукции" class="btn btn-info"/>
+            </form>
             <br/><br/>
 
-            <input type="hidden" name="command" value="change_product"/>
-            <input type="submit" value="Изменить пункт прайса" class="btn btn-warning"/>
+            <form name="administrationForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="change_product"/>
+                <input type="submit" value="Изменить пункт прайса" class="btn btn-warning"/>
+            </form>
             <br/><br/>
 
-            <input type="hidden" name="command" value="add_product"/>
-            <input type="submit" value="Добавить пункт прайса" class="btn btn-warning"/>
+            <form name="administrationForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="add_product"/>
+                <input type="submit" value="Добавить пункт прайса" class="btn btn-warning"/>
+            </form>
             <br/><br/>
 
-            <input type="hidden" name="command" value="delete_product"/>
-            <input type="submit" value="Удалить пункт прайса" class="btn btn-danger"/>
+            <form name="administrationForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="delete_product"/>
+                <input type="submit" value="Удалить пункт прайса" class="btn btn-danger"/>
+            </form>
             <br/><br/>
 
 
@@ -74,11 +73,7 @@
     <div class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-            <h4 class="bg-primary"> Контакты: </h4>
-            <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
-            <h4>Торговые представители в регионах: </h4>
 
-            <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
         </div>
         <div class="col-xs-2"></div>
     </div>

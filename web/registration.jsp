@@ -9,13 +9,19 @@
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>
-<body>
+<body class="main-background">
+<div class="container-fluid">
 
-<div class="conteiner-fluid">
+    <div id="header" class="row">
+        <div class="col-xs-2">
+            <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
+        </div>
 
-    <h1>Торговый Дом &quotКрикова&quot</h1>
-
-    <br/>
+        <div class="col-xs-8">
+            <h1>Торговый Дом &quotКрикова&quot</h1>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
 
     <div class="row">
         <div class="col-xs-1"></div>

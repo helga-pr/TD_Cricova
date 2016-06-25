@@ -6,38 +6,42 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
     <link href="css/bootstrap.css" rel="stylesheet">
-    <style> <%@include file="css/bootstrap.css" %> </style>
 
-    <style>
-        [class*="col-"] {
-
-            text-align: center;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            font-size: 2rem;
-        }
-
-        body {
-            background: url(resources/podgorii_cer_albastru_departare_vertical.jpg);
-            background-size: 100%;
-        }
-    </style>
     <title>Торговый Дом &quotКрикова&quot</title>
 </head>
+
 <body class="main-background">
 <div class="container-fluid">
 
-    <form name="index" method="POST" action="controller">
-        <div class="row">
-            <div class="col-xs-10">
-                <h1>Торговый Дом &quotКрикова&quot</h1>
-            </div>
-            <div class="col-xs-2">
+    <div id="header" class="row">
+        <div class="col-xs-2">
+
+            <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
+
+        </div>
+        <div class="col-xs-8">
+            <h1>Торговый Дом &quotКрикова&quot</h1>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10"></div>
+        <div class="col-xs-2">
+            <form name="index" method="POST" action="controller">
                 <input type="hidden" name="command" value="to_login_page"/>
                 <input type="submit" value="Log in"/>
-            </div>
+
+            </form>
+
+
+            <form name="newClientForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="no_registration"/>
+                <input type="submit" value="Зарегистрироваться" class="btn-link"/>
+            </form>
+
         </div>
-    </form>
+    </div>
 
     <div class="row">
         <div class="col-xs-2"></div>
@@ -61,7 +65,7 @@
         <div class="col-xs-2"></div>
     </div>
 
-    <div class="row">
+    <div id="footer" class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
             <h4 class="bg-primary"> Контакты: </h4>

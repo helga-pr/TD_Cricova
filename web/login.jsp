@@ -9,11 +9,20 @@
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>
-<body>
+<body class="main-background">
 
 <div class="conteiner-fluid">
 
-    <h1>Торговый Дом &quotКрикова&quot</h1>
+    <div id="header" class="row">
+        <div class="col-xs-2">
+            <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
+        </div>
+
+        <div class="col-xs-8">
+            <h1>Торговый Дом &quotКрикова&quot</h1>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
 
     <br/>
 
@@ -21,15 +30,13 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-11">
 
-            <form name="loginForm" method="POST" action="ServletController">
+            <form name="loginForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="login"/>
                 Логин:<br/>
                 <input type="text" name="login" value=""/>
-                <br/>
+
                 <br/>Пароль:<br/>
                 <input type="password" name="password" value=""/>
-                <br/>
-                <br/>
 
                 <div>Войти как <br/>
                     <input type="radio" name="adminflag" value="администратор"/>
@@ -50,10 +57,6 @@
 
             </form>
             <hr/>
-            <form name="newClientForm" method="POST" action="ServletController">
-                <input type="hidden" name="command" value="no_registration"/>
-                <input type="submit" value="Зарегистрироваться" class="btn-link"/>
-            </form>
         </div>
     </div>
 
