@@ -70,6 +70,11 @@ public class AdminsEntity extends DAOAdmin {
     }
 
     @Override
+    public Admin createAdmin(Admin admin) {
+        return null;
+    }
+
+    @Override
     public Admin getAdmin(String login, String password) {
         return null;
     }

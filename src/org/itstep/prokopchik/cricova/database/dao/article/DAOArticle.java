@@ -8,6 +8,8 @@ abstract public class DAOArticle {
                                           String content,
                                           Object image);
 
+    abstract public Article createArticle(Article article);
+
     abstract public Article getArticle(String name);
 
     abstract public Article getArticleById(Integer id);

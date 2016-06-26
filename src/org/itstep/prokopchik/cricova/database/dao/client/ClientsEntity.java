@@ -1,12 +1,15 @@
 package org.itstep.prokopchik.cricova.database.dao.client;
 
 import org.itstep.prokopchik.cricova.Client;
+import org.itstep.prokopchik.cricova.Company;
+import org.itstep.prokopchik.cricova.database.dao.company.CompaniesEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "clients", schema = "", catalog = "cricovadb")
-public class ClientsEntity extends DAOClient {
+public class ClientsEntity extends DAOClient implements Serializable {
     private int idClient;
     private String loginClient;
     private String passwordClient;
@@ -15,7 +18,21 @@ public class ClientsEntity extends DAOClient {
     private String lastnameClient;
     private String contactsClient;
 
+
+    private CompaniesEntity company;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    public CompaniesEntity getCompany() {
+        return this.company;
+    }
+
+    public void setCompany(CompaniesEntity company) {
+        this.company = company;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //generated DataBase auto_increment when insert value
     @Column(name = "id_client", nullable = false, insertable = true, updatable = true)
     public int getIdClient() {
         return idClient;
@@ -120,7 +137,7 @@ public class ClientsEntity extends DAOClient {
     }
 
     @Override
-    public Client createClient(String login, String password, String name, String middleName, String lastname) {
+    public Client createClient(String login, String password, String name, String middleName, String lastName, Company company) {
         return null;
     }
 
@@ -131,6 +148,11 @@ public class ClientsEntity extends DAOClient {
 
     @Override
     public Client getClientById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public Client createClient(Client client) {
         return null;
     }
 }

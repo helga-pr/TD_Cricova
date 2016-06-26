@@ -22,11 +22,6 @@
         <div class="col-xs-8">
             <h1>Торговый Дом &quotКрикова&quot</h1>
         </div>
-        <div class="col-xs-2"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-10"></div>
         <div class="col-xs-2">
             <form name="index" method="POST" action="controller">
                 <input type="hidden" name="command" value="to_login_page"/>
@@ -41,6 +36,11 @@
             </form>
 
         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10"></div>
+        <div class="col-xs-2"></div>
     </div>
 
     <div class="row">

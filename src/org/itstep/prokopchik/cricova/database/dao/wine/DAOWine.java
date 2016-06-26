@@ -17,6 +17,8 @@ abstract public class DAOWine {
                                     WineCollectionEnum wineCollection
     );
 
+    abstract public Wine createWine(Wine wine);
+
     abstract public Wine getWine(String name);
 
     abstract public Wine getWineById(Integer id);

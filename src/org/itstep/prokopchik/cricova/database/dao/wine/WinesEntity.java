@@ -201,6 +201,11 @@ public class WinesEntity extends DAOWine {
     }
 
     @Override
+    public Wine createWine(Wine wine) {
+        return null;
+    }
+
+    @Override
     public Wine getWine(String name) {
         return null;
     }

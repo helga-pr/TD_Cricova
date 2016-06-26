@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Servlet implementation class Controller
  */
-@WebServlet("/controller")
+@WebServlet(urlPatterns = {"/controller"}, loadOnStartup = 1)
 public class ServletController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -54,19 +54,25 @@ public class ServletController extends HttpServlet {
         //  для отладки:
         // System.out.println("processRequest Работает!!!");
         /**
-         * вызов реализованного метода execute() и передача параметров
+         * вызов метода execute() и передача параметров
          * классу-обработчику конкретной команды
          */
         page = command.execute(request);
         // метод возвращает страницу ответа
 
         if (page != null) {
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            try {
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
 
-            // вызов страницы ответа на запрос
-            dispatcher.forward(request, response);
+                // вызов страницы ответа на запрос
+                dispatcher.forward(request, response);
 
-            //request.getRequestDispatcher(page).forward(request, response);
+                //request.getRequestDispatcher(page).forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         } else {
             // установка страницы c cообщением об ошибке

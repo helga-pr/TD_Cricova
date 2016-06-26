@@ -84,6 +84,11 @@ public class ArticlesEntity extends DAOArticle {
     }
 
     @Override
+    public Article createArticle(Article article) {
+        return null;
+    }
+
+    @Override
     public Article getArticle(String name) {
         return null;
     }

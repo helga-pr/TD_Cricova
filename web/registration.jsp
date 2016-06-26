@@ -31,15 +31,12 @@
                 <input type="hidden" name="command" value="new_client"/>
                 Логин:<br/>
                 <input type="text" name="login" value="your e-mail"/>
-                <br/>
+
                 <br/>Пароль:<br/>
                 <input type="password" name="password" value=""/>
-                <br/>
+
                 <br/>Повторите Пароль:<br/>
                 <input type="password" name="password" value=""/>
-                <br/>
-
-                <br/>
                 ${errorLoginPassMessage}
                 <br/>
                 ${wrongAction}
