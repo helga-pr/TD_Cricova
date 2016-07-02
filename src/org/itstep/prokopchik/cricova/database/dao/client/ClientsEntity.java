@@ -152,7 +152,6 @@ public class ClientsEntity extends DAOClient implements Serializable {
 
         Client newClient = null;
 
-
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
@@ -202,7 +201,8 @@ public class ClientsEntity extends DAOClient implements Serializable {
             Transaction transaction = session.beginTransaction();
 
             org.hibernate.Query q = session.createQuery("FROM ClientsEntity c WHERE c.loginClient = :login");
-            clientByLogin = (Client) q.setParameter("login", login);
+            clientByLogin = (Client) q.setParameter("login", login)
+                    .uniqueResult();
             transaction.commit();
 
         /* ддя отладки */

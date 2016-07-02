@@ -1,9 +1,14 @@
 package org.itstep.prokopchik.cricova.database.dao.admin;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.itstep.prokopchik.cricova.Admin;
+import org.itstep.prokopchik.cricova.database.HibernateSessionFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "admins", schema = "", catalog = "cricovadb")
@@ -68,23 +73,145 @@ public class AdminsEntity extends DAOAdmin implements Serializable {
     @Override
     public Admin createAdmin(String login, String password) {
 
-        return null;
+        Admin newAdmin = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            AdminsEntity adminEntity = new AdminsEntity();
+            adminEntity.setLoginAdmin(login);
+            adminEntity.setPasswordAdmin(password);
+            newAdmin = (Admin) session.save(adminEntity);
+            transaction.commit();
+
+        /* ддя отладки */
+            if (newAdmin != null) {
+                System.out.println(newAdmin.getLogin() + " добавлен в БД. ");
+
+            } else {
+                System.out.println("Ошибка. Новый admin не сохранен в БД!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return newAdmin;
     }
 
     @Override
     public Admin createAdmin(Admin admin) {
-        return null;
+
+        AdminsEntity newAdminEntity = null;
+
+        return newAdminEntity.createAdmin(admin.getLogin(), admin.getPassword());
     }
 
     @Override
     public Admin getAdmin(String login) {
 
-        return null;
+        Admin adminByLogin = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            adminByLogin = (Admin) session.createQuery("from AdminsEntity a where a.loginAdmin = :login")
+                    .setParameter("login", login)
+                    .uniqueResult();
+
+            transaction.commit();
+
+        /* ддя отладки */
+            if (adminByLogin != null) {
+                System.out.println(adminByLogin.getLogin() + "is exist in DB!");
+
+            } else {
+                System.out.println("No data from table admins");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return adminByLogin;
     }
 
     @Override
     public Admin getAdminById(Integer id) {
 
-        return null;
+        Admin adminById = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            adminById = (Admin) session.createQuery("from AdminsEntity a where a.idAdmin = id").uniqueResult();
+
+            transaction.commit();
+
+        /* ддя отладки */
+            if (adminById != null) {
+                System.out.println(adminById.getLogin() + "is exist in DB!");
+
+            } else {
+                System.out.println("No data from table admins");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return adminById;
     }
+
+    @Override
+    public List<AdminsEntity> getAllAdmins() {
+        List<AdminsEntity> result = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            result = session.createQuery("from AdminsEntity c").list();
+
+            transaction.commit();
+
+        /* ддя отладки */
+            if (!result.isEmpty()) {
+                for (AdminsEntity adminsEntity : result) {
+                    System.out.println(adminsEntity);
+                }
+            } else {
+                System.out.println("No data from table admins");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+        return result;
+    }
+
+
 }
