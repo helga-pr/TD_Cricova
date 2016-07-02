@@ -45,6 +45,7 @@ public class ServletController extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String page = null;
 
         // определение команды, пришедшей из JSP

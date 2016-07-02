@@ -5,22 +5,19 @@ import org.itstep.prokopchik.cricova.Company;
 
 import java.util.List;
 
-public abstract class DAOClient {
+public interface DAOClient {
+    Client createClient(String login,
+                        String password,
+                        String name,
+                        String middleName,
+                        String lastName,
+                        Company company);
 
-    abstract public Client createClient(String login,
-                                        String password,
-                                        String name,
-                                        String middleName,
-                                        String lastName,
-                                        Company company);
+    Client findClient(String login);
 
-    abstract public Client getClient(String login);
+    Client findClientById(Integer id);
 
-    abstract public List<ClientsEntity> getAllClients();
+    Integer saveClient(Client client);
 
-    abstract public Client getClientById(Integer id);
-
-    abstract public Integer saveClient(Client client);
-
+    List<Client> findAllClients();
 }
-

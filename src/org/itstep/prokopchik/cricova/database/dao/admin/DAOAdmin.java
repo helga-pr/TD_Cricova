@@ -5,15 +5,15 @@ import org.itstep.prokopchik.cricova.Admin;
 
 import java.util.List;
 
-abstract public class DAOAdmin {
+interface DAOAdmin {
 
-    abstract public Admin createAdmin(String login, String password);
+    Admin createAdmin(String login, String password);
 
-    abstract public Admin createAdmin(Admin admin);
+    Admin createAdmin(Admin admin);
 
-    abstract public Admin getAdmin(String login);
+    Admin findAdmin(String login);
 
-    abstract public Admin getAdminById(Integer id);
+    Admin findAdminById(Integer id);
 
-    abstract public List<AdminsEntity> getAllAdmins();
+    List<AdminsEntity> findAllAdmins();
 }

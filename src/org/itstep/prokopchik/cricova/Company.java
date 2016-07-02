@@ -4,7 +4,7 @@ public class Company {
 
     private Integer id;
     private String name;
-    private String unp;
+    private Long unp;
     private String notes;
 
     public Company() {
@@ -26,11 +26,11 @@ public class Company {
         this.name = name;
     }
 
-    public String getUnp() {
+    public Long getUnp() {
         return unp;
     }
 
-    public void setUnp(String unp) {
+    public void setUnp(Long unp) {
         this.unp = unp;
     }
 

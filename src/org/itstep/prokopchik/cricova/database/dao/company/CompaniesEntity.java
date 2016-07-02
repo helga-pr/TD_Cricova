@@ -13,7 +13,7 @@ import java.util.Set;
 public class CompaniesEntity extends DAOCompany implements Serializable {
     private int id;
     private String nameCompany;
-    private long unpCompany;
+    private Long unpCompany;
     private String notes;
 
     private Set<ClientsEntity> clients = new HashSet<ClientsEntity>();

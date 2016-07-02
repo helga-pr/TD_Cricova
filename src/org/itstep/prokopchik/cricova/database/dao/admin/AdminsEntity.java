@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "admins", schema = "", catalog = "cricovadb")
-public class AdminsEntity extends DAOAdmin implements Serializable {
+public class AdminsEntity implements DAOAdmin, Serializable {
     private int idAdmin;
     private String loginAdmin;
     private String passwordAdmin;
@@ -114,7 +114,7 @@ public class AdminsEntity extends DAOAdmin implements Serializable {
     }
 
     @Override
-    public Admin getAdmin(String login) {
+    public Admin findAdmin(String login) {
 
         Admin adminByLogin = null;
 
@@ -149,7 +149,7 @@ public class AdminsEntity extends DAOAdmin implements Serializable {
     }
 
     @Override
-    public Admin getAdminById(Integer id) {
+    public Admin findAdminById(Integer id) {
 
         Admin adminById = null;
 
@@ -182,7 +182,7 @@ public class AdminsEntity extends DAOAdmin implements Serializable {
     }
 
     @Override
-    public List<AdminsEntity> getAllAdmins() {
+    public List<AdminsEntity> findAllAdmins() {
         List<AdminsEntity> result = null;
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();

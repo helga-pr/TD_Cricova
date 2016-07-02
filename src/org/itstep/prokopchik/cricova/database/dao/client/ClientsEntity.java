@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "clients", schema = "", catalog = "cricovadb")
-public class ClientsEntity extends DAOClient implements Serializable {
+public class ClientsEntity implements Serializable, DAOClient {
     private int idClient;
     private String loginClient;
     private String passwordClient;
@@ -152,7 +152,9 @@ public class ClientsEntity extends DAOClient implements Serializable {
 
         Client newClient = null;
 
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
+
+        Session session = hibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
@@ -168,7 +170,7 @@ public class ClientsEntity extends DAOClient implements Serializable {
             companiesEntity.createCompany(company);
             clientEntity.setCompany(companiesEntity);
 
-            newClient = (Client) session.save(clientEntity);
+            newClient = createClientFromClientEntity((ClientsEntity) session.save(clientEntity));
             transaction.commit();
 
         /* ддя отладки */
@@ -192,7 +194,7 @@ public class ClientsEntity extends DAOClient implements Serializable {
     }
 
     @Override
-    public Client getClient(String login) {
+    public Client findClient(String login) {
         Client clientByLogin = null;
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -200,9 +202,11 @@ public class ClientsEntity extends DAOClient implements Serializable {
         try {
             Transaction transaction = session.beginTransaction();
 
-            org.hibernate.Query q = session.createQuery("FROM ClientsEntity c WHERE c.loginClient = :login");
-            clientByLogin = (Client) q.setParameter("login", login)
-                    .uniqueResult();
+            //org.hibernate.Query q = session.createQuery("FROM ClientsEntity c WHERE c.loginClient = :login");
+            clientByLogin = createClientFromClientEntity((ClientsEntity) session.createQuery
+                    ("from ClientsEntity AS c where c.loginClient = :login")
+                    .setParameter("login", login)
+                    .uniqueResult());
             transaction.commit();
 
         /* ддя отладки */
@@ -227,7 +231,7 @@ public class ClientsEntity extends DAOClient implements Serializable {
     }
 
     @Override
-    public Client getClientById(Integer id) {
+    public Client findClientById(Integer id) {
         Client clientById = null;
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -235,7 +239,10 @@ public class ClientsEntity extends DAOClient implements Serializable {
         try {
             Transaction transaction = session.beginTransaction();
 
-            clientById = (Client) session.get(ClientsEntity.class, id);
+            clientById = createClientFromClientEntity(
+                    (ClientsEntity) session.createQuery("FROM ClientsEntity c WHERE c.idClient = :id")
+                            .setParameter("id", id)
+                            .uniqueResult());
 
             transaction.commit();
 
@@ -245,7 +252,7 @@ public class ClientsEntity extends DAOClient implements Serializable {
                         + clientById.getCompany());
 
             } else {
-                System.out.println("No data whith this criterias");
+                System.out.println("No data with this criterias");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {
@@ -260,8 +267,9 @@ public class ClientsEntity extends DAOClient implements Serializable {
     }
 
     @Override
-    public List<ClientsEntity> getAllClients() {
+    public List<Client> findAllClients() {
 
+        List<Client> allClients = null;
         List<ClientsEntity> result = null;
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -273,9 +281,13 @@ public class ClientsEntity extends DAOClient implements Serializable {
 
             transaction.commit();
 
-        /* ддя отладки */
+            //ддя отладки
             if (!result.isEmpty()) {
                 for (ClientsEntity clientsEntity : result) {
+                    Client client = createClientFromClientEntity(clientsEntity);
+
+                    allClients.add(client);
+
                     System.out.println(clientsEntity);
                 }
             } else {
@@ -290,13 +302,13 @@ public class ClientsEntity extends DAOClient implements Serializable {
             session.close(); // гарантированное закрытие сеанса
         }
 
-        return result;
+        return allClients;
     }
 
     @Override
     public Integer saveClient(Client client) {
         Client existClient = null;
-        existClient = (Client) new ClientsEntity().getClientById(client.getId());
+        existClient = new ClientsEntity().findClientById(client.getId());
 
         if (client.equals(existClient)) {
             return 0; //без изменений
@@ -336,4 +348,26 @@ public class ClientsEntity extends DAOClient implements Serializable {
 
         //return 1; //изменения успешно внесены в БД
     }
+
+    //метод для приведения сущности из БД к экземпляру класса
+    private Client createClientFromClientEntity(ClientsEntity clientsEntity) {
+        Client client = new Client();
+        client.setId(clientsEntity.getIdClient());
+        client.setLogin(clientsEntity.getLoginClient());
+        client.setPassword(clientsEntity.getPasswordClient());
+        client.setName(clientsEntity.getNameClient());
+        client.setMiddleName(clientsEntity.getMiddlenameClient());
+        client.setLastname(clientsEntity.getLastnameClient());
+        client.setContacts(clientsEntity.getContactsClient());
+
+        Company company = new Company();
+        company.setId(clientsEntity.getCompany().getId());
+        company.setName(clientsEntity.getCompany().getNameCompany());
+        company.setUnp(clientsEntity.getCompany().getUnpCompany());
+        company.setNotes(clientsEntity.getCompany().getNotes());
+
+        client.setCompany(company);
+        return client;
+    }
+
 }
