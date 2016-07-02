@@ -3,11 +3,12 @@ package org.itstep.prokopchik.cricova.database.dao.wine;
 import org.itstep.prokopchik.cricova.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Arrays;
 
 @Entity
 @Table(name = "wines", schema = "", catalog = "cricovadb")
-public class WinesEntity extends DAOWine {
+public class WinesEntity extends DAOWine implements Serializable {
     private int idWine;
     private String nameWine;
     private int priceWine;

@@ -4,12 +4,13 @@ import org.itstep.prokopchik.cricova.Company;
 import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "companies", schema = "", catalog = "cricovadb")
-public class CompaniesEntity extends DAOCompany {
+public class CompaniesEntity extends DAOCompany implements Serializable {
     private int id;
     private String nameCompany;
     private long unpCompany;
@@ -17,7 +18,7 @@ public class CompaniesEntity extends DAOCompany {
 
     private Set<ClientsEntity> clients = new HashSet<ClientsEntity>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     public Set<ClientsEntity> getClients() {
         return clients;
     }

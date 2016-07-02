@@ -3,11 +3,12 @@ package org.itstep.prokopchik.cricova.database.dao.article;
 import org.itstep.prokopchik.cricova.Article;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Arrays;
 
 @Entity
 @Table(name = "articles", schema = "", catalog = "cricovadb")
-public class ArticlesEntity extends DAOArticle {
+public class ArticlesEntity extends DAOArticle implements Serializable {
     private int idArticle;
     private String nameArticle;
     private String contentArticle;

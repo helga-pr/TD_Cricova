@@ -3,10 +3,11 @@ package org.itstep.prokopchik.cricova.database.dao.admin;
 import org.itstep.prokopchik.cricova.Admin;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "admins", schema = "", catalog = "cricovadb")
-public class AdminsEntity extends DAOAdmin {
+public class AdminsEntity extends DAOAdmin implements Serializable {
     private int idAdmin;
     private String loginAdmin;
     private String passwordAdmin;
@@ -66,6 +67,7 @@ public class AdminsEntity extends DAOAdmin {
 
     @Override
     public Admin createAdmin(String login, String password) {
+
         return null;
     }
 
@@ -75,12 +77,14 @@ public class AdminsEntity extends DAOAdmin {
     }
 
     @Override
-    public Admin getAdmin(String login, String password) {
+    public Admin getAdmin(String login) {
+
         return null;
     }
 
     @Override
     public Admin getAdminById(Integer id) {
+
         return null;
     }
 }
