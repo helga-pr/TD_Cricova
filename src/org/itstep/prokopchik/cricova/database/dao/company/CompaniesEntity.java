@@ -1,16 +1,21 @@
 package org.itstep.prokopchik.cricova.database.dao.company;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.itstep.prokopchik.cricova.Company;
+import org.itstep.prokopchik.cricova.database.HibernateSessionFactory;
 import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "companies", schema = "", catalog = "cricovadb")
-public class CompaniesEntity extends DAOCompany implements Serializable {
+public class CompaniesEntity implements DAOCompany, Serializable {
     private int id;
     private String nameCompany;
     private Long unpCompany;
@@ -97,27 +102,299 @@ public class CompaniesEntity extends DAOCompany implements Serializable {
     }
 
     @Override
-    public Company createCompany(Company company) {
-        return null;
+    public Company createCompany(String name, Long unp, String notes) {
+
+        Company newCompany = null;
+
+        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
+
+        Session session = hibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            CompaniesEntity companiesEntity = new CompaniesEntity();
+
+            companiesEntity.setNameCompany(name);
+            companiesEntity.setUnpCompany(unp);
+            companiesEntity.setNotes(notes);
+
+            /**
+             * Persist the given transient instance, first assigning a generated identifier.
+             */
+            companiesEntity.setId((Integer) session.save(companiesEntity));
+            newCompany = createCompanyFromCompaniesEntity(companiesEntity);
+            transaction.commit();
+
+            //TODO ддя отладки
+            if (companiesEntity != null) {
+                System.out.println("Организация " + companiesEntity.getNameCompany()
+                        + " добавлена в БД. УНП "
+                        + companiesEntity.getUnpCompany());
+
+            } else {
+                System.out.println("Ошибка. Новая организация не сохранена в БД!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return newCompany;
+    }
+
+    /**
+     * Метод используется при сохранении и обновлении объектов класса ClientsEntity ()
+     *
+     * @param company
+     * @return CompaniesEntity
+     */
+    @Override
+    public CompaniesEntity createCompany(Company company) {
+
+        CompaniesEntity newCompaniesEntity = null;
+
+        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
+
+        Session session = hibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            newCompaniesEntity.setNameCompany(company.getName());
+            newCompaniesEntity.setUnpCompany(company.getUnp());
+            newCompaniesEntity.setNotes(company.getNotes());
+
+            /**
+             * Persist the given transient instance, first assigning a generated identifier.
+             */
+            newCompaniesEntity.setId((Integer) session.save(newCompaniesEntity));
+            transaction.commit();
+
+            //TODO ддя отладки
+            if (newCompaniesEntity != null) {
+                System.out.println("Организация " + newCompaniesEntity.getNameCompany()
+                        + " добавлена в БД. УНП "
+                        + newCompaniesEntity.getUnpCompany());
+
+            } else {
+                System.out.println("Ошибка. Новая организация не сохранена в БД!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return newCompaniesEntity;
     }
 
     @Override
-    public Company createCompany(String name, String unp, String notes) {
-        return null;
+    public Company findByName(String name) {
+
+        Company company = null;
+
+        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
+
+        Session session = hibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            company = createCompanyFromCompaniesEntity(
+                    (CompaniesEntity) session.createQuery("from CompaniesEntity c where c.nameCompany = :nameCompany")
+                            .setParameter("nameCompany", name)
+                            .uniqueResult()
+            );
+
+            transaction.commit();
+            /**
+             * Persist the given transient instance, first assigning a generated identifier.
+             */
+
+            //TODO ддя отладки
+            if (company != null) {
+                System.out.println("Организация " + company.getName()
+                        + " найдена в БД. УНП "
+                        + company.getUnp());
+
+            } else {
+                System.out.println("Ошибка. Организация не найдена в БД!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return company;
     }
 
     @Override
-    public Company getByName(String name) {
-        return null;
+    public Company findByUnp(Long unp) {
+
+        CompaniesEntity existCompanyEntity = null;
+        Company existCompany = null;
+
+        existCompanyEntity = findByUnpForEntity(unp);
+
+        existCompany = createCompanyFromCompaniesEntity(existCompanyEntity);
+
+        return existCompany;
     }
 
     @Override
-    public Company getByUnp(String unp) {
-        return null;
+    public CompaniesEntity findByUnpForEntity(Long unp) {
+        CompaniesEntity existCompanyEntity = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            existCompanyEntity = (CompaniesEntity) session.createQuery("from CompaniesEntity c where c.unpCompany = :unp")
+                    .setParameter("unp", unp)
+                    .uniqueResult();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return existCompanyEntity;
+
     }
 
     @Override
-    public Company getById(Integer id) {
-        return null;
+    public Company findById(Integer id) {
+        Company company = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            company = createCompanyFromCompaniesEntity(
+                    (CompaniesEntity) session.get(CompaniesEntity.class, id)
+            );
+            transaction.commit();
+
+            //TODO ддя отладки
+            if (company != null) {
+                System.out.println("Организация " + company.getName()
+                        + " добавлена в БД. УНП "
+                        + company.getUnp());
+
+            } else {
+                System.out.println("Ошибка. Новая организация не сохранена в БД!");
+            }
+
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return company;
     }
+
+    @Override
+    public List<Company> findAllCompanies() {
+
+        List<Company> allCompanies = null;
+        List<CompaniesEntity> result = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            result = session.createQuery("from CompaniesEntity c").list();
+
+            transaction.commit();
+
+            //TODO ддя отладки
+            if (!result.isEmpty()) {
+                for (CompaniesEntity companiesEntity : result) {
+                    Company company = createCompanyFromCompaniesEntity(companiesEntity);
+
+                    allCompanies.add(company);
+
+                    System.out.println(companiesEntity);
+                }
+            } else {
+                System.out.println("No data from table companies");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return allCompanies;
+
+    }
+
+    @Override
+    public Boolean isExistCompanyWithUnp(Long unp) {
+
+        CompaniesEntity existCompanyEntity = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            existCompanyEntity = (CompaniesEntity) session.createQuery("from CompaniesEntity c where c.unpCompany = :unp")
+                    .setParameter("unp", unp)
+                    .uniqueResult();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return existCompanyEntity != null;
+
+    }
+
+    private static Company createCompanyFromCompaniesEntity(CompaniesEntity existCompanyEntity) {
+        Company existCompany = null;
+
+        if (existCompanyEntity != null) {
+
+            existCompany.setId(existCompanyEntity.getId());
+            existCompany.setName(existCompanyEntity.getNameCompany());
+            existCompany.setUnp(existCompanyEntity.getUnpCompany());
+            existCompany.setNotes(existCompanyEntity.getNotes());
+        }
+
+        return existCompany;
+    }
+
+
 }

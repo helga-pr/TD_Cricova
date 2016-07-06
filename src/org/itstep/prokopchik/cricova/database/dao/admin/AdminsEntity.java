@@ -18,6 +18,7 @@ public class AdminsEntity implements DAOAdmin, Serializable {
     private String passwordAdmin;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //generated DataBase auto_increment when insert value
     @Column(name = "id_admin", nullable = false, insertable = true, updatable = true)
     public int getIdAdmin() {
         return idAdmin;
@@ -54,8 +55,10 @@ public class AdminsEntity implements DAOAdmin, Serializable {
 
         AdminsEntity that = (AdminsEntity) o;
 
-        if (idAdmin != that.idAdmin) return false;
-        if (loginAdmin != null ? !loginAdmin.equals(that.loginAdmin) : that.loginAdmin != null) return false;
+        if (idAdmin != that.idAdmin)
+            return false;
+        if (loginAdmin != null ? !loginAdmin.equals(that.loginAdmin) : that.loginAdmin != null)
+            return false;
         if (passwordAdmin != null ? !passwordAdmin.equals(that.passwordAdmin) : that.passwordAdmin != null)
             return false;
 
@@ -83,9 +86,16 @@ public class AdminsEntity implements DAOAdmin, Serializable {
             AdminsEntity adminEntity = new AdminsEntity();
             adminEntity.setLoginAdmin(login);
             adminEntity.setPasswordAdmin(password);
-            newAdmin = (Admin) session.save(adminEntity);
+            Integer newId = (Integer) session.save(adminEntity);  // возвращает сгенерированный идентификатор id
+
+            newAdmin = new Admin();
+            newAdmin.setId(newId);
+            newAdmin.setLogin(login);
+            newAdmin.setPassword(password);
+
             transaction.commit();
 
+            // TODO удалить или закомментировать
         /* ддя отладки */
             if (newAdmin != null) {
                 System.out.println(newAdmin.getLogin() + " добавлен в БД. ");
@@ -117,18 +127,22 @@ public class AdminsEntity implements DAOAdmin, Serializable {
     public Admin findAdmin(String login) {
 
         Admin adminByLogin = null;
+        AdminsEntity adminsEntity = null;
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
 
-            adminByLogin = (Admin) session.createQuery("from AdminsEntity a where a.loginAdmin = :login")
+            adminsEntity = (AdminsEntity) session.createQuery("from AdminsEntity a where a.loginAdmin = :login")
                     .setParameter("login", login)
                     .uniqueResult();
 
+            adminByLogin = createAdminFromAdminEntity(adminsEntity);
+
             transaction.commit();
 
+            // TODO удалить или закомментировать
         /* ддя отладки */
             if (adminByLogin != null) {
                 System.out.println(adminByLogin.getLogin() + "is exist in DB!");
@@ -148,23 +162,37 @@ public class AdminsEntity implements DAOAdmin, Serializable {
         return adminByLogin;
     }
 
+    private Admin createAdminFromAdminEntity(AdminsEntity adminsEntity) {
+        Admin admin = new Admin();
+        if (adminsEntity != null) {
+            admin.setId(adminsEntity.getIdAdmin());
+            admin.setLogin(adminsEntity.getLoginAdmin());
+            admin.setPassword(adminsEntity.getPasswordAdmin());
+        }
+        return admin;
+    }
+
     @Override
     public Admin findAdminById(Integer id) {
 
         Admin adminById = null;
+        AdminsEntity adminsEntity = null;
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
 
-            adminById = (Admin) session.createQuery("from AdminsEntity a where a.idAdmin = id").uniqueResult();
+            adminsEntity = (AdminsEntity) session.createQuery("from AdminsEntity a where a.idAdmin = id").uniqueResult();
+
+            adminById = createAdminFromAdminEntity(adminsEntity);
 
             transaction.commit();
 
+            // TODO удалить или закомментировать
         /* ддя отладки */
             if (adminById != null) {
-                System.out.println(adminById.getLogin() + "is exist in DB!");
+                System.out.println(adminById.getLogin() + " is exist in DB!");
 
             } else {
                 System.out.println("No data from table admins");
@@ -182,22 +210,33 @@ public class AdminsEntity implements DAOAdmin, Serializable {
     }
 
     @Override
-    public List<AdminsEntity> findAllAdmins() {
-        List<AdminsEntity> result = null;
+    public List<Admin> findAllAdmins() {
+
+        List<Admin> result = null;
+        List<AdminsEntity> adminsEntities = null;
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
 
-            result = session.createQuery("from AdminsEntity c").list();
+            adminsEntities = session.createQuery("from AdminsEntity c").list();
 
+            if (!adminsEntities.isEmpty()) {
+                Admin admin = new Admin();
+
+                for (AdminsEntity adminsEntity : adminsEntities) {
+                    admin = createAdminFromAdminEntity(adminsEntity);
+                    result.add(admin);
+                }
+            }
             transaction.commit();
 
-        /* ддя отладки */
+            // TODO для отладки (удалить или закомментировать)
+
             if (!result.isEmpty()) {
-                for (AdminsEntity adminsEntity : result) {
-                    System.out.println(adminsEntity);
+                for (Admin admin : result) {
+                    System.out.println(admin);
                 }
             } else {
                 System.out.println("No data from table admins");

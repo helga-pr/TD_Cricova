@@ -5,10 +5,11 @@ import org.itstep.prokopchik.cricova.Article;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "articles", schema = "", catalog = "cricovadb")
-public class ArticlesEntity extends DAOArticle implements Serializable {
+public class ArticlesEntity implements Serializable, DAOArticle {
     private int idArticle;
     private String nameArticle;
     private String contentArticle;
@@ -90,12 +91,17 @@ public class ArticlesEntity extends DAOArticle implements Serializable {
     }
 
     @Override
-    public Article getArticle(String name) {
+    public List<Article> findAllArticleById(Integer id) {
         return null;
     }
 
     @Override
-    public Article getArticleById(Integer id) {
+    public Article findArticle(String name) {
+        return null;
+    }
+
+    @Override
+    public Article findArticleById(Integer id) {
         return null;
     }
 }

@@ -17,7 +17,7 @@ public interface DAOClient {
 
     Client findClientById(Integer id);
 
-    Integer saveClient(Client client);
+    Integer updateClient(Client client);
 
     List<Client> findAllClients();
 }

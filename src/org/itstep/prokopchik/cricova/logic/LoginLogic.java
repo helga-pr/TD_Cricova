@@ -14,7 +14,7 @@ public class LoginLogic {
         if (adminflag.equals("администратор")) {
             Admin admin = new Admin();
 
-            admin = new AdminsEntity().getAdmin(enterLogin);
+            admin = new AdminsEntity().findAdmin(enterLogin);
 
             return admin != null &&
                     admin.getPassword().equals(enterPass);
@@ -22,7 +22,7 @@ public class LoginLogic {
 
             Client client = new Client();
 
-            client = new ClientsEntity().getClient(enterLogin);
+            client = new ClientsEntity().findClient(enterLogin);
 
             return client != null &&
                     client.getPassword().equals(enterPass);

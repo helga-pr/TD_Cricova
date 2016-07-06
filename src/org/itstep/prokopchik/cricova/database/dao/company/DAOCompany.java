@@ -2,16 +2,24 @@ package org.itstep.prokopchik.cricova.database.dao.company;
 
 import org.itstep.prokopchik.cricova.Company;
 
-abstract public class DAOCompany {
+import java.util.List;
 
-    abstract public Company createCompany(Company company);
+interface DAOCompany {
 
-    abstract public Company createCompany(String name, String unp, String notes);
+    CompaniesEntity createCompany(Company company);
 
-    abstract public Company getByName(String name);
+    Company createCompany(String name, Long unp, String notes);
 
-    abstract public Company getByUnp(String unp);
+    Company findByName(String name);
 
-    abstract public Company getById(Integer id);
+    Company findByUnp(Long unp);
+
+    CompaniesEntity findByUnpForEntity(Long unp);
+
+    Company findById(Integer id);
+
+    List<Company> findAllCompanies();
+
+    Boolean isExistCompanyWithUnp(Long unp);
 
 }

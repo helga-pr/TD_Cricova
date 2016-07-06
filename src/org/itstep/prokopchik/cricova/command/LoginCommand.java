@@ -51,7 +51,7 @@ public class LoginCommand implements ActionCommand {
             else {
                 page = "/receive_price.jsp";
                 Client client = new Client();
-                client = new ClientsEntity().getClient(login);
+                client = new ClientsEntity().findClient(login);
 
                 String fio = client.getLastname() + " " + client.getName() + " " + client.getMiddleName();
                 request.setAttribute("fio", fio);

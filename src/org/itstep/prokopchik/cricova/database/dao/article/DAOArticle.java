@@ -2,15 +2,20 @@ package org.itstep.prokopchik.cricova.database.dao.article;
 
 import org.itstep.prokopchik.cricova.Article;
 
-abstract public class DAOArticle {
+import java.util.List;
 
-    abstract public Article createArticle(String name,
-                                          String content,
-                                          Object image);
+interface DAOArticle {
 
-    abstract public Article createArticle(Article article);
+    Article createArticle(String name,
+                          String content,
+                          Object image);
 
-    abstract public Article getArticle(String name);
+    Article createArticle(Article article);
 
-    abstract public Article getArticleById(Integer id);
+    Article findArticle(String name);
+
+    Article findArticleById(Integer id);
+
+    List<Article> findAllArticleById(Integer id);
+
 }

@@ -27,7 +27,6 @@ public class ClientsEntity implements Serializable, DAOClient {
     private CompaniesEntity company;
 
     @ManyToOne
-    //@JoinColumn(name = "company_id", referencedColumnName = "id")
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     public CompaniesEntity getCompany() {
         return this.company;
@@ -305,8 +304,16 @@ public class ClientsEntity implements Serializable, DAOClient {
         return allClients;
     }
 
+    /**
+     * сохранение объекта Client в БД
+     *
+     * @param client
+     * @return idClient
+     */
     @Override
-    public Integer saveClient(Client client) {
+    public Integer updateClient(Client client) {
+
+        Integer newId = -1;
         Client existClient = null;
         existClient = new ClientsEntity().findClientById(client.getId());
 
@@ -323,12 +330,31 @@ public class ClientsEntity implements Serializable, DAOClient {
         try {
             Transaction transaction = session.beginTransaction();
 
-            existClient = client;
+            ClientsEntity existClientsEntity = (ClientsEntity) session.get(ClientsEntity.class, client.getId());
+            existClientsEntity.setLoginClient(client.getLogin());
+            existClientsEntity.setPasswordClient(client.getPassword());
+            existClientsEntity.setNameClient(client.getName());
+            existClientsEntity.setMiddlenameClient(client.getMiddleName());
+            existClientsEntity.setLastnameClient(lastnameClient);
+            existClientsEntity.setContactsClient(client.getContacts());
+
+            CompaniesEntity existCompanyEntity = null;
+
+            if (existCompanyEntity.isExistCompanyWithUnp(client.getCompany().getUnp())) {
+
+                existCompanyEntity = existCompanyEntity.findByUnpForEntity(client.getCompany().getUnp());
+
+            } else {
+                existCompanyEntity = existCompanyEntity.createCompany(client.getCompany());
+            }
+
+            existClientsEntity.setCompany(existCompanyEntity);
+
+            newId = (Integer) session.save(existClientsEntity);
 
             transaction.commit();
 
-
-        /* ддя отладки */
+            //TODO ддя отладки
             if (existClient != null) {
                 System.out.println(existClient.getLogin() + " изменен в БД. Представляет компанию "
                         + existClient.getCompany());
@@ -343,30 +369,38 @@ public class ClientsEntity implements Serializable, DAOClient {
             }
         } finally {
             session.close(); // гарантированное закрытие сеанса
-            return 1; //изменения успешно внесены в БД
         }
+        return newId; //изменения успешно внесены в БД
 
-        //return 1; //изменения успешно внесены в БД
     }
 
-    //метод для приведения сущности из БД к экземпляру класса
-    private Client createClientFromClientEntity(ClientsEntity clientsEntity) {
+    /**
+     * метод для приведения сущности ClientsEntity из БД к экземпляру класса Client
+     *
+     * @param clientsEntity
+     * @return Client
+     */
+    private static Client createClientFromClientEntity(ClientsEntity clientsEntity) {
+
         Client client = new Client();
-        client.setId(clientsEntity.getIdClient());
-        client.setLogin(clientsEntity.getLoginClient());
-        client.setPassword(clientsEntity.getPasswordClient());
-        client.setName(clientsEntity.getNameClient());
-        client.setMiddleName(clientsEntity.getMiddlenameClient());
-        client.setLastname(clientsEntity.getLastnameClient());
-        client.setContacts(clientsEntity.getContactsClient());
 
-        Company company = new Company();
-        company.setId(clientsEntity.getCompany().getId());
-        company.setName(clientsEntity.getCompany().getNameCompany());
-        company.setUnp(clientsEntity.getCompany().getUnpCompany());
-        company.setNotes(clientsEntity.getCompany().getNotes());
+        if (clientsEntity != null) {
+            client.setId(clientsEntity.getIdClient());
+            client.setLogin(clientsEntity.getLoginClient());
+            client.setPassword(clientsEntity.getPasswordClient());
+            client.setName(clientsEntity.getNameClient());
+            client.setMiddleName(clientsEntity.getMiddlenameClient());
+            client.setLastname(clientsEntity.getLastnameClient());
+            client.setContacts(clientsEntity.getContactsClient());
 
-        client.setCompany(company);
+            Company company = new Company();
+            company.setId(clientsEntity.getCompany().getId());
+            company.setName(clientsEntity.getCompany().getNameCompany());
+            company.setUnp(clientsEntity.getCompany().getUnpCompany());
+            company.setNotes(clientsEntity.getCompany().getNotes());
+
+            client.setCompany(company);
+        }
         return client;
     }
 

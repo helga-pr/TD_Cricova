@@ -15,5 +15,5 @@ interface DAOAdmin {
 
     Admin findAdminById(Integer id);
 
-    List<AdminsEntity> findAllAdmins();
+    List<Admin> findAllAdmins();
 }
