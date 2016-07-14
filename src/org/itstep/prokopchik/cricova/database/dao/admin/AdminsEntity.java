@@ -138,14 +138,16 @@ public class AdminsEntity implements DAOAdmin, Serializable {
                     .setParameter("login", login)
                     .uniqueResult();
 
-            adminByLogin = createAdminFromAdminEntity(adminsEntity);
+            if (adminsEntity != null) {
+                adminByLogin = createAdminFromAdminEntity(adminsEntity);
+            }
 
             transaction.commit();
 
             // TODO удалить или закомментировать
         /* ддя отладки */
             if (adminByLogin != null) {
-                System.out.println(adminByLogin.getLogin() + "is exist in DB!");
+                System.out.println(adminByLogin.getLogin() + " is exist in DB !");
 
             } else {
                 System.out.println("No data from table admins");
@@ -163,8 +165,9 @@ public class AdminsEntity implements DAOAdmin, Serializable {
     }
 
     private Admin createAdminFromAdminEntity(AdminsEntity adminsEntity) {
-        Admin admin = new Admin();
+        Admin admin = null;
         if (adminsEntity != null) {
+            admin = new Admin();
             admin.setId(adminsEntity.getIdAdmin());
             admin.setLogin(adminsEntity.getLoginAdmin());
             admin.setPassword(adminsEntity.getPasswordAdmin());

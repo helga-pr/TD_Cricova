@@ -22,4 +22,6 @@ interface DAOCompany {
 
     Boolean isExistCompanyWithUnp(Long unp);
 
+    Integer updateCompany(Company company);
+
 }

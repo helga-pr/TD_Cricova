@@ -169,12 +169,12 @@ public class ClientsEntity implements Serializable, DAOClient {
             companiesEntity.createCompany(company);
             clientEntity.setCompany(companiesEntity);
 
-            newClient = createClientFromClientEntity((ClientsEntity) session.save(clientEntity));
+            newClient = findClientById((Integer) session.save(clientEntity));
             transaction.commit();
 
         /* ддя отладки */
             if (newClient != null) {
-                System.out.println(newClient.getLogin() + " добавлен в БД. Представляет компанию "
+                System.out.println("Клиент " + newClient.getLogin() + " добавлен в БД. Представляет компанию "
                         + newClient.getCompany());
 
             } else {
@@ -201,11 +201,15 @@ public class ClientsEntity implements Serializable, DAOClient {
         try {
             Transaction transaction = session.beginTransaction();
 
-            //org.hibernate.Query q = session.createQuery("FROM ClientsEntity c WHERE c.loginClient = :login");
-            clientByLogin = createClientFromClientEntity((ClientsEntity) session.createQuery
+            ClientsEntity clientsEntity = (ClientsEntity) session.createQuery
                     ("from ClientsEntity AS c where c.loginClient = :login")
                     .setParameter("login", login)
-                    .uniqueResult());
+                    .uniqueResult();
+
+            if (clientsEntity != null) {
+                clientByLogin = createClientFromClientEntity(clientsEntity);
+            }
+
             transaction.commit();
 
         /* ддя отладки */
@@ -214,7 +218,7 @@ public class ClientsEntity implements Serializable, DAOClient {
                         + clientByLogin.getCompany());
 
             } else {
-                System.out.println("No data with this criterias");
+                System.out.println("No data with this criterias in table clients");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {
@@ -382,7 +386,7 @@ public class ClientsEntity implements Serializable, DAOClient {
      */
     private static Client createClientFromClientEntity(ClientsEntity clientsEntity) {
 
-        Client client = new Client();
+        Client client = null;
 
         if (clientsEntity != null) {
             client.setId(clientsEntity.getIdClient());

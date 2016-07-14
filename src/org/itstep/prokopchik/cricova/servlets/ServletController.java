@@ -52,14 +52,12 @@ public class ServletController extends HttpServlet {
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request);
 
-        //  для отладки:
-        // System.out.println("processRequest Работает!!!");
         /**
          * вызов метода execute() и передача параметров
          * классу-обработчику конкретной команды
+         *  метод возвращает страницу ответа
          */
         page = command.execute(request);
-        // метод возвращает страницу ответа
 
         if (page != null) {
             try {

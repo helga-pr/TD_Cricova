@@ -382,6 +382,53 @@ public class CompaniesEntity implements DAOCompany, Serializable {
 
     }
 
+    @Override
+    public Integer updateCompany(Company company) {
+        Integer newId = -1;
+        Company existCompany = null;
+        existCompany = new CompaniesEntity().findById(company.getId());
+
+        if (company.equals(existCompany)) {
+            return 0; //без изменений
+        }
+
+        if (existCompany == null) {
+            return -1; //объект не найден в БД
+        }
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            CompaniesEntity existCompaniesEntity = (CompaniesEntity) session.get(CompaniesEntity.class, company.getId());
+            existCompaniesEntity.setNameCompany(company.getName());
+            //добавляются заметки, если такой текст не найден в сохраненном экземпляре CompaniesEntity
+            if (!existCompaniesEntity.getNotes().contains(company.getNotes())) {
+                existCompaniesEntity.setNotes(existCompaniesEntity.getNotes() + "; " + company.getNotes());
+            }
+            newId = (Integer) session.save(existCompaniesEntity);
+
+            transaction.commit();
+
+            //TODO ддя отладки
+            if (existCompany != null) {
+                System.out.println(existCompany.getName() + " изменена в БД.");
+
+            } else {
+                System.out.println("Something error in save method of CompaniesEntity  :(((");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+        return newId; //изменения успешно внесены в БД
+    }
+
     private static Company createCompanyFromCompaniesEntity(CompaniesEntity existCompanyEntity) {
         Company existCompany = null;
 
