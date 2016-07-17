@@ -95,8 +95,7 @@ public class AdminsEntity implements DAOAdmin, Serializable {
 
             transaction.commit();
 
-            // TODO удалить или закомментировать
-        /* ддя отладки */
+            // TODO ддя отладки
             if (newAdmin != null) {
                 System.out.println(newAdmin.getLogin() + " добавлен в БД. ");
 

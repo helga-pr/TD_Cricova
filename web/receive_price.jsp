@@ -35,7 +35,13 @@
         <div class="col-xs-8">
             <h1>Торговый Дом &quotКрикова&quot</h1>
         </div>
-        <div class="col-xs-2"></div>
+        <div class="col-xs-2">
+            <form name="administrationForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="logout"/>
+                <input type="submit" value="Log out"/>
+            </form>
+
+        </div>
     </div>
 
     <form name="loginForm" method="POST" action="controller">
@@ -53,7 +59,7 @@
         <br/>
         ${nullPage}
         <br/>
-        <input type="submit" value="Log in"/>
+        <input type="submit" value="Получить прайс продукции"/>
 
     </form>
 

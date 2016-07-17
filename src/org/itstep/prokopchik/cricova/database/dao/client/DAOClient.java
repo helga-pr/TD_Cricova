@@ -11,7 +11,8 @@ public interface DAOClient {
                         String name,
                         String middleName,
                         String lastName,
-                        Company company);
+                        Company company,
+                        String contactsClient);
 
     Client findClient(String login);
 

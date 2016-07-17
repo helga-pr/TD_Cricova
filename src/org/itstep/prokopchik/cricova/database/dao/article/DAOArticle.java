@@ -16,6 +16,6 @@ interface DAOArticle {
 
     Article findArticleById(Integer id);
 
-    List<Article> findAllArticleById(Integer id);
+    List<Article> findAllArticles(Integer id);
 
 }

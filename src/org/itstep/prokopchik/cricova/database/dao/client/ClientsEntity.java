@@ -142,12 +142,27 @@ public class ClientsEntity implements Serializable, DAOClient {
     }
 
     @Override
+    public String toString() {
+        return "ClientsEntity{" +
+                "idClient=" + idClient +
+                ", loginClient='" + loginClient + '\'' +
+                ", passwordClient='" + passwordClient + '\'' +
+                ", nameClient='" + nameClient + '\'' +
+                ", middlenameClient='" + middlenameClient + '\'' +
+                ", lastnameClient='" + lastnameClient + '\'' +
+                ", contactsClient='" + contactsClient + '\'' +
+                ", company=" + company.getNameCompany() + "(" + company.getUnpCompany() + ") " +
+                '}';
+    }
+
+    @Override
     public Client createClient(String login,
                                String password,
                                String name,
                                String middleName,
                                String lastName,
-                               Company company) {
+                               Company company,
+                               String contactsClient) {
 
         Client newClient = null;
 
@@ -164,10 +179,8 @@ public class ClientsEntity implements Serializable, DAOClient {
             clientEntity.setNameClient(name);
             clientEntity.setMiddlenameClient(middleName);
             clientEntity.setLastnameClient(lastName);
-
-            CompaniesEntity companiesEntity = null;
-            companiesEntity.createCompany(company);
-            clientEntity.setCompany(companiesEntity);
+            clientEntity.setContactsClient(contactsClient);
+            clientEntity.setCompany(new CompaniesEntity().findByUnpForEntity(company.getUnp()));
 
             newClient = findClientById((Integer) session.save(clientEntity));
             transaction.commit();
@@ -389,6 +402,7 @@ public class ClientsEntity implements Serializable, DAOClient {
         Client client = null;
 
         if (clientsEntity != null) {
+            client = new Client();
             client.setId(clientsEntity.getIdClient());
             client.setLogin(clientsEntity.getLoginClient());
             client.setPassword(clientsEntity.getPasswordClient());

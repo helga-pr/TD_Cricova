@@ -1,6 +1,10 @@
 package org.itstep.prokopchik.cricova.database.dao.article;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.itstep.prokopchik.cricova.Article;
+import org.itstep.prokopchik.cricova.database.HibernateSessionFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -82,17 +86,98 @@ public class ArticlesEntity implements Serializable, DAOArticle {
 
     @Override
     public Article createArticle(String name, String content, Object image) {
+        Article newArticle = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            ArticlesEntity articlesEntity = new ArticlesEntity();
+            articlesEntity.setNameArticle(name);
+            articlesEntity.setContentArticle(content);
+            if ((byte[]) image != null)
+                articlesEntity.setImageArticle((byte[]) image);
+
+            Integer newId = (Integer) session.save(articlesEntity);  // возвращает сгенерированный идентификатор id
+
+            if (newId > 0) {
+                newArticle.setId(newId);
+                newArticle.setName(name);
+                newArticle.setContent(content);
+                newArticle.setImage((byte[]) image);
+            }
+
+            transaction.commit();
+
+            // TODO ддя отладки
+            if (newArticle != null) {
+                System.out.println(newArticle.getName() + " добавлен в БД. ");
+
+            } else {
+                System.out.println("Ошибка. Новая статья не сохранена в БД!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
         return null;
     }
 
     @Override
     public Article createArticle(Article article) {
-        return null;
+
+        return new ArticlesEntity().createArticle(article.getName(),
+                article.getContent(),
+                article.getImage());
     }
 
     @Override
-    public List<Article> findAllArticleById(Integer id) {
-        return null;
+    public List<Article> findAllArticles(Integer id) {
+
+        List<Article> result = null;
+        List<ArticlesEntity> articlesEntities = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            articlesEntities = session.createQuery("from ArticlesEntity a").list();
+
+            if (!articlesEntities.isEmpty()) {
+                Article article = new Article();
+
+                for (ArticlesEntity articlesEntity : articlesEntities) {
+                    article = createArticleFromArticlesEntity(articlesEntity);
+                    result.add(article);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+
+            if (!result.isEmpty()) {
+                for (Article article : result) {
+                    System.out.println(article);
+                }
+            } else {
+                System.out.println("No data from table admins");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+        return result;
     }
 
     @Override
@@ -104,4 +189,17 @@ public class ArticlesEntity implements Serializable, DAOArticle {
     public Article findArticleById(Integer id) {
         return null;
     }
+
+    private Article createArticleFromArticlesEntity(ArticlesEntity articlesEntity) {
+        Article article = null;
+        if (articlesEntity != null) {
+            article = new Article();
+            article.setId(articlesEntity.getIdArticle());
+            article.setName(articlesEntity.getNameArticle());
+            article.setContent(articlesEntity.getContentArticle());
+            article.setImage(articlesEntity.getImageArticle());
+        }
+        return article;
+    }
+
 }

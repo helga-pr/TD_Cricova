@@ -102,13 +102,22 @@ public class CompaniesEntity implements DAOCompany, Serializable {
     }
 
     @Override
+    public String toString() {
+        return "CompaniesEntity{" +
+                "id=" + id +
+                ", nameCompany='" + nameCompany + '\'' +
+                ", unpCompany=" + unpCompany +
+                ", notes='" + notes + '\'' +
+                ", clients=" + clients +
+                '}';
+    }
+
+    @Override
     public Company createCompany(String name, Long unp, String notes) {
 
         Company newCompany = null;
 
-        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
-
-        Session session = hibernateSessionFactory.getSessionFactory().openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
@@ -122,8 +131,21 @@ public class CompaniesEntity implements DAOCompany, Serializable {
             /**
              * Persist the given transient instance, first assigning a generated identifier.
              */
-            companiesEntity.setId((Integer) session.save(companiesEntity));
+            Integer id = (Integer) session.save(companiesEntity);
+            session.update(companiesEntity);
+
+            //TODO ддя отладки
+            System.out.println("CompaniesEntity class " +
+                    "(method Company createCompany(String name, Long unp, String notes)): " +
+                    "companiesEntity.toString = " + companiesEntity.toString());
+
             newCompany = createCompanyFromCompaniesEntity(companiesEntity);
+
+            //TODO ддя отладки
+            System.out.println("CompaniesEntity class " +
+                    "(method Company createCompany(String name, Long unp, String notes)): " +
+                    "newCompany.toString = " + newCompany.toString());
+
             transaction.commit();
 
             //TODO ддя отладки
@@ -158,9 +180,7 @@ public class CompaniesEntity implements DAOCompany, Serializable {
 
         CompaniesEntity newCompaniesEntity = null;
 
-        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
-
-        Session session = hibernateSessionFactory.getSessionFactory().openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
@@ -201,9 +221,7 @@ public class CompaniesEntity implements DAOCompany, Serializable {
 
         Company company = null;
 
-        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
-
-        Session session = hibernateSessionFactory.getSessionFactory().openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
@@ -365,7 +383,8 @@ public class CompaniesEntity implements DAOCompany, Serializable {
         try {
             Transaction transaction = session.beginTransaction();
 
-            existCompanyEntity = (CompaniesEntity) session.createQuery("from CompaniesEntity c where c.unpCompany = :unp")
+            existCompanyEntity = (CompaniesEntity) session.createQuery(
+                    "from CompaniesEntity c where c.unpCompany = :unp")
                     .setParameter("unp", unp)
                     .uniqueResult();
             transaction.commit();
@@ -403,29 +422,35 @@ public class CompaniesEntity implements DAOCompany, Serializable {
 
             CompaniesEntity existCompaniesEntity = (CompaniesEntity) session.get(CompaniesEntity.class, company.getId());
             existCompaniesEntity.setNameCompany(company.getName());
-            //добавляются заметки, если такой текст не найден в сохраненном экземпляре CompaniesEntity
-            if (!existCompaniesEntity.getNotes().contains(company.getNotes())) {
-                existCompaniesEntity.setNotes(existCompaniesEntity.getNotes() + "; " + company.getNotes());
-            }
+
+            existCompaniesEntity.setNotes(company.getNotes());
+
             newId = (Integer) session.save(existCompaniesEntity);
 
             transaction.commit();
 
             //TODO ддя отладки
             if (existCompany != null) {
-                System.out.println(existCompany.getName() + " изменена в БД.");
+                System.out.println("\nОрганизация " + existCompany.getName() + " изменена в БД.");
 
             } else {
                 System.out.println("Something error in save method of CompaniesEntity  :(((");
             }
-        } catch (HibernateException e) {
+        } catch (
+                HibernateException e
+                )
+
+        {
             if (session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
                 throw e;// перебрасывание исключения на более высокий уровень
             }
-        } finally {
+        } finally
+
+        {
             session.close(); // гарантированное закрытие сеанса
         }
+
         return newId; //изменения успешно внесены в БД
     }
 
@@ -433,7 +458,7 @@ public class CompaniesEntity implements DAOCompany, Serializable {
         Company existCompany = null;
 
         if (existCompanyEntity != null) {
-
+            existCompany = new Company();
             existCompany.setId(existCompanyEntity.getId());
             existCompany.setName(existCompanyEntity.getNameCompany());
             existCompany.setUnp(existCompanyEntity.getUnpCompany());
