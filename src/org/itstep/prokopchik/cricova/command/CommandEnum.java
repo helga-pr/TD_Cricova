@@ -21,9 +21,27 @@ public enum CommandEnum {
         }
     },
 
+    RECEIVE_PRICE {
+        {
+            this.command = new SenderCommand();
+        }
+    },
+
     NO_REGISTRATION {
         {
             this.command = new NoRegistrationCommand();
+        }
+    },
+
+    CHANGE_USER_INFO {
+        {
+            this.command = new ChangeUserInfoCommand();
+        }
+    },
+
+    USER_OFFICE {
+        {
+            this.command = new UserOfficeCommand();
         }
     },
 

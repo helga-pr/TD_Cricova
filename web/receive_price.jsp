@@ -32,14 +32,27 @@
             <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
         </div>
 
-        <div class="col-xs-8">
+        <div class="col-xs-6">
             <h1>Торговый Дом &quotКрикова&quot</h1>
         </div>
+
+        <div class="col-xs-2">
+            Пользователь:<br/> ${clientname}<br/> (${login})
+        </div>
+
         <div class="col-xs-2">
             <form name="administrationForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="logout"/>
                 <input type="submit" value="Log out"/>
             </form>
+            <form name="changeUserInfo" method="POST" action="controller">
+                <input type="hidden" name="command" value="change_user_info"/>
+                <input type="hidden" name="login" value=${login}/>
+                <input type="hidden" name="pass" value=${pass}/>
+                <input type="hidden" name="adminflag" value=${adminflag}/>
+                <input type="submit" value="Изменить данные профиля" class="btn-link"/>
+            </form>
+
 
         </div>
     </div>
@@ -50,9 +63,10 @@
         <input type="text" name="new_email" value=""/>
 
         <div>Использовать мой зарегистрированный e-mail
-            <input type="checkbox" checked="checked" name="my_email_flag" value="my_email"/>
+            <input type="checkbox" checked="checked" name="my_email_flag" value=${login}/>
         </div>
 
+        ${info}
         ${errorLoginPassMessage}
         <br/>
         ${wrongAction}
