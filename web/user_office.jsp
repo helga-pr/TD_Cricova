@@ -19,8 +19,12 @@
             <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
 
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-6">
             <h1>Торговый Дом &quotКрикова&quot</h1>
+        </div>
+
+        <div class="col-xs-2">
+            Личный кабинет<br/>пользователя:<br/> ${clientname}<br/> (${login})
         </div>
 
         <div class="col-xs-2">
@@ -32,29 +36,24 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-10"></div>
-            <div class="col-xs-2"></div>
-        </div>
-
-        <div class="row">
             <div class="col-xs-2"></div>
             <div class="col-xs-8">
-                <h3> Страница с текстом и картинками </h3>
+                <h3> Изменение данных профиля </h3>
             </div>
             <div class="col-xs-2"></div>
         </div>
 
         <div class="row">
             <div class="col-xs-2"></div>
-            <div class="col-xs-4">Article-1-picture</div>
-            <div class="col-xs-4">Article-1-text</div>
+            <div class="col-xs-4">Изменить имя</div>
+            <div class="col-xs-4">Изменить пароль</div>
             <div class="col-xs-2"></div>
         </div>
 
         <div class="row">
             <div class="col-xs-2"></div>
-            <div class="col-xs-4">Article-2-picture</div>
-            <div class="col-xs-4">Article-2-text</div>
+            <div class="col-xs-4">Изменить контактные данные</div>
+            <div class="col-xs-4">Изменить заметки о моей фирме</div>
             <div class="col-xs-2"></div>
         </div>
 

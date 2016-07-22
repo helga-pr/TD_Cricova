@@ -6,6 +6,8 @@ import org.itstep.prokopchik.cricova.command.CommandEnum;
 import org.itstep.prokopchik.cricova.command.EmptyCommand;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ActionFactory {
 
@@ -23,6 +25,9 @@ public class ActionFactory {
             /**
              * если команда не задана в текущем запросе
              */
+            //TODO Для отладки
+            System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+                    "Returned action = " + current);
 
             return current;
         }
@@ -41,6 +46,11 @@ public class ActionFactory {
             request.setAttribute("wrongAction", action
                     + "message.wrongaction");
         }
+
+        //TODO Для отладки
+        System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+                "Returned action = " + current);
+
         return current;
 
     }

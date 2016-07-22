@@ -7,6 +7,8 @@ import org.itstep.prokopchik.cricova.logic.LoginLogic;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LoginCommand implements ActionCommand {
 
@@ -36,8 +38,9 @@ public class LoginCommand implements ActionCommand {
         if (LoginLogic.checkLogin(login, pass, flag)) {
 
             //TODO Для отладки
+            System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+                    "Из блока if (админ) класса LoginCommand");
             System.out.println("flag of admin = " + flag);
-            System.out.println("Из блока if (админ) класса LoginCommand");
 
             // определение пути к *.jsp
 
@@ -53,10 +56,6 @@ public class LoginCommand implements ActionCommand {
             //страница клиента
             else if ("клиент".equals(flag)) {
 
-                //TODO Для отладки
-                System.out.println("flag of client = " + flag);
-                System.out.println("Из блока (else if (клиент)) класса LoginCommand");
-
                 Client client = new Client();
                 client = new ClientsEntity().findClient(login);
 
@@ -64,8 +63,16 @@ public class LoginCommand implements ActionCommand {
                 request.setAttribute("fio", fio);
 
                 request.setAttribute("clientname", fio);
-
                 request.setAttribute("login", login);
+                request.setAttribute("pass", pass);
+                request.setAttribute("adminflag", flag);
+                
+                //TODO Для отладки
+                System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+                        "flag of client = " + flag);
+                System.out.println("Client = " + fio);
+                System.out.println("Из блока (else if (клиент)) класса LoginCommand");
+
 
                 page = "/receive_price.jsp";
 
@@ -79,13 +86,15 @@ public class LoginCommand implements ActionCommand {
             page = "/login.jsp";
 
             //TODO Для отладки
-            System.out.println("Из блока (Else (логин или пароль не соответствует данным БД) класса LoginCommand)" +
+            System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+                    "Из блока (Else (логин или пароль не соответствует данным БД) класса LoginCommand)" +
                     ": errorLoginPassMessage: " + request.getAttribute("errorLoginPassMessage"));
 
         }
 
         //TODO для отладки
-        System.out.println("Returns page = " + page);
+        System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+                "Returns page = " + page);
 
         return page;
 
