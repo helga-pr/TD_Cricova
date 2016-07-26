@@ -1,13 +1,14 @@
 package org.itstep.prokopchik.cricova.command;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
 public class UserOfficeCommand implements ActionCommand {
 
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
-    private static final String PARAM_NAME_ADMINFLAG = "adminflag";
+    private static final String SESSION_ATTRIBUTE_NAME_ROLE = "role";
     private static final String PARAM_NAME_PASSWORD_REPEAT = "passwordRepeat";
     private static final String PARAM_NAME_CLIENT_NAME = "client_name";
     private static final String PARAM_NAME_CLIENT_MIDDLENAME = "client_middlename";
@@ -18,11 +19,13 @@ public class UserOfficeCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         String page = null;
 
+        HttpSession session = request.getSession();
+
         // извлечение из запроса введенных для изменения данных
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
         String passwordRepeat = request.getParameter(PARAM_NAME_PASSWORD_REPEAT);
-        String flag = request.getParameter(PARAM_NAME_ADMINFLAG);
+        String flag = (String) session.getAttribute(SESSION_ATTRIBUTE_NAME_ROLE);
 
         String name = request.getParameter(PARAM_NAME_CLIENT_NAME);
         try {

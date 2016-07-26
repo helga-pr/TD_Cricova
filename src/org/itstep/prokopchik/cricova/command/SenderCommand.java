@@ -32,7 +32,7 @@ public class SenderCommand implements ActionCommand {
     //TODO отправка прайса по e-mail
     @Override
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page = "/receive_price";
 
         // извлечение из запроса
         String mailTo = request.getParameter(PARAM_MAIL_TO);

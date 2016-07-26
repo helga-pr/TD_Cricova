@@ -1,8 +1,14 @@
 package org.itstep.prokopchik.cricova.command.factory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SessionRequestContent {
 
@@ -10,34 +16,123 @@ public class SessionRequestContent {
     private HashMap<String, String[]> requestParameters;
     private HashMap<String, Object> sessionAttributes;
 
-
     // конструкторы
 
     public SessionRequestContent() {
+        requestAttributes = new HashMap<String, Object>();
+        requestParameters = new HashMap<String, String[]>();
+        sessionAttributes = new HashMap<String, Object>();
     }
 
     // метод извлечения информации из запроса
-    public void extractValues(HttpServletRequest request) throws IOException {
-        // реализация
+    public void extractParametersValues(HttpServletRequest request) throws IOException {
 
+        Enumeration parameterNames = request.getParameterNames();
+
+        while (parameterNames.hasMoreElements()) {
+
+            String paramName = (String) parameterNames.nextElement();
+            String[] paramValues = {request.getParameter(paramName)};
+
+            System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                    "Class = SessionRequestContent: Method extractParametersValues: " +
+                    "\nparamValues количество элеменов = " + paramValues.length +
+                    "; " + paramName + " => " + paramValues[0]);
+
+
+            if (paramName.equals("adminflag")) {
+                try {
+                    paramValues[0] = new String(paramValues[0].
+                            getBytes("ISO-8859-1"), "utf-8");//значение параметра внесено на русском языке
+
+                } catch (UnsupportedEncodingException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+            }
+            requestParameters.put(paramName, paramValues);
+        }
+        //TODO для отладки
+        System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                "Class = SessionRequestContent: Method extractParametersValues: " +
+                "\nrequestParameters количество элеменов = " + this.requestParameters.size());
 
     }
 
     // метод добавления в запрос данных для передачи в jsp
     public void insertAttributes(HttpServletRequest request) {
-        // реализация
+
+        if (!this.requestAttributes.isEmpty()) {
+            for (Map.Entry entry : this.requestAttributes.entrySet()) {
+                request.setAttribute((String) entry.getKey(), entry.getValue());
+            }
+        }
+        //TODO для отладки
+        System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                "Class = SessionRequestContent: method insertAttributes: " +
+                "\nrequestAttributes количество элеменов = " + this.requestAttributes.size());
 
     }
 
+    /**
+     * метод извлечения аттрибутов сессии из запроса
+     * Получение сессии пользователя
+     * будет использоваться для сохранения некоторых данных о пользователе
+     * при пеходе по страницам приложения
+     *
+     * @param request
+     * @throws IOException
+     */
+    public void extractSessionAttributeValues(HttpServletRequest request) throws IOException {
+        //получение (или создание) сессии пользователя
+        HttpSession session = request.getSession();
 
-    // some methods
+        //TODO для отладки
+        System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                "Class = SessionRequestContent: " +
+                "\nsession = " + session);
 
+        Enumeration attributeNames = session.getAttributeNames();
+
+        while (attributeNames.hasMoreElements()) {
+            String attrName = (String) attributeNames.nextElement();
+
+            Object attrValue = session.getAttribute(attrName);
+            this.sessionAttributes.put(attrName, attrValue);
+
+            //TODO для отладки
+            System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                    "Class = SessionRequestContent: Method extractSessionAttributeValues: " +
+                    "\nsessionAttributeValues количество элеменов = " + this.sessionAttributes.size() +
+                    "\n " + attrName + " => " + attrValue);
+        }
+    }
+
+    /**
+     * метод добавления в запрос данных сессии пользователя для передачи в jsp
+     */
+    public void insertSessionAttributes(HttpServletRequest request) {
+
+        if (!this.sessionAttributes.isEmpty()) {
+            HttpSession session = request.getSession();
+            for (Map.Entry entry : this.sessionAttributes.entrySet()) {
+
+                session.setAttribute((String) entry.getKey(), entry.getValue());
+            }
+        }
+        //TODO для отладки
+        System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                "Class = SessionRequestContent: Method insertSessionAttributes: " +
+                "\nsessionAttribute количество элеменов = " + this.sessionAttributes.size());
+
+    }
 
     /**
      * @return the requestAttributes
      */
     public HashMap<String, Object> getRequestAttributes() {
-        return requestAttributes;
+        return this.requestAttributes;
     }
 
     /**
@@ -51,7 +146,8 @@ public class SessionRequestContent {
      * @return the requestParameters
      */
     public HashMap<String, String[]> getRequestParameters() {
-        return requestParameters;
+
+        return this.requestParameters;
     }
 
     /**
@@ -65,7 +161,8 @@ public class SessionRequestContent {
      * @return the sessionAttributes
      */
     public HashMap<String, Object> getSessionAttributes() {
-        return sessionAttributes;
+
+        return this.sessionAttributes;
     }
 
     /**

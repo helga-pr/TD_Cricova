@@ -135,12 +135,7 @@
                     </div>
 
                 </div>
-                ${errorLoginPassMessage}
-                <br/>
-                ${wrongAction}
-                <br/>
-                ${nullPage}
-                <br/>
+                ${errorLoginPassMessage} ${wrongAction} ${nullPage}
 
                 <div class="row">
                     <input type="submit" value="Зарегистрироваться"/>

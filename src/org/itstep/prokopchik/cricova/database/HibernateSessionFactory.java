@@ -22,7 +22,6 @@ public class HibernateSessionFactory {
         }
     }
 
-
     protected static SessionFactory buildSessionFactory() {
         // A SessionFactory is set up once for an application!
         Configuration configuration = new Configuration();
@@ -32,7 +31,6 @@ public class HibernateSessionFactory {
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         return sessionFactory;
     }
-
 
     public static SessionFactory getSessionFactory() {
         return sessionFactory;

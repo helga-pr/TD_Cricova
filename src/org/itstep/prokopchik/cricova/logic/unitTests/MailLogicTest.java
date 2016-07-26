@@ -1,5 +1,6 @@
-package org.itstep.prokopchik.cricova.logic;
+package org.itstep.prokopchik.cricova.logic.unitTests;
 
+import org.itstep.prokopchik.cricova.logic.MailLogic;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

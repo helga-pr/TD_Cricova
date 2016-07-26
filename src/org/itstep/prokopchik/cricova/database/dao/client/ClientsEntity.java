@@ -166,9 +166,7 @@ public class ClientsEntity implements Serializable, DAOClient {
 
         Client newClient = null;
 
-        HibernateSessionFactory hibernateSessionFactory = new HibernateSessionFactory();
-
-        Session session = hibernateSessionFactory.getSessionFactory().openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();

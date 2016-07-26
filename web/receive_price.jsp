@@ -37,7 +37,7 @@
         </div>
 
         <div class="col-xs-2">
-            Пользователь:<br/> ${clientname}<br/> (${login})
+            Пользователь:<br/> ${fio}<br/> (${login})
         </div>
 
         <div class="col-xs-2">
@@ -47,9 +47,6 @@
             </form>
             <form name="changeUserInfo" method="POST" action="controller">
                 <input type="hidden" name="command" value="change_user_info"/>
-                <input type="hidden" name="login" value=${login}/>
-                <input type="hidden" name="pass" value=${pass}/>
-                <input type="hidden" name="adminflag" value=${adminflag}/>
                 <input type="submit" value="Изменить данные профиля" class="btn-link"/>
             </form>
 
@@ -63,15 +60,10 @@
         <input type="text" name="new_email" value=""/>
 
         <div>Использовать мой зарегистрированный e-mail
-            <input type="checkbox" checked="checked" name="my_email_flag" value=${login}/>
+            <input type="checkbox" checked="checked" name="my_email_flag"/>
         </div>
 
-        ${info}
-        ${errorLoginPassMessage}
-        <br/>
-        ${wrongAction}
-        <br/>
-        ${nullPage}
+        ${info} ${errorLoginPassMessage} ${wrongAction} ${nullPage}
         <br/>
         <input type="submit" value="Получить прайс продукции"/>
 

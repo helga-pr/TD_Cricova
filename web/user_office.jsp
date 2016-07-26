@@ -24,11 +24,11 @@
         </div>
 
         <div class="col-xs-2">
-            Личный кабинет<br/>пользователя:<br/> ${clientname}<br/> (${login})
+            Личный кабинет<br/>пользователя:<br/> ${fio}<br/> (${login})
         </div>
 
         <div class="col-xs-2">
-            <form name="userOffice" method="POST" action="controller">
+            <form name="userOfficeLogOut" method="POST" action="controller">
                 <input type="hidden" name="command" value="logout"/>
                 <input type="submit" value="Выход"/>
             </form>
@@ -46,14 +46,118 @@
         <div class="row">
             <div class="col-xs-2"></div>
             <div class="col-xs-4">Изменить имя</div>
+
+            <div class="row">
+                <div class="col-xs-1"></div>
+
+                <div class="col-xs-11">
+
+                    <form class="form-horizontal" name="userOfficeChangeName" method="POST" action="controller">
+                        <div class="form-group">
+                            <label for="newName" class="col-sm-4 control-label">Старый Пароль</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" id="newName" name="new_name"
+                                       placeholder="Введите новое имя"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputNewMiddleName" class="col-sm-4 control-label">Новое отчество</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" id="inputNewMiddleName" name="new_middle_name"
+                                       placeholder="Введите новое отчество"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputNewLastName" class="col-sm-4 control-label">Новая фамилия</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" id="inputNewLastName" name="new_last_name"
+                                       placeholder="Введите новую фамилию" class="form-control">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
             <div class="col-xs-4">Изменить пароль</div>
+
+            <div class="row">
+                <div class="col-xs-1"></div>
+
+                <div class="col-xs-11">
+
+                    <form class="form-horizontal" name="userOfficeChangePassword" method="POST" action="controller">
+                        <div class="form-group">
+                            <label for="inputOldPassword" class="col-sm-4 control-label">Старый Пароль</label>
+
+                            <div class="col-sm-8">
+                                <input type="password" id="inputOldPassword" name="old_password"
+                                       placeholder="Введите старый пароль"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputNewPassword" class="col-sm-4 control-label">Новый Пароль</label>
+
+                            <div class="col-sm-8">
+                                <input type="password" id="inputNewPassword" name="new_password"
+                                       placeholder="Введите новый пароль"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="repeatPassword" class="col-sm-4 control-label">Повторите новый Пароль</label>
+
+                            <div class="col-sm-8">
+                                <input type="password" id="repeatPassword" name="passwordRepeat"
+                                       placeholder="Введите новый пароль еще раз" class="form-control">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
             <div class="col-xs-2"></div>
         </div>
 
         <div class="row">
             <div class="col-xs-2"></div>
             <div class="col-xs-4">Изменить контактные данные</div>
+
+            <div class="row">
+                <div class="col-xs-1"></div>
+
+                <div class="col-xs-11">
+
+                    <form class="form-horizontal" name="loginForm" method="POST" action="controller">
+
+                    </form>
+                </div>
+            </div>
+
             <div class="col-xs-4">Изменить заметки о моей фирме</div>
+
+            <div class="row">
+                <div class="col-xs-1"></div>
+
+                <div class="col-xs-11">
+
+                    <form class="form-horizontal" name="loginForm" method="POST" action="controller">
+
+                    </form>
+                </div>
+            </div>
+
             <div class="col-xs-2"></div>
         </div>
 
