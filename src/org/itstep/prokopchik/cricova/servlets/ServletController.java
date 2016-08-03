@@ -2,14 +2,17 @@ package org.itstep.prokopchik.cricova.servlets;
 
 import org.itstep.prokopchik.cricova.command.ActionCommand;
 import org.itstep.prokopchik.cricova.command.factory.ActionFactory;
+import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Servlet implementation class Controller
@@ -18,6 +21,8 @@ import java.io.IOException;
 public class ServletController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+
+    private String encoding;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,8 +48,21 @@ public class ServletController extends HttpServlet {
 
     }
 
+    @Override
+    public void init() throws ServletException {
+        ServletConfig config = getServletConfig();
+        encoding = config.getInitParameter("PARAMETER_ENCODING");
+    }
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        /**
+         * для установления кодировки получаемых из веб-форм параметров
+         */
+        if (encoding != null) {
+            request.setCharacterEncoding(encoding);
+        }
 
         String page = null;
 
@@ -80,11 +98,19 @@ public class ServletController extends HttpServlet {
             page = "/index.jsp";
 
             //request.getSession().setAttribute("nullPage", MessageManager.getProperty("message.nullpage"));
-            request.getSession().setAttribute("nullPage", "Page not found. Business logic error");
+            SessionRequestContent content = new SessionRequestContent();
+
+            //HashMap для записи аттрибутов запроса
+            HashMap<String, Object> forRequestAttribute = new HashMap<String, Object>();
+
+            forRequestAttribute.put("nullPage", "Page not found. Business logic error");
+
+            content.insertAttributes(request);
 
             response.sendRedirect(request.getContextPath() + page);
         }
 
     }
+
 
 }

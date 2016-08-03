@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+﻿<%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,6 +9,14 @@
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>
+
+<%--  для установления кодировки получаемых из веб-форм параметров --%>
+<%
+    String paramEncoding = application.getInitParameter("PARAMETER_ENCODING");
+    request.setCharacterEncoding(paramEncoding);
+
+%>
+
 <body class="main-background">
 <div class="container-fluid">
 
@@ -27,7 +35,7 @@
         <div class="col-xs-1"></div>
 
         <div class="col-xs-11">
-            <form class="form-horizontal" name="loginForm" method="POST" action="controller">
+            <form class="form-horizontal" name="loginForm" method="POST" action="controller" accept-charset="utf-8">
                 <div class="col-xs-6">
                     <div class="row">
                         <div class="form-group">

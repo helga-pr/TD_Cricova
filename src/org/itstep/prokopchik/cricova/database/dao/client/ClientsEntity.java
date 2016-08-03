@@ -10,6 +10,8 @@ import org.itstep.prokopchik.cricova.database.dao.company.CompaniesEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -180,16 +182,22 @@ public class ClientsEntity implements Serializable, DAOClient {
             clientEntity.setContactsClient(contactsClient);
             clientEntity.setCompany(new CompaniesEntity().findByUnpForEntity(company.getUnp()));
 
-            newClient = findClientById((Integer) session.save(clientEntity));
+            Integer newClientId = (Integer) session.save(clientEntity);
             transaction.commit();
+
+            newClient = findClientById(newClientId);
 
         /* ддя отладки */
             if (newClient != null) {
-                System.out.println("Клиент " + newClient.getLogin() + " добавлен в БД. Представляет компанию "
+                System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                        getClass() +
+                        ": \nКлиент " + newClient.getLogin() + " добавлен в БД. Представляет компанию "
                         + newClient.getCompany());
 
             } else {
-                System.out.println("Ошибка. Новый клиент не сохранен в БД!");
+                System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                        getClass() +
+                        ": \nОшибка. Новый клиент не сохранен в БД!");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {
@@ -225,11 +233,16 @@ public class ClientsEntity implements Serializable, DAOClient {
 
         /* ддя отладки */
             if (clientByLogin != null) {
-                System.out.println(clientByLogin.getLogin() + " найден в БД. Представляет компанию "
+                System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                        getClass() +
+                        ": " +
+                        clientByLogin.getLogin() + " найден в БД. Представляет компанию "
                         + clientByLogin.getCompany());
 
             } else {
-                System.out.println("No data with this criterias in table clients");
+                System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                        getClass() +
+                        ": \nNo data with this criterias in table clients");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {
@@ -260,13 +273,17 @@ public class ClientsEntity implements Serializable, DAOClient {
 
             transaction.commit();
 
-        /* ддя отладки */
+            // TODO ддя отладки
             if (clientById != null) {
-                System.out.println(clientById.getLogin() + " найден в БД. Представляет компанию "
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        " Class ClientsEntity: " +
+                        clientById.getLogin() + " найден в БД. Представляет компанию "
                         + clientById.getCompany());
 
             } else {
-                System.out.println("No data with this criterias");
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        " Class ClientsEntity: " +
+                        "No data with this criterias");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {
@@ -295,17 +312,21 @@ public class ClientsEntity implements Serializable, DAOClient {
 
             transaction.commit();
 
-            //ддя отладки
+            //TODO ддя отладки
             if (!result.isEmpty()) {
                 for (ClientsEntity clientsEntity : result) {
                     Client client = createClientFromClientEntity(clientsEntity);
 
                     allClients.add(client);
 
-                    System.out.println(clientsEntity);
+                    System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                            " Class ClientsEntity: clientsEntity = " +
+                            clientsEntity);
                 }
             } else {
-                System.out.println("No data from table clients");
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        " Class ClientsEntity: " +
+                        "No data from table clients");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {
@@ -371,11 +392,15 @@ public class ClientsEntity implements Serializable, DAOClient {
 
             //TODO ддя отладки
             if (existClient != null) {
-                System.out.println(existClient.getLogin() + " изменен в БД. Представляет компанию "
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        " Class ClientsEntity: " +
+                        existClient.getLogin() + " изменен в БД. Представляет компанию "
                         + existClient.getCompany());
 
             } else {
-                System.out.println("Something error (((");
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        " Class ClientsEntity: " +
+                        "Something error (((");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {

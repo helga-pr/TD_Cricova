@@ -6,6 +6,7 @@ import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
 import org.itstep.prokopchik.cricova.logic.LoginLogic;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,7 @@ public class LoginCommand implements ActionCommand {
     private static final String PARAM_NAME_ADMINFLAG = "adminflag";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ServletException, IOException {
         String page = null;
 
         /**

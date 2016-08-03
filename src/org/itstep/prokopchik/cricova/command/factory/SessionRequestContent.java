@@ -22,10 +22,13 @@ public class SessionRequestContent {
         requestAttributes = new HashMap<String, Object>();
         requestParameters = new HashMap<String, String[]>();
         sessionAttributes = new HashMap<String, Object>();
+
     }
 
     // метод извлечения информации из запроса
     public void extractParametersValues(HttpServletRequest request) throws IOException {
+
+        request.setCharacterEncoding("utf-8");
 
         Enumeration parameterNames = request.getParameterNames();
 
@@ -34,31 +37,38 @@ public class SessionRequestContent {
             String paramName = (String) parameterNames.nextElement();
             String[] paramValues = {request.getParameter(paramName)};
 
-            System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+            System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
                     "Class = SessionRequestContent: Method extractParametersValues: " +
                     "\nparamValues количество элеменов = " + paramValues.length +
                     "; " + paramName + " => " + paramValues[0]);
 
+            paramValues[0] = convertingInUtf8(paramValues[0]);
 
-            if (paramName.equals("adminflag")) {
-                try {
-                    paramValues[0] = new String(paramValues[0].
-                            getBytes("ISO-8859-1"), "utf-8");//значение параметра внесено на русском языке
-
-                } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-            }
             requestParameters.put(paramName, paramValues);
         }
         //TODO для отладки
-        System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+        System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: Method extractParametersValues: " +
                 "\nrequestParameters количество элеменов = " + this.requestParameters.size());
 
     }
+
+    //если значение параметра внесено на русском языке, то конвертация должна помочь
+    // корректно сохранить это значение для дальнейшей работы приложения
+    private String convertingInUtf8(String value) {
+
+        try {
+            return new String(value.
+                    getBytes("ISO-8859-1"), "utf-8");
+
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+        // }
+    }
+
 
     // метод добавления в запрос данных для передачи в jsp
     public void insertAttributes(HttpServletRequest request) {
@@ -69,7 +79,7 @@ public class SessionRequestContent {
             }
         }
         //TODO для отладки
-        System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+        System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: method insertAttributes: " +
                 "\nrequestAttributes количество элеменов = " + this.requestAttributes.size());
 
@@ -85,11 +95,12 @@ public class SessionRequestContent {
      * @throws IOException
      */
     public void extractSessionAttributeValues(HttpServletRequest request) throws IOException {
+
         //получение (или создание) сессии пользователя
         HttpSession session = request.getSession();
 
         //TODO для отладки
-        System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+        System.out.println(new SimpleDateFormat("dd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: " +
                 "\nsession = " + session);
 
@@ -102,7 +113,7 @@ public class SessionRequestContent {
             this.sessionAttributes.put(attrName, attrValue);
 
             //TODO для отладки
-            System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+            System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                     "Class = SessionRequestContent: Method extractSessionAttributeValues: " +
                     "\nsessionAttributeValues количество элеменов = " + this.sessionAttributes.size() +
                     "\n " + attrName + " => " + attrValue);
@@ -122,7 +133,7 @@ public class SessionRequestContent {
             }
         }
         //TODO для отладки
-        System.out.println(new SimpleDateFormat("\ndd.mm.yyyy hh:mm:ss ").format(new Date()) +
+        System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: Method insertSessionAttributes: " +
                 "\nsessionAttribute количество элеменов = " + this.sessionAttributes.size());
 
