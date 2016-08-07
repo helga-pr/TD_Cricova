@@ -350,8 +350,7 @@ public class ClientsEntity implements Serializable, DAOClient {
     public Integer updateClient(Client client) {
 
         Integer newId = -1;
-        Client existClient = null;
-        existClient = new ClientsEntity().findClientById(client.getId());
+        Client existClient = new ClientsEntity().findClientById(client.getId());
 
         if (client.equals(existClient)) {
             return 0; //без изменений
@@ -371,10 +370,10 @@ public class ClientsEntity implements Serializable, DAOClient {
             existClientsEntity.setPasswordClient(client.getPassword());
             existClientsEntity.setNameClient(client.getName());
             existClientsEntity.setMiddlenameClient(client.getMiddleName());
-            existClientsEntity.setLastnameClient(lastnameClient);
+            existClientsEntity.setLastnameClient(client.getLastname());
             existClientsEntity.setContactsClient(client.getContacts());
 
-            CompaniesEntity existCompanyEntity = null;
+            CompaniesEntity existCompanyEntity = new CompaniesEntity();
 
             if (existCompanyEntity.isExistCompanyWithUnp(client.getCompany().getUnp())) {
 

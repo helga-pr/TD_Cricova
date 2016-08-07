@@ -39,9 +39,27 @@ public enum CommandEnum {
         }
     },
 
-    USER_OFFICE {
+    CHANGE_USER_NAME {
         {
-            this.command = new UserOfficeCommand();
+            this.command = new UserOfficeChangeNameCommand();
+        }
+    },
+
+    CHANGE_USER_PASSWORD {
+        {
+            this.command = new UserOfficeChangePasswordCommand();
+        }
+    },
+
+    CHANGE_USER_CONTACTS {
+        {
+            this.command = new UserOfficeChangeContactsCommand();
+        }
+    },
+
+    CHANGE_COMPANY_NOTES {
+        {
+            this.command = new UserOfficeChangeCompanyNotesCommand();
         }
     },
 

@@ -4,6 +4,7 @@ import org.itstep.prokopchik.cricova.Client;
 import org.itstep.prokopchik.cricova.Company;
 import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
+import org.itstep.prokopchik.cricova.logic.LoginLogic;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -11,18 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- * Для страницы user office
- * в полях используются текущие значения данных о пользователе
- * Пользователь может внести новые данные и они сохранятся в базе данных
- */
-public class ChangeUserInfoCommand implements ActionCommand {
+public class UserOfficeChangePasswordCommand implements ActionCommand {
 
     private static final String SESSION_ATTR_NAME_LOGIN = "login";
 
     @Override
-    public String execute(HttpServletRequest request) throws IOException {
-
+    public String execute(HttpServletRequest request) {
         /**
          * Использование специального класса для работы с аттрибутами и параметрами запроса
          * и сессии пользователя в целях безопасности приложения
@@ -32,20 +27,20 @@ public class ChangeUserInfoCommand implements ActionCommand {
         try {
 
             //TODO для отладки
-            System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
-                    "Class = LoginCommand: " +
+            System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                    "Class = " + getClass() +
                     "\nrequest = " + request);
 
             content.extractParametersValues(request);
-
             content.extractSessionAttributeValues(request);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // извлечение из запроса через специальный класс SessionRequestContent логина и пароля
+        // извлечение из запроса через специальный класс SessionRequestContent логина
         String login = (String) content.getSessionAttributes().get(SESSION_ATTR_NAME_LOGIN);
+
 
         //HashMap для записи аттрибутов сессии пользователя и аттрибутов запроса
         HashMap<String, Object> forRequestAttribute = new HashMap<String, Object>();
@@ -54,11 +49,39 @@ public class ChangeUserInfoCommand implements ActionCommand {
         //передача атрибутов
         Client client = new ClientsEntity().findClient(login);
 
-        System.out.println(new SimpleDateFormat("dd.MM.yyyy H:mm:ss ").format(new Date()) +
-                getClass() + "\nполучены данные о клиенте из БД:\n" + client.toString());
+        // извлечение из запроса введенных для изменения данных
+        String oldPass = content.getRequestParameters().get("old_password")[0];
+        String newPass = content.getRequestParameters().get("new_password")[0];
+        String repeatePass = content.getRequestParameters().get("repeate_pass")[0];
+
+        //пользователь регистрируется в БД в таблице Clients
+        //параметр запроса adminflag == "клиент"
+        if (LoginLogic.checkLogin(login, oldPass, "клиент") && !newPass.trim().isEmpty() &&
+                newPass.equals(repeatePass)) {
+            client.setPassword(newPass);
+
+            Integer id = new ClientsEntity().updateClient(client);
+
+            //получаем обновленные данные из БД
+            client = new ClientsEntity().findClientById(id);
+
+            forRequestAttribute.put("updateUserDataMessage", "Пароль пользователя успешно обновлен!");
+
+            //TODO для отладки
+            System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                    getClass() + "\n" + forRequestAttribute.get("updateUserDataMessage"));
+
+        } else {
+            forRequestAttribute.put("updateUserDataMessage", "Пароль пользователя не обновлен! Введены некорректные данные.");
+
+            //TODO для отладки
+            System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                    getClass() + "\n" + forRequestAttribute.get("updateUserDataMessage"));
+
+        }
+
+        //устанавливаем аттрибуты запроса для следующей jsp-страницы
         Company company = client.getCompany();
-        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                getClass() + "\nполучены данные о компании из БД:\n" + company.toString());
 
         String name = client.getName();
         String middleName = client.getMiddleName();
@@ -74,20 +97,11 @@ public class ChangeUserInfoCommand implements ActionCommand {
         forRequestAttribute.put("userLastName", lastName);
         forRequestAttribute.put("userContacts", contacts);
         forRequestAttribute.put("fio", fio);
-        forRequestAttribute.put("login", login);
         forRequestAttribute.put("companyName", companyName);
         forRequestAttribute.put("companyNotes", companyNotes);
 
         content.setRequestAttributes(forRequestAttribute);
         content.insertAttributes(request);
-
-        //TODO Для отладки
-        System.out.println("Client fio = " + fio +
-                "( из класса SessionRequestContent = " + content.getRequestAttributes().get("fio"));
-        System.out.println("login = " + login +
-                "( из класса SessionRequestContent = " + content.getRequestAttributes().get("login"));
-        System.out.println("Из блока (else if (клиент)) класса LoginCommand");
-
 
         return "/user_office.jsp";
     }

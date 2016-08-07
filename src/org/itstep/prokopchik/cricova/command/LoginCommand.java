@@ -2,6 +2,7 @@ package org.itstep.prokopchik.cricova.command;
 
 
 import org.itstep.prokopchik.cricova.Client;
+import org.itstep.prokopchik.cricova.Company;
 import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
 import org.itstep.prokopchik.cricova.logic.LoginLogic;
@@ -44,12 +45,6 @@ public class LoginCommand implements ActionCommand {
             e.printStackTrace();
         }
 
-
-        //Получение сессии пользователя -
-        // будет использоваться для сохранения некоторых данных о пользователе
-        // при пеходе по страницам приложения
-        // HttpSession session = request.getSession();
-
         // извлечение из запроса через специальный класс SessionRequestContent логина и пароля
         String login = content.getRequestParameters().get(PARAM_NAME_LOGIN)[0];
         String pass = content.getRequestParameters().get(PARAM_NAME_PASSWORD)[0];
@@ -79,6 +74,13 @@ public class LoginCommand implements ActionCommand {
 
             content.setSessionAttributes(forSessionAttr);
 
+            content.insertSessionAttributes(request);
+
+            //TODO Для отладки
+            System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+                    "Class = ChangeUserInfoCommand;" +
+                    "Returned page = " + page);
+
             //TODO Для отладки
             System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
                     "Установлены аттрибуты сессии: Роль пользователя = " + content.getSessionAttributes().get("role") +
@@ -92,6 +94,7 @@ public class LoginCommand implements ActionCommand {
                 //request.setAttribute("user", login);
                 forRequestAttribute.put("user", login);
                 content.setRequestAttributes(forRequestAttribute);
+                content.insertAttributes(request);
 
                 //TODO Для отладки
                 System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
@@ -106,19 +109,26 @@ public class LoginCommand implements ActionCommand {
             //страница клиента
             else if ("клиент".equals(flag)) {
 
-                Client client = new Client();
-                client = new ClientsEntity().findClient(login);
+                //передача атрибутов
+                Client client = new ClientsEntity().findClient(login);
 
-                String fio = client.getLastname() + " " + client.getName() + " " + client.getMiddleName();
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + "\nполучены данные о клиенте из БД:\n" + client.toString());
+                Company company = client.getCompany();
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + "\nполучены данные о компании из БД:\n" + company.toString());
 
-                forRequestAttribute.put("fio", fio);
-                forRequestAttribute.put("login", login);
-                forRequestAttribute.put("adminflag", flag);
+                String name = client.getName();
+                String middleName = client.getMiddleName();
+                String lastName = client.getLastname();
+                String fio = lastName + " " + name + " " + middleName;
 
+                forRequestAttribute.put("email", login);
                 content.setRequestAttributes(forRequestAttribute);
+                content.insertAttributes(request);
 
                 //TODO Для отладки
-                System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "flag of client = " + flag +
                         "( из класса SessionRequestContent = " + content.getRequestAttributes().get("adminflag"));
                 System.out.println("Client fio = " + fio +
@@ -153,7 +163,6 @@ public class LoginCommand implements ActionCommand {
         // запись атрибутов сессии пользователя и аттрибутов запроса
         // с использованием специального класса SessionRequestContent
         content.insertAttributes(request);
-        content.insertSessionAttributes(request);
 
         return page;
 

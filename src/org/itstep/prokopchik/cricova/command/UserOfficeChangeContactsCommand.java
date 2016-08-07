@@ -11,17 +11,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- * Для страницы user office
- * в полях используются текущие значения данных о пользователе
- * Пользователь может внести новые данные и они сохранятся в базе данных
- */
-public class ChangeUserInfoCommand implements ActionCommand {
+public class UserOfficeChangeContactsCommand implements ActionCommand {
 
     private static final String SESSION_ATTR_NAME_LOGIN = "login";
 
     @Override
-    public String execute(HttpServletRequest request) throws IOException {
+    public String execute(HttpServletRequest request) {
 
         /**
          * Использование специального класса для работы с аттрибутами и параметрами запроса
@@ -32,12 +27,11 @@ public class ChangeUserInfoCommand implements ActionCommand {
         try {
 
             //TODO для отладки
-            System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
-                    "Class = LoginCommand: " +
+            System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                    "Class = " + getClass() +
                     "\nrequest = " + request);
 
             content.extractParametersValues(request);
-
             content.extractSessionAttributeValues(request);
 
         } catch (IOException e) {
@@ -51,14 +45,40 @@ public class ChangeUserInfoCommand implements ActionCommand {
         HashMap<String, Object> forRequestAttribute = new HashMap<String, Object>();
         HashMap<String, Object> forSessionAttr = content.getSessionAttributes();
 
-        //передача атрибутов
         Client client = new ClientsEntity().findClient(login);
 
-        System.out.println(new SimpleDateFormat("dd.MM.yyyy H:mm:ss ").format(new Date()) +
-                getClass() + "\nполучены данные о клиенте из БД:\n" + client.toString());
+        // извлечение из запроса введенных для изменения данных
+        String newContacts = content.getRequestParameters().get("new_contacts")[0];
+
+        //если внесены изменения в контакты пользователя, то информация о клиенте обновляется в БД
+        //и обновляются аттрибуты запроса для передачи в следующий view (jsp-траницу)
+        if ((!newContacts.trim().isEmpty() && !newContacts.equals(client.getContacts()))) {
+            client.setContacts(newContacts);
+
+            //обновляем данные в БД
+            Integer id = new ClientsEntity().updateClient(client);
+
+            if (id > 0) {
+                client = new ClientsEntity().findClientById(id);
+
+                forRequestAttribute.put("updateUserContactsMessage", "Контакты пользователя успешно обновлены!");
+
+                //TODO для отладки
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + "\n" + forRequestAttribute.get("updateUserContactsMessage"));
+            }
+
+        } else {
+            forRequestAttribute.put("updateUserContactsMessage",
+                    "Контакты пользователя не обновлены! Введены некорректные данные или не обнаружено изменений.");
+
+            //TODO для отладки
+            System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                    getClass() + "\n" + forRequestAttribute.get("updateUserContactsMessage"));
+        }
+
+        //получаем обновленные данные из БД
         Company company = client.getCompany();
-        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                getClass() + "\nполучены данные о компании из БД:\n" + company.toString());
 
         String name = client.getName();
         String middleName = client.getMiddleName();
@@ -74,20 +94,11 @@ public class ChangeUserInfoCommand implements ActionCommand {
         forRequestAttribute.put("userLastName", lastName);
         forRequestAttribute.put("userContacts", contacts);
         forRequestAttribute.put("fio", fio);
-        forRequestAttribute.put("login", login);
         forRequestAttribute.put("companyName", companyName);
         forRequestAttribute.put("companyNotes", companyNotes);
 
         content.setRequestAttributes(forRequestAttribute);
         content.insertAttributes(request);
-
-        //TODO Для отладки
-        System.out.println("Client fio = " + fio +
-                "( из класса SessionRequestContent = " + content.getRequestAttributes().get("fio"));
-        System.out.println("login = " + login +
-                "( из класса SessionRequestContent = " + content.getRequestAttributes().get("login"));
-        System.out.println("Из блока (else if (клиент)) класса LoginCommand");
-
 
         return "/user_office.jsp";
     }

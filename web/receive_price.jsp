@@ -57,7 +57,7 @@
     <form name="loginForm" method="POST" action="controller">
         <input type="hidden" name="command" value="receive_price"/>
         <br/>e-mail:<br/>
-        <input type="text" name="new_email" value=""/>
+        <input type="text" name="new_email" value=${login}/>
 
         <div>Использовать мой зарегистрированный e-mail
             <input type="checkbox" checked="checked" name="my_email_flag"/>

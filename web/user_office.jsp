@@ -58,23 +58,24 @@
                     <div class="form-group">
                         <label for="newName" class="col-sm-5 control-label">Имя</label>
                         <input type="text" id="newName" name="new_name"
-                               placeholder=${userName}
+                               value=${userName}
                                        class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="inputNewMiddleName" class="col-sm-5 control-label">Отчество</label>
                         <input type="text" id="inputNewMiddleName" name="new_middle_name"
-                               placeholder=${userMiddleName}
+                               value=${userMiddleName}
                                        class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="inputNewLastName" class="col-sm-5 control-label">Фамилия</label>
                         <input type="text" id="inputNewLastName" name="new_last_name"
-                               placeholder=${userLastName} class="form-control">
+                               value=${userLastName} class="form-control">
                     </div>
 
+                    <input type="hidden" name="command" value="change_user_name"/>
                     <input type="submit" value="Изменить имя" class="btn-warning btn-primary">
 
                 </form>
@@ -88,14 +89,14 @@
 
                     <div class="form-group">
                         <label for="oldPassword" class="col-sm-5 control-label">Старый пароль</label>
-                        <input type="password" id="oldPassword" name="new_password"
+                        <input type="password" id="oldPassword" name="old_password"
                                placeholder="Старый пароль"
                                class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="newPassword" class="col-sm-5 control-label">Новый пароль</label>
-                        <input type="password" id="newPassword" name="new_middle_name"
+                        <input type="password" id="newPassword" name="new_password"
                                placeholder="Новый пароль"
                                class="form-control">
                     </div>
@@ -103,34 +104,43 @@
                     <div class="form-group">
                         <label for="repeatPassword" class="col-sm-5 control-label">Повторите
                             пароль</label>
-                        <input type="password" id="repeatPassword" name="new_last_name"
+                        <input type="password" id="repeatPassword" name="repeate_pass"
                                placeholder="Повторите пароль" class="form-control">
                     </div>
-
+                    <input type="hidden" name="command" value="change_user_password"/>
                     <input type="submit" value="Изменить пароль" class="btn-warning btn-primary">
                 </form>
             </div>
 
-            <h3>${updateUserDataMessage}</h3>
+            <h5>${updateUserDataMessage}</h5>
 
             <form class="form-horizontal" name="changeContactData" method="POST" action="controller"
                   accept-charset="utf-8">
-                <h3>Изменить мои контактные данные</h3>
+                <h3>Изменить контактные данные</h3>
 
                 <div class="form-group">
                     <label for="changeMyContacts" class="control-label">
                         Мои контактные данные:
                     </label>
-                    <input type="text" id="changeMyContacts" name="change_my_contacts"
-                           placeholder=${userContacts} class="form-control">
+                    <input type="text" id="changeMyContacts" name="new_contacts"
+                           value=${userContacts} class="form-control">
+                    <input type="hidden" name="command" value="change_user_contacts"/>
                     <input type="submit" value="Изменить мои контакты" class="btn-warning btn-primary">
                 </div>
+            </form>
+
+            <h5>${updateUserContactsMessage}</h5>
+
+            <form class="form-horizontal" name="changeContactData" method="POST" action="controller"
+                  accept-charset="utf-8">
+
                 <div class="form-group">
                     <label for="changeCompanyNotes" class="control-label">
-                        О компании:
+                        О компании ${companyName}:
                     </label>
-                    <input type="text" id="changeCompanyNotes" name="change_company_notes"
-                           placeholder=${companyNotes} class="form-control">
+                    <input type="text" id="changeCompanyNotes" name="new_company_notes"
+                           value=${companyNotes} class="form-control">
+                    <input type="hidden" name="command" value="change_company_notes"/>
                     <input type="submit" value="Изменить информацию о компании" class="btn-warning btn-primary">
                 </div>
 
