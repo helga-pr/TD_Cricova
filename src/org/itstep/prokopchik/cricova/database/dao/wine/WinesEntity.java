@@ -1,14 +1,22 @@
 package org.itstep.prokopchik.cricova.database.dao.wine;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.itstep.prokopchik.cricova.*;
+import org.itstep.prokopchik.cricova.database.HibernateSessionFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "wines", schema = "", catalog = "cricovadb")
-public class WinesEntity extends DAOWine implements Serializable {
+public class WinesEntity implements Serializable, DAOWine {
     private int idWine;
     private String nameWine;
     private int priceWine;
@@ -23,6 +31,7 @@ public class WinesEntity extends DAOWine implements Serializable {
     private String wineCollection;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //generated DataBase auto_increment when insert value
     @Column(name = "id_wine", nullable = false, insertable = true, updatable = true)
     public int getIdWine() {
         return idWine;
@@ -198,21 +207,495 @@ public class WinesEntity extends DAOWine implements Serializable {
                            WineSugarContentEnum wineSugarContent,
                            WineSpiritContentEnum wineSpiritContent,
                            WineCollectionEnum wineCollection) {
-        return null;
+
+        Wine newWine = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            WinesEntity winesEntity = new WinesEntity();
+            winesEntity.setNameWine(name);
+            winesEntity.setPriceWine(price);
+            winesEntity.setNdsrateWine(ndsRate);
+            if ((byte[]) image != null)
+                winesEntity.setImageWine((byte[]) image);
+            winesEntity.setAnnotationWine(annotation);
+            winesEntity.setWineType(wineType.getValue());
+            winesEntity.setWineColor(wineColor.getValue());
+            winesEntity.setWineAge(wineAge.getValue());
+            winesEntity.setWineSugarContent(wineSugarContent.getValue());
+            winesEntity.setWineSpiritContent(wineSpiritContent.getValue());
+            winesEntity.setWineCollection(wineCollection.getValue());
+
+            Integer newId = (Integer) session.save(winesEntity);  // возвращает сгенерированный идентификатор id
+
+            if (newId > 0) {
+                newWine = createWineFromWinesEntity(winesEntity);
+            }
+
+            transaction.commit();
+
+            // TODO ддя отладки
+            if (newWine != null) {
+                System.out.println(newWine.getName() + " добавлен в БД. ");
+
+            } else {
+                System.out.println("Ошибка. Новая статья не сохранена в БД!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return newWine;
+    }
+
+    private Wine createWineFromWinesEntity(WinesEntity winesEntity) {
+        Wine newWine = null;
+
+        if (winesEntity != null) {
+            newWine = new Wine();
+            newWine.setId(winesEntity.getIdWine());
+            newWine.setName(winesEntity.getNameWine());
+            newWine.setPrice(winesEntity.getPriceWine());
+            newWine.setNdsRate(winesEntity.getNdsrateWine());
+            newWine.setImage(winesEntity.getImageWine());
+            newWine.setAnnotation(winesEntity.getAnnotationWine());
+            newWine.setWineType(WineTypeEnum.valueOf(winesEntity.getWineType()));
+            newWine.setWineColor(WineColorEnum.valueOf(winesEntity.getWineColor()));
+            newWine.setWineAge(WineAgeEnum.valueOf(winesEntity.getWineAge()));
+            newWine.setWineSugarContent(WineSugarContentEnum.valueOf(winesEntity.getWineSugarContent()));
+            newWine.setWineSpiritContent(WineSpiritContentEnum.valueOf(winesEntity.getWineSpiritContent()));
+            newWine.setWineCollection(WineCollectionEnum.valueOf(winesEntity.getWineCollection()));
+        }
+        return newWine;
     }
 
     @Override
     public Wine createWine(Wine wine) {
-        return null;
+
+        return new WinesEntity().createWine(
+                wine.getName(),
+                wine.getPrice(),
+                wine.getNdsRate(),
+                wine.getImage(),
+                wine.getAnnotation(),
+                wine.getWineType(),
+                wine.getWineColor(),
+                wine.getWineAge(),
+                wine.getWineSugarContent(),
+                wine.getWineSpiritContent(),
+                wine.getWineCollection());
     }
 
     @Override
-    public Wine getWine(String name) {
-        return null;
+    public List<Wine> findAllWines() {
+        List<Wine> allWines = new ArrayList<Wine>();
+        List<WinesEntity> allWinesEntities = new ArrayList<WinesEntity>();
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            allWinesEntities = session.createQuery("from WinesEntity w").list();
+
+            if (!allWinesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : allWinesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    allWines.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!allWines.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : allWines) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return allWines;
     }
 
     @Override
-    public Wine getWineById(Integer id) {
-        return null;
+    public List<Wine> findWineByName(String name) {
+        List<Wine> winesByName = new ArrayList<Wine>();
+        List<WinesEntity> winesEntityByName;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            winesEntityByName = session.createQuery("from WinesEntity w where w.nameWine = :nameWine")
+                    .setParameter("nameWine", name)
+                    .list();
+
+            if (!winesEntityByName.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntityByName) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    winesByName.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!winesByName.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : winesByName) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return winesByName;
+    }
+
+    @Override
+    public List<Wine> findWineByWineType(WineTypeEnum wineType) {
+        List<Wine> winesByType = new ArrayList<Wine>();
+        List<WinesEntity> winesEntities;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            winesEntities = session.createQuery("from WinesEntity w where w.wineType = :wineType")
+                    .setParameter("wineType", wineType)
+                    .list();
+
+            if (!winesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    winesByType.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!winesByType.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : winesByType) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data with this wineType from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return winesByType;
+    }
+
+    @Override
+    public List<Wine> findWineByWineColor(WineColorEnum wineColor) {
+        List<Wine> wineByColor = new ArrayList<Wine>();
+        List<WinesEntity> winesEntities;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            winesEntities = session.createQuery("from WinesEntity w where w.wineColor = :wineColor")
+                    .setParameter("wineColor", wineColor)
+                    .list();
+
+            if (!winesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    wineByColor.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!wineByColor.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : wineByColor) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data with this wineColor from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return wineByColor;
+    }
+
+    @Override
+    public List<Wine> findWineByWineAge(WineAgeEnum wineAge) {
+        List<Wine> winesByWineAge = new ArrayList<Wine>();
+        List<WinesEntity> winesEntities;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            winesEntities = session.createQuery("from WinesEntity w where w.wineAge = :wineAge")
+                    .setParameter("wineAge", wineAge)
+                    .list();
+
+            if (!winesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    winesByWineAge.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!winesByWineAge.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : winesByWineAge) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data with this wineAge from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return winesByWineAge;
+    }
+
+    @Override
+    public List<Wine> findWineByWineSugarContent(WineSugarContentEnum wineSugarContent) {
+        List<Wine> winesBySugarContent = new ArrayList<Wine>();
+        List<WinesEntity> winesEntities;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            winesEntities = session.createQuery("from WinesEntity w where w.wineSugarContent = :sugarContent")
+                    .setParameter("sugarContent", wineSugarContent)
+                    .list();
+
+            if (!winesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    winesBySugarContent.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!winesBySugarContent.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : winesBySugarContent) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data with this wineSugarContent from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return winesBySugarContent;
+    }
+
+    @Override
+    public List<Wine> findWineByWineSpiritContent(WineSpiritContentEnum wineSpiritContent) {
+        List<Wine> wineBySpiritContent = new ArrayList<Wine>();
+        List<WinesEntity> winesEntities;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            winesEntities = session.createQuery("from WinesEntity w where w.wineSpiritContent = :spiritContent")
+                    .setParameter("spiritContent", wineSpiritContent)
+                    .list();
+
+            if (!winesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    wineBySpiritContent.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!wineBySpiritContent.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : wineBySpiritContent) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data with this wineSpiritContent from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return wineBySpiritContent;
+    }
+
+    @Override
+    public List<Wine> findWineByWineCollection(WineCollectionEnum wineCollection) {
+        List<Wine> winesByCollection = new ArrayList<Wine>();
+        List<WinesEntity> winesEntities;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            winesEntities = session.createQuery("from WinesEntity w where w.wineCollection = :collection")
+                    .setParameter("collection", wineCollection)
+                    .list();
+
+            if (!winesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    winesByCollection.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!winesByCollection.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : winesByCollection) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data with this Collection from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return winesByCollection;
+    }
+
+    @Override
+    public Wine findWineById(Integer id) {
+        Wine wineById = null;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            wineById = createWineFromWinesEntity(
+                    (WinesEntity) session.createQuery("FROM WinesEntity w WHERE w.idWine = :id")
+                            .setParameter("id", id)
+                            .uniqueResult());
+
+            transaction.commit();
+
+            // TODO ддя отладки
+            if (wineById != null) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + ": \n" +
+                        wineById.getName() + " найден в БД.");
+
+            } else {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + ": \n" +
+                        "No data with this criterias");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return wineById;
     }
 }
