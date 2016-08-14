@@ -3,8 +3,10 @@ package org.itstep.prokopchik.cricova.command;
 
 import org.itstep.prokopchik.cricova.Client;
 import org.itstep.prokopchik.cricova.Company;
+import org.itstep.prokopchik.cricova.Wine;
 import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
+import org.itstep.prokopchik.cricova.database.dao.wine.WinesEntity;
 import org.itstep.prokopchik.cricova.logic.LoginLogic;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class LoginCommand implements ActionCommand {
 
@@ -124,6 +127,11 @@ public class LoginCommand implements ActionCommand {
                 String fio = lastName + " " + name + " " + middleName;
 
                 forRequestAttribute.put("email", login);
+
+                List<Wine> winesPrice = new WinesEntity().findAllWines();
+                forRequestAttribute.put("winesPrice", winesPrice);
+                forSessionAttr.put("winesPrice", winesPrice);
+
                 content.setRequestAttributes(forRequestAttribute);
                 content.insertAttributes(request);
 

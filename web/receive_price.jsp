@@ -54,44 +54,69 @@
         </div>
     </div>
 
-    <form name="loginForm" method="POST" action="controller">
-        <input type="hidden" name="command" value="receive_price"/>
-        <br/>e-mail:<br/>
-        <input type="text" name="new_email" value=${login}/>
+    <div class="row">
+        <div class="col-xs-2">
 
-        <div>Использовать мой зарегистрированный e-mail
-            <input type="checkbox" checked="checked" name="my_email_flag"/>
+            <form name="loginForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="receive_price"/>
+                <br/>e-mail:<br/>
+                <input type="text" name="new_email" value=${login}/>
+
+                <div>Использовать мой зарегистрированный e-mail
+                    <input type="checkbox" checked="checked" name="my_email_flag"/>
+                </div>
+
+                ${info} ${errorLoginPassMessage} ${wrongAction} ${nullPage}
+                <br/>
+                <input type="submit" value="Получить прайс продукции"/>
+
+            </form>
+
         </div>
+        <div class="col-xs-10">
+            <%--таблица товаров (price)--%>
+            <%--<table class="table table-bordered table-hover table-striped">--%>
+            <table class="table table-hover table-striped">
+                <%--<tr>--%>
+                <%--<th></th>--%>
+                <%--<th></th>--%>
+                <%--<th></th>--%>
+                <%----%>
+                <%--</tr>--%>
+                <foreach var="wine" items="${winesPrice}">
+                    <tr>
+                        <td>${wine.getImage()}</td>
+                        <%--<td>${wine.getName}</td>--%>
+                        <td>${wine.toString()}</td>
+                        <td>${wine.getPrice()}</td>
+                        <td>${wine.getAnnotation()}</td>
 
-        ${info} ${errorLoginPassMessage} ${wrongAction} ${nullPage}
-        <br/>
-        <input type="submit" value="Получить прайс продукции"/>
+                    </tr>
+                </foreach>
 
-    </form>
-
+            </table>
+        </div>
+    </div>
 
     <div class="row">
-        <div class="col-xs-1"></div>
-        <div class="col-xs-11">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <h4 class="bg-primary"> Контакты: </h4>
+            <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
+            <h4>Торговые представители в регионах: </h4>
 
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-8">
-                    <h4 class="bg-primary"> Контакты: </h4>
-                    <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
-                    <h4>Торговые представители в регионах: </h4>
-
-                    <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
-                </div>
-                <div class="col-xs-2"></div>
-            </div>
+            <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
         </div>
-
+        <div class="col-xs-2"></div>
     </div>
 
 
-    <script type="text/javascript" src="js/jquery-ui.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+</div>
 
+
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+
+</div>
 </body>
 </html>

@@ -21,6 +21,12 @@ public enum CommandEnum {
         }
     },
 
+    SHOW_PRICE {
+        {
+            this.command = new ShowPriceCommand();
+        }
+    },
+
     RECEIVE_PRICE {
         {
             this.command = new SenderCommand();
