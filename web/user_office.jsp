@@ -2,56 +2,30 @@
          pageEncoding="utf-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
-    <link href="css/bootstrap.css" rel="stylesheet">
+<jsp:include page="template_header.jsp"/>
 
-    <title>Личный кабинет</title>
-</head>
+<div class="row">
 
-<%--  для установления кодировки получаемых из веб-форм параметров --%>
-<%
-    String paramEncoding = application.getInitParameter("PARAMETER_ENCODING");
-    request.setCharacterEncoding(paramEncoding);
-
-%>
-
-<body class="main-background">
-<div class="container-fluid">
-
-    <div id="header" class="row">
-        <div class="col-xs-2">
-
-            <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
-
-        </div>
-        <div class="col-xs-6">
-            <h1>Торговый Дом &quotКрикова&quot</h1>
-        </div>
-
-        <div class="col-xs-2">
-            Личный кабинет<br/>пользователя:<br/> ${fio}<br/> (${login})
-        </div>
-
-        <div class="col-xs-2">
-            <form name="userOfficeLogOut" method="POST" action="controller">
-                <input type="hidden" name="command" value="logout"/>
-                <input type="submit" value="Выход"/>
-            </form>
-
-        </div>
+    <div class="col-xs-10">
+        Личный кабинет пользователя: ${fio} (${login})
     </div>
+    <div class="col-xs-2">
+        <form name="userOfficeLogOut" method="POST" action="controller">
+            <input type="hidden" name="command" value="logout"/>
+            <input type="submit" value="Выход"/>
+        </form>
+    </div>
+</div>
 
-    <div class="row">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8">
-            <h3> Изменение данных профиля </h3>
-            <h4>Заполните поля данных о себе, которые желаете изменить и нажмите кнопку "Изменить"</h4>
+<div class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        <h4>Изменение данных профиля </h4>
+        <h5>Заполните поля данных о себе, которые желаете изменить и нажмите кнопку "Изменить"</h5>
 
-            <h3>Изменить имя:</h3>
-
-            <div class="row">
+        <div class="row">
+            <div class="col-xs-2"> Изменить имя:</div>
+            <div class="col-xs-10">
                 <form class="form-horizontal" name="userOfficeChangeName" method="POST"
                       action="controller" accept-charset="utf-8">
 
@@ -81,9 +55,12 @@
                 </form>
             </div>
 
-            <h3>Изменить пароль:</h3>
+        </div>
 
-            <div class="row">
+
+        <div class="row">
+            <div class="col-xs-2">Изменить пароль:</div>
+            <div class="col-xs-10">
                 <form class="form-horizontal" name="userOfficeChangePassword" method="POST"
                       action="controller" accept-charset="utf-8">
 
@@ -112,59 +89,53 @@
                 </form>
             </div>
 
-            <h5>${updateUserDataMessage}</h5>
+        </div>
 
-            <form class="form-horizontal" name="changeContactData" method="POST" action="controller"
-                  accept-charset="utf-8">
-                <h3>Изменить контактные данные</h3>
+        <h5>${updateUserDataMessage}</h5>
 
-                <div class="form-group">
-                    <label for="changeMyContacts" class="control-label">
-                        Мои контактные данные:
-                    </label>
-                    <input type="text" id="changeMyContacts" name="new_contacts"
-                           value=${userContacts} class="form-control">
-                    <input type="hidden" name="command" value="change_user_contacts"/>
-                    <input type="submit" value="Изменить мои контакты" class="btn-warning btn-primary">
-                </div>
-            </form>
+        <div class="row">
+            <div class="col-xs-2">Изменить контактные данные</div>
+            <div class="col-xs-10">
+                <form class="form-horizontal" name="changeContactData" method="POST" action="controller"
+                      accept-charset="utf-8">
+
+                    <div class="form-group">
+                        <label for="changeMyContacts" class="control-label">
+                            Мои контактные данные:
+                        </label>
+                        <input type="text" id="changeMyContacts" name="new_contacts"
+                               value=${userContacts} class="form-control">
+                        <input type="hidden" name="command" value="change_user_contacts"/>
+                        <input type="submit" value="Изменить мои контакты" class="btn-warning btn-primary">
+                    </div>
+                </form>
+            </div>
 
             <h5>${updateUserContactsMessage}</h5>
-
-            <form class="form-horizontal" name="changeContactData" method="POST" action="controller"
-                  accept-charset="utf-8">
-
-                <div class="form-group">
-                    <label for="changeCompanyNotes" class="control-label">
-                        О компании ${companyName}:
-                    </label>
-                    <input type="text" id="changeCompanyNotes" name="new_company_notes"
-                           value=${companyNotes} class="form-control">
-                    <input type="hidden" name="command" value="change_company_notes"/>
-                    <input type="submit" value="Изменить информацию о компании" class="btn-warning btn-primary">
-                </div>
-
-            </form>
         </div>
-        <div class="col-xs-2"></div>
-    </div>
 
-    <div id="footer" class="row">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8">
-            <h4 class="bg-primary"> Контакты: </h4>
-            <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
-            <h4>Торговые представители в регионах: </h4>
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-8">
+                <form class="form-horizontal" name="changeContactData" method="POST" action="controller"
+                      accept-charset="utf-10">
 
-            <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
+                    <div class="form-group">
+                        <label for="changeCompanyNotes" class="control-label">
+                            О компании ${companyName}:
+                        </label>
+                        <input type="text" id="changeCompanyNotes" name="new_company_notes"
+                               value=${companyNotes} class="form-control">
+                        <input type="hidden" name="command" value="change_company_notes"/>
+                        <input type="submit" value="Изменить информацию о компании" class="btn-warning btn-primary">
+                    </div>
+
+                </form>
+            </div>
+
         </div>
-        <div class="col-xs-2"></div>
     </div>
-
-
-    <script type="text/javascript" src="js/jquery-ui.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-
+    <div class="col-xs-2"></div>
 </div>
-</body>
-</html>
+
+<jsp:include page="template_footer.jsp"/>

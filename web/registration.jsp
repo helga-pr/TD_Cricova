@@ -2,39 +2,19 @@
          pageEncoding="utf-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
-
-    <title>Торговый Дом &quotКрикова&quot</title>
-
-</head>
-
-<%--  для установления кодировки получаемых из веб-форм параметров --%>
+<jsp:include page="template_header.jsp"/>
+<%--  для установления кодировки получаемых из веб-форм параметров
 <%
     String paramEncoding = application.getInitParameter("PARAMETER_ENCODING");
     request.setCharacterEncoding(paramEncoding);
 
 %>
+--%>
+<div class="row">
+    <div class="col-xs-1"></div>
 
-<body class="main-background">
-<div class="container-fluid">
-
-    <div id="header" class="row">
-        <div class="col-xs-2">
-            <img src="resources/Shampanskoe-2.jpg" id="logo" alt="Cricova" class="img-circle img-responsive">
-        </div>
-
-        <div class="col-xs-8">
-            <h1>Торговый Дом &quotКрикова&quot</h1>
-        </div>
-        <div class="col-xs-2"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-1"></div>
-
-        <div class="col-xs-11">
+    <div class="col-xs-11">
+        <div class="row">
             <form class="form-horizontal" name="loginForm" method="POST" action="controller" accept-charset="utf-8">
                 <div class="col-xs-6">
                     <div class="row">
@@ -152,22 +132,6 @@
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-xs-2"></div>
-    <div class="col-xs-8">
-        <h4 class="bg-primary"> Контакты: </h4>
-        <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
-        <h4>Торговые представители в регионах: </h4>
-
-        <h4>Брест: +375-29-***-**-**; Гродно: +375-29-***-**-**; Витебск: +375-29-***-**-**; </h4>
-    </div>
-    <div class="col-xs-2"></div>
-</div>
 </div>
 
-<script type="text/javascript" src="js/jquery-ui.js"></script>
-<script type="text/javascript" src="js/bootstrap.js"></script>
-
-</body>
-</html>
+<jsp:include page="template_footer.jsp"/>

@@ -70,13 +70,13 @@ public class ChangeUserInfoCommand implements ActionCommand {
         String companyNotes = company.getNotes();
 
         forRequestAttribute.put("userName", name);
-        forRequestAttribute.put("userMiddleName", middleName);
+        forRequestAttribute.put("userMiddleName", middleName.isEmpty() ? "-" : middleName);
         forRequestAttribute.put("userLastName", lastName);
-        forRequestAttribute.put("userContacts", contacts);
+        forRequestAttribute.put("userContacts", contacts.isEmpty() ? "-" : contacts);
         forRequestAttribute.put("fio", fio);
         forRequestAttribute.put("login", login);
         forRequestAttribute.put("companyName", companyName);
-        forRequestAttribute.put("companyNotes", companyNotes);
+        forRequestAttribute.put("companyNotes", companyNotes.isEmpty() ? "-" : companyNotes);
 
         content.setRequestAttributes(forRequestAttribute);
         content.insertAttributes(request);

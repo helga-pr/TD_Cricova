@@ -55,6 +55,9 @@ public class ShowPriceCommand implements ActionCommand {
 
         forRequestAttribute.put("user", admin.getLogin());
 
+        content.setRequestAttributes(forRequestAttribute);
+        content.insertAttributes(request);
+
         return "/price_administration.jsp";
     }
 }
