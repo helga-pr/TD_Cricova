@@ -242,7 +242,7 @@ public class WinesEntity implements Serializable, DAOWine {
                 System.out.println(newWine.getName() + " добавлен в БД. ");
 
             } else {
-                System.out.println("Ошибка. Новая статья не сохранена в БД!");
+                System.out.println("Ошибка. Новый пункт прайса не сохранен в БД!");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {

@@ -2,9 +2,9 @@ package org.itstep.prokopchik.cricova;
 
 public enum WineColorEnum {
 
-    RED_WINE("redWine"),
-    WHITE_WINE("whiteWine"),
-    ROSE_WINE("roseWine");
+    RED("red"),
+    WHITE("white"),
+    ROSE("rose");
 
     private String value;
 
@@ -14,5 +14,10 @@ public enum WineColorEnum {
 
     public String getValue() {
         return value;
+    }
+
+    public String getValueToString() {
+        return value == "red" ? "Красное " : (
+                value == "white" ? "Белое " : "Розовое ");
     }
 }

@@ -2,8 +2,8 @@ package org.itstep.prokopchik.cricova;
 
 public enum WineTypeEnum {
 
-    STILL_WINE("stillWine"),
-    SPARKLING_WINE("sparklingWine");
+    STILL_WINE("still_wine"),
+    SPARKLING_WINE("sparkling_wine");
 
     private String value;
 
@@ -14,4 +14,10 @@ public enum WineTypeEnum {
     public String getValue() {
         return value;
     }
+
+    public String getValueToString() {
+        return
+                value == "sparkling_wine" ? "Игристое" : "";
+    }
+
 }

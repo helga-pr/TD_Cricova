@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <jsp:include page="template_header.jsp"/>
@@ -44,6 +45,7 @@
 
     </div>
     <div class="col-xs-10">
+
         <%--таблица товаров (price)--%>
         <%--<table class="table table-bordered table-hover table-striped">--%>
         <table class="table table-hover table-striped">
@@ -53,16 +55,16 @@
             <%--<th></th>--%>
             <%----%>
             <%--</tr>--%>
-            <foreach var="wine" items="${winesPrice}">
+                <c:forEach var="wine" items="${winesPrice}">
                 <tr>
                     <td>${wine.getImage()}</td>
                     <%--<td>${wine.getName}</td>--%>
                     <td>${wine.toString()}</td>
-                    <td>${wine.getPrice()}</td>
+                    <td>${wine.getPrice()} руб. без НДС</td>
                     <td>${wine.getAnnotation()}</td>
 
                 </tr>
-            </foreach>
+                </c:forEach>
 
         </table>
     </div>

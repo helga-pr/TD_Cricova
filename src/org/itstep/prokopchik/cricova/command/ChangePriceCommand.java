@@ -1,10 +1,8 @@
 package org.itstep.prokopchik.cricova.command;
 
 import org.itstep.prokopchik.cricova.Admin;
-import org.itstep.prokopchik.cricova.Wine;
 import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 import org.itstep.prokopchik.cricova.database.dao.admin.AdminsEntity;
-import org.itstep.prokopchik.cricova.database.dao.wine.WinesEntity;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,15 +10,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
-public class ShowPriceCommand implements ActionCommand {
+public class ChangePriceCommand implements ActionCommand {
 
     private static final String SESSION_ATTR_NAME_LOGIN = "login";
     private static final String SESSION_ATTR_WINES_PRICE = "winesPrice";
-    private static final String PARAM_NAME_WINES_PRICE = "winesPrice";
 
-    List<Wine> winesPrice;
+    private static final String ATTR_NAME_WINES_PRICE = "winesPrice";
+    private static final String ATTR_NAME_PRODUCT_ID_FOR_DELETE = "changedProductId";
 
     @Override
     public String execute(HttpServletRequest request) throws IOException, ServletException {
@@ -54,11 +51,10 @@ public class ShowPriceCommand implements ActionCommand {
         HashMap<String, Object> forRequestAttribute = new HashMap<String, Object>();
         HashMap<String, Object> forSessionAttr = content.getSessionAttributes();
 
-        //получение из БД прайса продукции и сохранение его в аттрибуты запроса, аттрибуты сессии
-        winesPrice = new WinesEntity().findAllWines();
-        forRequestAttribute.put(PARAM_NAME_WINES_PRICE, winesPrice);
-        forSessionAttr.put(SESSION_ATTR_WINES_PRICE, winesPrice);
+        //прайс продукции сохраняется как аттрибут запроса для передачи на страницу
+        forRequestAttribute.put(ATTR_NAME_WINES_PRICE, content.getSessionAttributes().get(SESSION_ATTR_WINES_PRICE));
 
+        forRequestAttribute.put("user", admin.getLogin());
 
         content.setRequestAttributes(forRequestAttribute);
         content.insertAttributes(request);

@@ -13,15 +13,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class LoginCommand implements ActionCommand {
 
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
     private static final String PARAM_NAME_ADMINFLAG = "adminflag";
+    private static final String PARAM_NAME_WINES_PRICE = "winesPrice";
+    private static final String PARAM_NAME_FIO = "fio";
+
+    private static final String SESSION_ATTR_WINES_PRICE = "winesPriceSessionAttr";
+
+    List<Wine> winesPrice;
 
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
@@ -75,10 +79,6 @@ public class LoginCommand implements ActionCommand {
             forSessionAttr.put("role", flag);
             forSessionAttr.put("login", login);
 
-            content.setSessionAttributes(forSessionAttr);
-
-            content.insertSessionAttributes(request);
-
             //TODO Для отладки
             System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
                     "Class = ChangeUserInfoCommand;" +
@@ -93,18 +93,13 @@ public class LoginCommand implements ActionCommand {
             if ("администратор".equals(flag)) {
 
                 //страница администратора
-                //page = ConfigurationManager.getProperty("path.page.main");
-                //request.setAttribute("user", login);
                 forRequestAttribute.put("user", login);
-                content.setRequestAttributes(forRequestAttribute);
-                content.insertAttributes(request);
 
                 //TODO Для отладки
                 System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
                         "Из блока if (админ) класса LoginCommand");
                 System.out.println("flag = " + flag +
                         "(from sessionAttr flag = " + content.getSessionAttributes().get("role") + ")");
-
 
                 page = "/administration.jsp";
             }
@@ -125,15 +120,13 @@ public class LoginCommand implements ActionCommand {
                 String middleName = client.getMiddleName();
                 String lastName = client.getLastname();
                 String fio = lastName + " " + name + " " + middleName;
+                forRequestAttribute.put(PARAM_NAME_FIO, fio);
+                forRequestAttribute.put(PARAM_NAME_LOGIN, login);
 
-                forRequestAttribute.put("email", login);
-
-                List<Wine> winesPrice = new WinesEntity().findAllWines();
+                //получение из БД прайса продукции и сохранение его в аттрибуты сессии
+                winesPrice = new WinesEntity().findAllWines();
                 forRequestAttribute.put("winesPrice", winesPrice);
-                forSessionAttr.put("winesPrice", winesPrice);
-
-                content.setRequestAttributes(forRequestAttribute);
-                content.insertAttributes(request);
+                forSessionAttr.put("winesPriceSessionAttr", winesPrice);
 
                 //TODO Для отладки
                 System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
@@ -143,8 +136,8 @@ public class LoginCommand implements ActionCommand {
                         "( из класса SessionRequestContent = " + content.getRequestAttributes().get("fio"));
                 System.out.println("login = " + login +
                         "( из класса SessionRequestContent = " + content.getRequestAttributes().get("login"));
+                System.out.println("Из блока (else if (клиент)) класса LoginCommand:");
                 System.out.println("Из блока (else if (клиент)) класса LoginCommand");
-
 
                 page = "/receive_price.jsp";
 
@@ -170,7 +163,40 @@ public class LoginCommand implements ActionCommand {
 
         // запись атрибутов сессии пользователя и аттрибутов запроса
         // с использованием специального класса SessionRequestContent
+        content.setRequestAttributes(forRequestAttribute);
+        content.setSessionAttributes(forSessionAttr);
+
         content.insertAttributes(request);
+        content.insertSessionAttributes(request);
+
+        //TODO для отладки
+        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                "из SESSION_ATTR_WINES_PRICE:");
+        if (forSessionAttr.containsKey(SESSION_ATTR_WINES_PRICE)) {
+            for (Wine t : (List<Wine>) forSessionAttr.get(SESSION_ATTR_WINES_PRICE)) {
+
+                System.out.println("t => " + t);
+            }
+        }
+        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                "из переменной winesPrice:");
+
+        if (winesPrice != null) {
+            for (Wine t : winesPrice) {
+
+                System.out.println("t => " + t);
+            }
+        }
+
+        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                "аттрибут wines_price Из запроса (request attributes): ");
+
+        if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {
+            for (Wine t : (List<Wine>) forRequestAttribute.get(PARAM_NAME_WINES_PRICE)) {
+
+                System.out.println("t => " + t);
+            }
+        }
 
         return page;
 

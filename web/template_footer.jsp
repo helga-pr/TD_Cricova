@@ -1,7 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<div class="row">
+﻿<div class="row">
     <div class="col-xs-2"></div>
     <div class="col-xs-8">
         <h4 class="bg-primary"> Контакты: </h4>
@@ -13,10 +10,8 @@
     <div class="col-xs-2"></div>
 </div>
 
+<%--закрывающий тег для тега (class="conteiner-fluid) из template_header.jsp--%>
 </div>
-
-<script type="text/javascript" src="js/jquery-ui.js"></script>
-<script type="text/javascript" src="js/bootstrap.js"></script>
 
 </body>
 </html>

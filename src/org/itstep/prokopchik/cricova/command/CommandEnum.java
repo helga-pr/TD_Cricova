@@ -15,9 +15,34 @@ public enum CommandEnum {
         }
     },
 
+    TO_ADMINISTRATION_PAGE {
+        {
+            this.command = new ToAdministrationPageCommand();
+        }
+    },
+
     LOGOUT {
         {
             this.command = new LogoutCommand();
+        }
+    },
+
+    ADD_PRODUCT {
+        {
+            this.command = new AddProductCommand();
+        }
+    },
+
+
+    CHANGE_PRODUCT {
+        {
+            this.command = new ChangeProductCommand();
+        }
+    },
+
+    DELETE_PRODUCT {
+        {
+            this.command = new DeleteProductCommand();
         }
     },
 

@@ -1,12 +1,12 @@
 package org.itstep.prokopchik.cricova;
 
 public enum WineCollectionEnum {
-
-    KRUGHEVA_COLLECTION("KrughevaCollection"),
-    CRAMELE_COLLECTION("CrameleCollection"),
-    PAPIRUS_COLLECTION("PapirusCollection"),
+    //('KRUGHEVA','CRAMELE','PAPIRUS','STAROCRICOVSKOE','NONE')
+    KRUGHEVA("Krugheva"),
+    CRAMELE("Cramele"),
+    PAPIRUS("Papirus"),
     NONE("-"),
-    STAROCRICOVSKOE_COLLECTION("StarocricovskoeCollection");
+    STAROCRICOVSKOE("Starocricovskoe");
 
 
     private String value;

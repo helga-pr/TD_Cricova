@@ -1,5 +1,11 @@
 package org.itstep.prokopchik.cricova.command;
 
+
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.WebResource;
+//import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+//import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.itstep.prokopchik.cricova.logic.MailLogic;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +58,7 @@ public class SenderCommand implements ActionCommand {
         return page;
     }
 
-//    public static ClientResponse sendSimpleMessage() {
+    //   public static ClientResponse sendSimpleMessage() {
 //
 //        Client client = Client.create();
 //        client.addFilter(new HTTPBasicAuthFilter("api",
@@ -68,6 +74,6 @@ public class SenderCommand implements ActionCommand {
 //        //TODO ошибка в PageAttributes.MediaType.APPLICATION_FORM_URLENCODED
 //        //return webResource.type(PageAttributes.MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
 //        return null;
-//    }
+    //  }
 
 }

@@ -120,13 +120,14 @@ public class Wine extends Product {
 
     @Override
     public String toString() {
-        return "Wine{" + super.toString() +
-                " (wineType=" + wineType +
-                ", wineColor=" + wineColor +
-                ", wineAge=" + wineAge +
-                ", wineSugarContent=" + wineSugarContent +
-                ", wineSpiritContent=" + wineSpiritContent +
-                ", wineCollection=" + wineCollection +
-                "} ";
+        return "Вино " + super.toString() +
+                " (" + wineType.getValueToString() +
+                " " + wineColor.getValueToString() +
+                " " + wineAge.getValueToString() +
+                " " + wineSugarContent.getValueToString() +
+                " Спирт - " + wineSpiritContent.getValue() +
+                " " + (wineCollection.getValue() == "-" ? "" :
+                " Коллекция вин \'" + wineCollection.getValue() + "\'") +
+                ")";
     }
 }

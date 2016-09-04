@@ -2,6 +2,9 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
 
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>

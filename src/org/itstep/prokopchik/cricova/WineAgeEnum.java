@@ -2,9 +2,9 @@ package org.itstep.prokopchik.cricova;
 
 public enum WineAgeEnum {
 
-    ORDINARY_WINE("ordinaryWine"),
-    OLD_WINE("oldWine"),
-    COLLECTION_WINE("collectionWine");
+    ORDINARY_WINE("ordinary_wine"),
+    OLD_WINE("old_wine"),
+    COLLECTION_WINE("collection_wine");
 
     private String value;
 
@@ -14,5 +14,11 @@ public enum WineAgeEnum {
 
     public String getValue() {
         return value;
+    }
+
+    public String getValueToString() {
+        return value == "ordinary_wine" ? "Ординарное" :
+                value == "old_wine" ? "Выдержанное" :
+                        value == "collection_wine" ? "Коллекционное" : "";
     }
 }

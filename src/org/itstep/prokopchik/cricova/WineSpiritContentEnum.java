@@ -14,4 +14,5 @@ public enum WineSpiritContentEnum {
     public String getValue() {
         return value;
     }
+
 }

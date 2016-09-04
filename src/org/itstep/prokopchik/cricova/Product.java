@@ -2,7 +2,7 @@ package org.itstep.prokopchik.cricova;
 
 abstract class Product {
 
-    private Integer id;
+    protected Integer id;
     private String name;
     private Integer price;
     private Integer ndsRate;
@@ -86,13 +86,6 @@ abstract class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", ndsRate=" + ndsRate +
-                ", image=" + image +
-                ", annotation='" + annotation + '\'' +
-                '}';
+        return '\'' + name + '\'';
     }
 }

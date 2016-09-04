@@ -1,12 +1,17 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <jsp:include page="template_header.jsp"/>
 
 <div class="row">
     <div class="col-xs-6">
-        <h3>Администрирование</h3>
+        <form name="changeUserInfo" method="POST" action="controller">
+            <input type="hidden" name="command" value="to_administration_page"/>
+            <input type="submit" value="Администрирование" class="btn-link"/>
+        </form>
 
     </div>
 
@@ -52,36 +57,62 @@
 
 
     </div>
-    <div class="col-xs-1"></div>
-    <div class="col-xs-9">
-        <%--таблица товаров (price)--%>
-        <table class="table table-bordered table-hover table-striped">
-            <%--<table class="table table-hover table-striped">--%>
-            <tr>
-                <th></th>
-                <th></th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Annotation</th>
+    <div class="col-xs-8">
+        <%--добавить новый товар в БД--%>
+        <form class="form-horizontal" name="addNewProduct" method="post" action="controller">
+            <%--Ввод наименования--%>
+            <form class="form-group">
+                <label for="newProductName" class="control-label">Наименование</label>
+                <input id="newProductName" class="form-control"
+                       placeholder="Введите наименование, например, Вино Кагор или Алиготе"/>
+            </form>
+            <%--Фото товара (необязательно)--%>
+            <form class="form-group">
+                <label for="newProductImage" class="control-label">Изображение</label>
+                <input id="newProductImage" class="form-control" type="file" name="image"
+                       placeholder="Выберите файл изображения товара"/>
+            </form>
+            <%--Стоимость--%>
+            <form class="form-group">
+                <label for="newProductPrice" class="control-label">Цена без НДС</label>
+                <input id="newProductPrice" class="form-control"
+                       placeholder="Введите цену единицы товара (без НДС)"/>
+            </form>
+            <%--Ставка НДС--%>
+            <form class="form-group">
+                <label for="newProductNDS" class="control-label">Ставка НДС</label>
+                <input id="newProductNDS" class="form-control"
+                       placeholder="Введите ставку НДС в %"/>
+            </form>
+            <%--ввод разлиных характеристик нового продукта путем выбора из списка--%>
+            <form class="form-group">
 
-            </tr>
-            <c:foreach var="wine" items="${winesPrice}">
-                <tr>
-                    <td>
-                        <input type="radio" name="changedProduct" value=${wine.getId}/>
-                    </td>
-                    <td>${wine.getImage()}</td>
-                    <%--<td>${wine.getName}</td>--%>
-                    <td>${wine.toString()}</td>
-                    <td>${wine.getPrice()}</td>
-                    <td>${wine.getAnnotation()}</td>
+                <fieldset>
+                    <legend style="font-weight: bold">Основные характеристики товара:</legend>
 
-                </tr>
-            </c:foreach>foreach>
+                    <label for="wineType" class="control-label">Тип вина</label>
+                    <select id="wineType" class="form-control" name="wineType">
+                        <c:forEach var="type" items="${wineTypeEnum}">
+                            <option>type</option>
+                        </c:forEach>
+                    </select>
 
-        </table>
+                    <label for="wineColor" class="control-label">Цвет вина</label>
+                    <select id="wineColor" class="form-control" name="wineColor">
+                        <c:forEach var="color" items="${wineColorEnum}">
+                            <option>color</option>
+                        </c:forEach>
+                    </select>
+
+
+                </fieldset>
+            </form>
+
+
+        </form>
 
     </div>
+    <div class="col-xs-2"></div>
 </div>
 
 
