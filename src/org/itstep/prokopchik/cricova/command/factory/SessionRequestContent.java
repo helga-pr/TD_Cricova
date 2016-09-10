@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,19 +35,21 @@ public class SessionRequestContent {
             String paramName = (String) parameterNames.nextElement();
             String[] paramValues = {request.getParameter(paramName)};
 
-            System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+ /*           System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
                     "Class = SessionRequestContent: Method extractParametersValues: " +
                     "\nparamValues количество элеменов = " + paramValues.length +
                     "; " + paramName + " => " + paramValues[0]);
-
+*/
             paramValues[0] = convertingInUtf8(paramValues[0]);
 
             requestParameters.put(paramName, paramValues);
         }
+/*
         //TODO для отладки
         System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: Method extractParametersValues: " +
                 "\nrequestParameters количество элеменов = " + this.requestParameters.size());
+*/
 
     }
 
@@ -78,11 +78,11 @@ public class SessionRequestContent {
                 request.setAttribute((String) entry.getKey(), entry.getValue());
             }
         }
-        //TODO для отладки
+ /*       //TODO для отладки
         System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: method insertAttributes: " +
                 "\nrequestAttributes количество элеменов = " + this.requestAttributes.size());
-
+*/
     }
 
     /**
@@ -99,11 +99,11 @@ public class SessionRequestContent {
         //получение (или создание) сессии пользователя
         HttpSession session = request.getSession();
 
-        //TODO для отладки
+   /*     //TODO для отладки
         System.out.println(new SimpleDateFormat("dd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: " +
                 "\nsession = " + session);
-
+*/
         Enumeration attributeNames = session.getAttributeNames();
 
         while (attributeNames.hasMoreElements()) {
@@ -112,11 +112,11 @@ public class SessionRequestContent {
             Object attrValue = session.getAttribute(attrName);
             this.sessionAttributes.put(attrName, attrValue);
 
-            //TODO для отладки
+          /*  //TODO для отладки
             System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                     "Class = SessionRequestContent: Method extractSessionAttributeValues: " +
                     "\nsessionAttributeValues количество элеменов = " + this.sessionAttributes.size() +
-                    "\n " + attrName + " => " + attrValue);
+                    "\n " + attrName + " => " + attrValue);*/
         }
     }
 
@@ -132,11 +132,11 @@ public class SessionRequestContent {
                 session.setAttribute((String) entry.getKey(), entry.getValue());
             }
         }
-        //TODO для отладки
+    /*    //TODO для отладки
         System.out.println(new SimpleDateFormat("\ndd.MM.yyyy hh:mm:ss ").format(new Date()) +
                 "Class = SessionRequestContent: Method insertSessionAttributes: " +
                 "\nsessionAttribute количество элеменов = " + this.sessionAttributes.size());
-
+*/
     }
 
     /**

@@ -52,9 +52,9 @@ public enum CommandEnum {
         }
     },
 
-    RECEIVE_PRICE {
+    CHANGE_PRICE_BY_CRITERIA {
         {
-            this.command = new SenderCommand();
+            this.command = new ChangePriceByCriteriaCommand();
         }
     },
 

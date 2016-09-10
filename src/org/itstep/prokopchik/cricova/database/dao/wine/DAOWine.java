@@ -27,16 +27,23 @@ interface DAOWine {
 
     List<Wine> findWineByName(String name);
 
-    List<Wine> findWineByWineType(WineTypeEnum wineType);
+    List<Wine> findWineByWineType(String wineType);
 
-    List<Wine> findWineByWineColor(WineColorEnum wineColor);
+    List<Wine> findWineByWineColor(String wineColor);
 
-    List<Wine> findWineByWineAge(WineAgeEnum wineAge);
+    List<Wine> findWineByWineAge(String wineAge);
 
-    List<Wine> findWineByWineSugarContent(WineSugarContentEnum wineSugarContent);
+    List<Wine> findWineByWineSugarContent(String wineSugarContent);
 
-    List<Wine> findWineByWineSpiritContent(WineSpiritContentEnum wineSpiritContent);
+    List<Wine> findWineByWineSpiritContent(String wineSpiritContent);
 
-    List<Wine> findWineByWineCollection(WineCollectionEnum wineCollection);
+    List<Wine> findWineByWineCollection(String wineCollection);
+
+    List<Wine> findWineByCriteria(WineTypeEnum wineType,
+                                  WineAgeEnum wineAge,
+                                  WineColorEnum wineColor,
+                                  WineSugarContentEnum wineSugarContent,
+                                  WineSpiritContentEnum wineSpiritContent,
+                                  WineCollectionEnum wineCollection);
 
 }

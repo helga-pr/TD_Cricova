@@ -6,12 +6,70 @@
 <jsp:include page="template_header.jsp"/>
 
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-1">
         <h3>Администрирование</h3>
 
     </div>
 
-    <div class="col-xs-4">
+    <div class="col-xs-7">
+        <form name="choiceCriteriaForProductPrice" method="POST" action="controller">
+            <input type="hidden" name="command" value="change_price_by_criteria"/>
+            <input type="submit" value="Составить прайс согласно выбранным критериям" class="btn"/>
+
+            <select name="wineTypeSelected"><%--Тип (тихое или игристое) вина выбрать--%>
+                <%--Тип вина:--%>
+                <option selected>все типы вин</option>
+                <c:forEach var="enumUnit" items="${wineTypeEnum}">
+                    <option>${enumUnit.getValueToString()}</option>
+                </c:forEach>
+            </select>
+
+            <select name="wineAgeSelected"><%--Выдержку вина выбрать--%>
+                <%--Выдержка вина:--%>
+                <option selected>все вина по выдержке</option>
+                <c:forEach var="enumUnit" items="${wineAgeEnum}">
+                    <option>${enumUnit.getValueToString()}</option>
+                </c:forEach>
+            </select>
+
+            <select name="wineColorSelected"><%--Цвет вина выбрать--%>
+                <%--Цвет вина:--%>
+                <option selected>все вина по цвету</option>
+                <c:forEach var="enumUnit" items="${wineColorEnum}">
+                    <option>${enumUnit.getValueToString()}</option>
+                </c:forEach>
+            </select>
+
+            <p></p>
+
+            <select name="wineSugarSelected"><%--Содержание сахара вина выбрать--%>
+                <%--Содержание сахара в вине:--%>
+                <option selected>все вина по содерж. сахара</option>
+                <c:forEach var="enumUnit" items="${wineSugarEnum}">
+                    <option>${enumUnit.getValueToString()}</option>
+                </c:forEach>
+            </select>
+
+            <select name="wineSpiritSelected"><%--Крепость вина выбрать--%>
+                <%--Содержание спирта в вине:--%>
+                <option selected>все вина по крепости</option>
+                <c:forEach var="enumUnit" items="${wineSpiritEnum}">
+                    <option>${enumUnit.getValueToString()}</option>
+                </c:forEach>
+            </select>
+
+            <select name="wineCollectionSelected"><%--Коллекцию вина выбрать--%>
+                <%--Вино из коллекции:--%>
+                <option selected>вина из всех коллекций</option>
+                <c:forEach var="enumUnit" items="${wineCollectionEnum}">
+                    <option>${enumUnit.getValueToString()}</option>
+                </c:forEach>
+            </select>
+        </form>
+
+    </div>
+
+    <div class="col-xs-2">
         Администратор: ${login}
 
     </div>

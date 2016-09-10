@@ -8,6 +8,7 @@ public enum WineTypeEnum {
     private String value;
 
     private WineTypeEnum(String value) {
+
         this.value = value;
     }
 
@@ -16,8 +17,10 @@ public enum WineTypeEnum {
     }
 
     public String getValueToString() {
+
         return
-                value == "sparkling_wine" ? "Игристое" : "";
+                value == "sparkling_wine" ? "Игристое" : "Тихое";
+
     }
 
 }

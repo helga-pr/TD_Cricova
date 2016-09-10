@@ -271,7 +271,7 @@ public class WinesEntity implements Serializable, DAOWine {
             newWine.setWineColor(WineColorEnum.valueOf(winesEntity.getWineColor()));
             newWine.setWineAge(WineAgeEnum.valueOf(winesEntity.getWineAge()));
             newWine.setWineSugarContent(WineSugarContentEnum.valueOf(winesEntity.getWineSugarContent()));
-            newWine.setWineSpiritContent(WineSpiritContentEnum.valueOf(winesEntity.getWineSpiritContent()));
+            newWine.setWineSpiritContent(WineSpiritContentEnum.valueOf(winesEntity.getWineSpiritContent().toUpperCase()));
             newWine.setWineCollection(WineCollectionEnum.valueOf(winesEntity.getWineCollection()));
         }
         return newWine;
@@ -385,7 +385,9 @@ public class WinesEntity implements Serializable, DAOWine {
     }
 
     @Override
-    public List<Wine> findWineByWineType(WineTypeEnum wineType) {
+    public List<Wine> findWineByWineType(String wineType) {
+
+
         List<Wine> winesByType = new ArrayList<Wine>();
         List<WinesEntity> winesEntities;
 
@@ -395,7 +397,7 @@ public class WinesEntity implements Serializable, DAOWine {
             Transaction transaction = session.beginTransaction();
 
             winesEntities = session.createQuery("from WinesEntity w where w.wineType = :wineType")
-                    .setParameter("wineType", wineType)
+                    .setParameter("wineType", wineType.toLowerCase())
                     .list();
 
             if (!winesEntities.isEmpty()) {
@@ -431,7 +433,7 @@ public class WinesEntity implements Serializable, DAOWine {
     }
 
     @Override
-    public List<Wine> findWineByWineColor(WineColorEnum wineColor) {
+    public List<Wine> findWineByWineColor(String wineColor) {
         List<Wine> wineByColor = new ArrayList<Wine>();
         List<WinesEntity> winesEntities;
 
@@ -441,7 +443,7 @@ public class WinesEntity implements Serializable, DAOWine {
             Transaction transaction = session.beginTransaction();
 
             winesEntities = session.createQuery("from WinesEntity w where w.wineColor = :wineColor")
-                    .setParameter("wineColor", wineColor)
+                    .setParameter("wineColor", wineColor.toLowerCase())
                     .list();
 
             if (!winesEntities.isEmpty()) {
@@ -477,7 +479,7 @@ public class WinesEntity implements Serializable, DAOWine {
     }
 
     @Override
-    public List<Wine> findWineByWineAge(WineAgeEnum wineAge) {
+    public List<Wine> findWineByWineAge(String wineAge) {
         List<Wine> winesByWineAge = new ArrayList<Wine>();
         List<WinesEntity> winesEntities;
 
@@ -487,7 +489,7 @@ public class WinesEntity implements Serializable, DAOWine {
             Transaction transaction = session.beginTransaction();
 
             winesEntities = session.createQuery("from WinesEntity w where w.wineAge = :wineAge")
-                    .setParameter("wineAge", wineAge)
+                    .setParameter("wineAge", wineAge.toLowerCase())
                     .list();
 
             if (!winesEntities.isEmpty()) {
@@ -523,7 +525,7 @@ public class WinesEntity implements Serializable, DAOWine {
     }
 
     @Override
-    public List<Wine> findWineByWineSugarContent(WineSugarContentEnum wineSugarContent) {
+    public List<Wine> findWineByWineSugarContent(String wineSugarContent) {
         List<Wine> winesBySugarContent = new ArrayList<Wine>();
         List<WinesEntity> winesEntities;
 
@@ -533,7 +535,7 @@ public class WinesEntity implements Serializable, DAOWine {
             Transaction transaction = session.beginTransaction();
 
             winesEntities = session.createQuery("from WinesEntity w where w.wineSugarContent = :sugarContent")
-                    .setParameter("sugarContent", wineSugarContent)
+                    .setParameter("sugarContent", wineSugarContent.toLowerCase())
                     .list();
 
             if (!winesEntities.isEmpty()) {
@@ -569,7 +571,7 @@ public class WinesEntity implements Serializable, DAOWine {
     }
 
     @Override
-    public List<Wine> findWineByWineSpiritContent(WineSpiritContentEnum wineSpiritContent) {
+    public List<Wine> findWineByWineSpiritContent(String wineSpiritContent) {
         List<Wine> wineBySpiritContent = new ArrayList<Wine>();
         List<WinesEntity> winesEntities;
 
@@ -579,7 +581,7 @@ public class WinesEntity implements Serializable, DAOWine {
             Transaction transaction = session.beginTransaction();
 
             winesEntities = session.createQuery("from WinesEntity w where w.wineSpiritContent = :spiritContent")
-                    .setParameter("spiritContent", wineSpiritContent)
+                    .setParameter("spiritContent", wineSpiritContent.toLowerCase())
                     .list();
 
             if (!winesEntities.isEmpty()) {
@@ -615,7 +617,7 @@ public class WinesEntity implements Serializable, DAOWine {
     }
 
     @Override
-    public List<Wine> findWineByWineCollection(WineCollectionEnum wineCollection) {
+    public List<Wine> findWineByWineCollection(String wineCollection) {
         List<Wine> winesByCollection = new ArrayList<Wine>();
         List<WinesEntity> winesEntities;
 
@@ -625,7 +627,7 @@ public class WinesEntity implements Serializable, DAOWine {
             Transaction transaction = session.beginTransaction();
 
             winesEntities = session.createQuery("from WinesEntity w where w.wineCollection = :collection")
-                    .setParameter("collection", wineCollection)
+                    .setParameter("collection", wineCollection.toLowerCase())
                     .list();
 
             if (!winesEntities.isEmpty()) {
@@ -698,4 +700,67 @@ public class WinesEntity implements Serializable, DAOWine {
 
         return wineById;
     }
+
+
+    @Override
+    public List<Wine> findWineByCriteria(WineTypeEnum wineType,
+                                         WineAgeEnum wineAge,
+                                         WineColorEnum wineColor,
+                                         WineSugarContentEnum wineSugarContent,
+                                         WineSpiritContentEnum wineSpiritContent,
+                                         WineCollectionEnum wineCollection) {
+
+        List<Wine> winesByCriteria = new ArrayList<Wine>();
+        List<WinesEntity> winesEntities;
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Transaction transaction = session.beginTransaction();
+            String hquery = "from WinesEntity w where w.wineType = :wineType and w.wineAge = :wineAge and w.wineColor = :wineColor and w.wineSpiritContent = :wineSpirit and w.wineSugarContent = :wineSugar and w.wineCollection = :wineCollection";
+
+            winesEntities = session.createQuery(hquery)
+                    .setParameter("wineType", wineType)
+                    .setParameter("wineAge", wineAge)
+                    .setParameter("wineColor", wineColor)
+                    .setParameter("wineSugar", wineSugarContent)
+                    .setParameter("wineSpirit", wineSpiritContent)
+                    .setParameter("wineCollection", wineCollection)
+                    .list();
+
+
+            if (!winesEntities.isEmpty()) {
+                Wine wine;
+
+                for (WinesEntity winesEntity : winesEntities) {
+                    wine = createWineFromWinesEntity(winesEntity);
+                    winesByCriteria.add(wine);
+                }
+            }
+            transaction.commit();
+
+            // TODO для отладки (удалить или закомментировать)
+            if (!winesByCriteria.isEmpty()) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + " =>");
+                for (Wine wine : winesByCriteria) {
+                    System.out.println(wine);
+                }
+            } else {
+                System.out.println("No data with this criteria from table wines!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+
+        return winesByCriteria;
+
+    }
+
+
 }

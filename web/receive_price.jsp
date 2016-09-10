@@ -6,9 +6,179 @@
 <jsp:include page="template_header.jsp"/>
 
 <div class="row">
-    <div class="col-xs-8"></div>
-    <div class="col-xs-2">
-        Пользователь:<br/> ${fio}<br/> (${login})
+
+    <div class="col-xs-1">
+
+
+        Выбор критерия:
+    </div>
+    <div class="col-xs-8">
+
+        <div class="row">
+            <div class="col-xs-4">
+                <%--Тип (тихое или игристое) вина выбрать--%>
+                <form name="choiceCriteriaForProductPrice" method="POST" action="controller">
+                    <input type="hidden" name="command" value="change_price_by_criteria"/>
+                    <select name="wineTypeSelected" class="small">
+                        <%--Тип вина:--%>
+                        <%--по умолчанию все вина выводятся в таблицу из БД--%>
+                        <option selected>все типы вин</option>
+                        <%--Если выбран какой-то один тип вина
+                        то таблица обнавляется (устанавливается "фильтр")
+                        и в строке выбора остается выбранный элемент после обновления таблицы
+                        --%>
+                        <c:forEach var="enumUnit" items="${wineTypeEnum}">
+                            <c:choose>
+                                <c:when test="${enumUnit.getValue() == chosenCriteria}">
+                                    <option selected>${enumUnit.getValue()}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option>${enumUnit.getValue()}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                    <input type="submit" value="=>" class="small"/>
+                </form>
+            </div>
+
+
+            <%--Содержание сахара вина выбрать--%>
+            <div class="col-xs-4">
+                <form name="choiceCriteriaForProductPrice" method="POST" action="controller">
+                    <input type="hidden" name="command" value="change_price_by_criteria"/>
+                    <select name="wineSugarSelected" class="small">
+                        <%--Содержание сахара в вине:--%>
+                        <option selected>все вина по содерж. сахара</option>
+                        <%--Если выбран какой-то один тип вина
+                            то таблица обнавляется (устанавливается "фильтр")
+                            и в строке выбора остается выбранный элемент после обновления таблицы--%>
+                        <c:forEach var="enumUnit" items="${wineSugarEnum}">
+                            <c:choose>
+                                <c:when test="${enumUnit.getValue() == chosenCriteria}">
+                                    <option selected>${enumUnit.getValue()}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option>${enumUnit.getValue()}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                    <input type="submit" value="=>" class="small"/>
+                </form>
+            </div>
+
+            <%--Цвет вина выбрать--%>
+            <div class="col-xs-4">
+                <form name="choiceCriteriaForProductPrice" method="POST" action="controller">
+                    <input type="hidden" name="command" value="change_price_by_criteria"/>
+                    <select name="wineColorSelected" class="small">
+                        <%--Цвет вина:--%>
+                        <option selected>все вина по цвету</option>
+                        <%--Если выбран какой-то один цвет вина
+                        то таблица обнавляется (устанавливается "фильтр")
+                        и в строке выбора остается выбранный элемент после обновления таблицы--%>
+                        <c:forEach var="enumUnit" items="${wineColorEnum}">
+                            <c:choose>
+                                <c:when test="${enumUnit.getValue() == chosenCriteria}">
+                                    <option selected>${enumUnit.getValue()}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option>${enumUnit.getValue()}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                    <input type="submit" value="=>" class="small"/>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-4">
+                <%--Выдержку вина выбрать--%>
+                <form name="choiceCriteriaForProductPrice" method="POST" action="controller">
+                    <input type="hidden" name="command" value="change_price_by_criteria"/>
+                    <select name="wineAgeSelected" class="small">
+                        <%--Выдержка вина:--%>
+                        <%--по умолчанию все вина выводятся в таблицу из БД--%>
+                        <option selected>все вина по выдержке</option>
+                        <%--Если выбран какой-то один тип вина
+                        то таблица обнавляется (устанавливается "фильтр")
+                        и в строке выбора остается выбранный элемент после обновления таблицы--%>
+                        <c:forEach var="enumUnit" items="${wineAgeEnum}">
+                            <c:choose>
+                                <c:when test="${enumUnit.getValue() == chosenCriteria}">
+                                    <option selected>${enumUnit.getValue()}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option>${enumUnit.getValue()}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                    <input type="submit" value="=>" class="small"/>
+                </form>
+            </div>
+
+            <%--Крепость вина выбрать--%>
+            <div class="col-xs-4">
+                <form name="choiceCriteriaForProductPrice" method="POST" action="controller">
+                    <input type="hidden" name="command" value="change_price_by_criteria"/>
+                    <select name="wineSpiritSelected" class="small">
+                        <%--Содержание спирта в вине:--%>
+                        <option selected>все вина по крепости</option>
+                        <%--Если выбран какой-то один тип вина
+                            то таблица обнавляется (устанавливается "фильтр")
+                            и в строке выбора остается выбранный элемент после обновления таблицы--%>
+                        <c:forEach var="enumUnit" items="${wineSpiritEnum}">
+                            <c:choose>
+                                <c:when test="${enumUnit.getValue() == chosenCriteria}">
+                                    <option selected>${enumUnit.getValue()}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option>${enumUnit.getValue()}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                    <input type="submit" value="=>" class="small"/>
+                </form>
+            </div>
+
+
+            <%--Коллекцию вина выбрать--%>
+            <div class="col-xs-4">
+                <form name="choiceCriteriaForProductPrice" method="POST" action="controller">
+                    <input type="hidden" name="command" value="change_price_by_criteria"/>
+                    <select name="wineCollectionSelected" class="small">
+                        <%--Вино из коллекции:--%>
+                        <option selected>вина из всех коллекций</option>
+                        <%--Если выбрана какая-то одна коллекция вина
+                            то таблица обнавляется (устанавливается "фильтр")
+                            и в строке выбора остается выбранный элемент после обновления таблицы--%>
+                        <c:forEach var="enumUnit" items="${wineCollectionEnum}">
+                            <c:choose>
+                                <c:when test="${enumUnit.getValue() == chosenCriteria}">
+                                    <option selected>${enumUnit.getValue()}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option>${enumUnit.getValue()}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                    <input type="submit" value="=>" class="small"/>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-xs-1 small">
+        <h5>Пользователь:<br/> ${fio}<br/> (${login})</h5>
     </div>
 
     <div class="col-xs-2">
@@ -18,7 +188,7 @@
         </form>
         <form name="changeUserInfo" method="POST" action="controller">
             <input type="hidden" name="command" value="change_user_info"/>
-            <input type="submit" value="Изменить данные профиля" class="btn-link"/>
+            <h5><input type="submit" value="Изменить данные профиля" class="btn-link"/></h5>
         </form>
 
     </div>
@@ -26,22 +196,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-2">
-
-        <form name="loginForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="receive_price"/>
-            <br/>e-mail:<br/>
-            <input type="text" name="new_email" value=${login}/>
-
-            <div>Использовать мой зарегистрированный e-mail
-                <input type="checkbox" checked="checked" name="my_email_flag"/>
-            </div>
-
-            ${info} ${errorLoginPassMessage} ${wrongAction} ${nullPage}
-            <br/>
-            <input type="submit" value="Получить прайс продукции"/>
-
-        </form>
+    <div class="col-xs-1">
 
     </div>
     <div class="col-xs-10">
@@ -49,25 +204,29 @@
         <%--таблица товаров (price)--%>
         <%--<table class="table table-bordered table-hover table-striped">--%>
         <table class="table table-hover table-striped">
-            <%--<tr>--%>
-            <%--<th></th>--%>
-            <%--<th></th>--%>
-            <%--<th></th>--%>
-            <%----%>
-            <%--</tr>--%>
-                <c:forEach var="wine" items="${winesPrice}">
+            <tr>
+                <th></th>
+                <th>Наименование товара</th>
+                <th>Цена</th>
+                <th>Доп. информация</th>
+
+            </tr>
+            <c:forEach var="wine" items="${winesPrice}">
                 <tr>
                     <td>${wine.getImage()}</td>
-                    <%--<td>${wine.getName}</td>--%>
+                        <%--<td>${wine.getName}</td>--%>
                     <td>${wine.toString()}</td>
                     <td>${wine.getPrice()} руб. без НДС</td>
                     <td>${wine.getAnnotation()}</td>
 
                 </tr>
-                </c:forEach>
+            </c:forEach>
 
         </table>
     </div>
+
+    <div class="col-xs-1"></div>
+
 </div>
 
 <jsp:include page="template_footer.jsp"/>
