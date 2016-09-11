@@ -30,6 +30,7 @@
     <div class="col-xs-2"></div>
     <div class="col-xs-4"><img src="files/Intrarea in beci.jpg" class="img-rounded img-responsive"/></div>
     <div class="col-xs-4 text">
+        <p></p>
         <p class="small">И в древние времена, и в начале информационного века Криковские подвалы, по праву, могут
             претендовать на звание восьмого чуда света. Почему бы и нет? Расположенные под городом Крикова, они
             представляют собой настоящий подземный город. Проспекты, улицы... И не только названия, которые они носят,
@@ -49,6 +50,7 @@
     <div class="col-xs-2"></div>
     <div class="col-xs-4"><img src="files/Cricova_old_collections.jpg" class="img-rounded img-responsive"/></div>
     <div class="col-xs-4 text">
+        <p></p>
         <p class="small"> Криковские подвалы приютили выдающуюся коллекцию вин - Винотеку</p>
 
         <p class="small">Здесь, словно в самобытном зарождении, собраны воистину &quotисторические&quot вина, вина с

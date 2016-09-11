@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-xs-4">
-        Администратор: ${user}
+        Администратор: ${login}
 
     </div>
 

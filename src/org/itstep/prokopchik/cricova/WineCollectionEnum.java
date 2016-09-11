@@ -5,6 +5,7 @@ public enum WineCollectionEnum {
     KRUGHEVA("Krugheva"),
     CRAMELE("Cramele"),
     PAPIRUS("Papirus"),
+    PREMIERE("Premiere"),
     NONE("-"),
     STAROCRICOVSKOE("Starocricovskoe");
 

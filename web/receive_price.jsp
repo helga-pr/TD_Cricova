@@ -9,7 +9,6 @@
 
     <div class="col-xs-1">
 
-
         Выбор критерия:
     </div>
     <div class="col-xs-8">
@@ -38,7 +37,7 @@
                             </c:choose>
                         </c:forEach>
                     </select>
-                    <input type="submit" value="=>" class="small"/>
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                 </form>
             </div>
 
@@ -64,7 +63,7 @@
                             </c:choose>
                         </c:forEach>
                     </select>
-                    <input type="submit" value="=>" class="small"/>
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                 </form>
             </div>
 
@@ -89,7 +88,7 @@
                             </c:choose>
                         </c:forEach>
                     </select>
-                    <input type="submit" value="=>" class="small"/>
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                 </form>
             </div>
         </div>
@@ -118,7 +117,7 @@
                             </c:choose>
                         </c:forEach>
                     </select>
-                    <input type="submit" value="=>" class="small"/>
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                 </form>
             </div>
 
@@ -143,7 +142,7 @@
                             </c:choose>
                         </c:forEach>
                     </select>
-                    <input type="submit" value="=>" class="small"/>
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                 </form>
             </div>
 
@@ -169,7 +168,7 @@
                             </c:choose>
                         </c:forEach>
                     </select>
-                    <input type="submit" value="=>" class="small"/>
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                 </form>
             </div>
         </div>

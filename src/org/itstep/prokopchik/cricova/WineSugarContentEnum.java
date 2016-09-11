@@ -6,7 +6,8 @@ public enum WineSugarContentEnum {
     DRY("dry"),
     SEMIDRY("semidry"),
     SEMISWEETE("semisweet"),
-    SWEETE("sweet");
+    SWEETE("sweet"),
+    DESSERT("dessert");
 
     private String value;
 
@@ -25,6 +26,7 @@ public enum WineSugarContentEnum {
                 value == "dry" ? "Сухое" :
                         value == "semidry" ? "Полусухое" :
                                 value == "semisweet" ? "Полусладкое" :
-                                        value == "sweet" ? "Сладкое" : "";
+                                        value == "sweet" ? "Сладкое" :
+                                                value == "dessert" ? "Десертное" : " ";
     }
 }

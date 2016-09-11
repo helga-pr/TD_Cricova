@@ -10,6 +10,8 @@ import org.itstep.prokopchik.cricova.logic.LoginLogic;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -91,8 +93,7 @@ public class LoginCommand implements ActionCommand {
             forSessionAttr.put(SESSION_ATTR_ROLE, flag);
             forSessionAttr.put(SESSION_ATTR_LOGIN, login);
 
-/*
-            //TODO Для отладки
+           /* //TODO Для отладки
             System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
                     "Class = ChangeUserInfoCommand;" +
                     "Returned page = " + page);
@@ -106,16 +107,13 @@ public class LoginCommand implements ActionCommand {
             // определение пути к *.jsp
             if ("администратор".equals(flag)) {
 
-                //страница администратора
-                forSessionAttr.put(SESSION_ATTR_LOGIN, login);
-/*
                 //TODO Для отладки
-                System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
+                System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "Из блока if (админ) класса LoginCommand");
                 System.out.println("flag = " + flag +
-                        "(from sessionAttr flag = " + content.getSessionAttributes().get("role") + ")");
+                        "(from sessionAttr flag = " + content.getSessionAttributes().get("role") + ")" +
+                        "(from sessionAttr login = " + content.getSessionAttributes().get("login") + ")");
 
- */
                 page = "/administration.jsp";
             }
 
@@ -138,12 +136,12 @@ public class LoginCommand implements ActionCommand {
                 String lastName = client.getLastname();
                 String fio = lastName + " " + name + " " + middleName;
                 forSessionAttr.put(SESSION_ATTR_FIO, fio);
-                forRequestAttribute.put(PARAM_NAME_LOGIN, login);
+                forSessionAttr.put(SESSION_ATTR_LOGIN, login);
 
                 //получение из БД прайса продукции и сохранение его в аттрибуты сессии
                 winesPrice = new WinesEntity().findAllWines();
-                forRequestAttribute.put("winesPrice", winesPrice);
-                forSessionAttr.put("winesPriceSessionAttr", winesPrice);
+                forRequestAttribute.put(PARAM_NAME_WINES_PRICE, winesPrice);
+                forSessionAttr.put(SESSION_ATTR_WINES_PRICE, winesPrice);
 
  /*               //TODO Для отладки
                 System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
@@ -177,15 +175,16 @@ public class LoginCommand implements ActionCommand {
         System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
                 "Returns page = " + page);
 */
-        //запись в аттрибуты сессии перечней основных характеристик продукции (тип вина, выдержка, цвет и т.д)
-        if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {
-            forSessionAttr.put(SESSION_ATTR_WINE_TYPE_ENUM, WineTypeEnum.values());
-            forSessionAttr.put(SESSION_ATTR_WINE_AGE_ENUM, WineAgeEnum.values());
-            forSessionAttr.put(SESSION_ATTR_WINE_COLOR_ENUM, WineColorEnum.values());
-            forSessionAttr.put(SESSION_ATTR_WINE_SPIRIT_ENUM, WineSpiritContentEnum.values());
-            forSessionAttr.put(SESSION_ATTR_WINE_SUGAR_ENUM, WineSugarContentEnum.values());
-            forSessionAttr.put(SESSION_ATTR_WINE_COLLECTION_ENUM, WineCollectionEnum.values());
-        }
+        /**запись в аттрибуты сессии перечней основных характеристик продукции (тип вина, выдержка, цвет и т.д)
+         *
+         */
+        forSessionAttr.put(SESSION_ATTR_WINE_TYPE_ENUM, WineTypeEnum.values());
+        forSessionAttr.put(SESSION_ATTR_WINE_AGE_ENUM, WineAgeEnum.values());
+        forSessionAttr.put(SESSION_ATTR_WINE_COLOR_ENUM, WineColorEnum.values());
+        forSessionAttr.put(SESSION_ATTR_WINE_SPIRIT_ENUM, WineSpiritContentEnum.values());
+        forSessionAttr.put(SESSION_ATTR_WINE_SUGAR_ENUM, WineSugarContentEnum.values());
+        forSessionAttr.put(SESSION_ATTR_WINE_COLLECTION_ENUM, WineCollectionEnum.values());
+
 
         // запись атрибутов сессии пользователя и аттрибутов запроса
         // с использованием специального класса SessionRequestContent
