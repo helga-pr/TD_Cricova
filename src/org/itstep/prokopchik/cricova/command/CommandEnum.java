@@ -40,9 +40,9 @@ public enum CommandEnum {
         }
     },
 
-    DELETE_PRODUCT {
+    CHANGE_PRICE {
         {
-            this.command = new DeleteProductCommand();
+            this.command = new ChangePriceCommand();
         }
     },
 
@@ -51,6 +51,7 @@ public enum CommandEnum {
             this.command = new ShowPriceCommand();
         }
     },
+
 
     CHANGE_PRICE_BY_CRITERIA {
         {

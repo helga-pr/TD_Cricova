@@ -23,6 +23,12 @@ interface DAOWine {
 
     Wine findWineById(Integer id);
 
+    /**
+     * @param id
+     * @return количество удаленных строк
+     */
+    Integer deleteWineById(Integer id);
+
     List<Wine> findAllWines();
 
     List<Wine> findWineByName(String name);

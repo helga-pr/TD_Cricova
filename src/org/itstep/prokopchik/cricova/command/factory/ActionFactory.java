@@ -26,7 +26,7 @@ public class ActionFactory {
              * если команда не задана в текущем запросе
              */
             //TODO Для отладки
-            System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+            System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm ").format(new Date()) +
                     "Returned action = " + current);
 
             return current;
@@ -48,7 +48,7 @@ public class ActionFactory {
         }
 
         //TODO Для отладки
-        System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm ").format(new Date()) +
+        System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm ").format(new Date()) +
                 "Returned action = " + current);
 
         return current;

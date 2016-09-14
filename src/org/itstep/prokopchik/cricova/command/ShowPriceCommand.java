@@ -9,8 +9,6 @@ import org.itstep.prokopchik.cricova.database.dao.wine.WinesEntity;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,11 +31,11 @@ public class ShowPriceCommand implements ActionCommand {
 
         try {
 
-            //TODO для отладки
+           /* //TODO для отладки
             System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                     "Class = " + getClass() +
                     "\nrequest = " + request);
-
+*/
             content.extractParametersValues(request);
             content.extractSessionAttributeValues(request);
 

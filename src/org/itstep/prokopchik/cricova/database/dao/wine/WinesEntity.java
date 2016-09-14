@@ -701,6 +701,44 @@ public class WinesEntity implements Serializable, DAOWine {
         return wineById;
     }
 
+    @Override
+    public Integer deleteWineById(Integer id) {
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        Integer result = 0;
+
+        try {
+            Transaction transaction = session.beginTransaction();
+
+            result = session.createQuery("delete WinesEntity w where w.id = :param")
+                    .setInteger("param", id)
+                    .executeUpdate();
+
+            transaction.commit();
+
+            // TODO ддя отладки
+            if (result > 0) {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + ": \n" +
+                        "Товар с id = " + id + "успешно удален из БД!");
+
+            } else {
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        getClass() + ": \n" +
+                        "Товар с id = " + id + "не найден в БД!");
+            }
+        } catch (HibernateException e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                throw e;// перебрасывание исключения на более высокий уровень
+            }
+        } finally {
+            session.close(); // гарантированное закрытие сеанса
+        }
+        return result;
+    }
+
 
     @Override
     public List<Wine> findWineByCriteria(WineTypeEnum wineType,

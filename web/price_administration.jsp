@@ -187,60 +187,61 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-2">
-        Управление прайсами продукции
-        <br/><br/>
+<%--/////////////////////////////////--%>
+<%--Изменение прайса продукции--%>
+<form name="administrationForm" method="POST" action="controller">
+    <input type="hidden" name="command" value="change_price"/>
 
-        <form name="administrationForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="change_product"/>
-            <input type="submit" value="Изменить пункт прайса" class="btn btn-warning"/>
-        </form>
-        <br/><br/>
+    <div class="row">
+        <div class="col-xs-2">
+            Управление прайсами продукции
+            <br/><br/>
 
-        <form name="administrationForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="add_product"/>
-            <input type="submit" value="Добавить пункт прайса" class="btn btn-warning"/>
-        </form>
-        <br/><br/>
+            <input type="submit" name="buttonName" value="Добавить пункт прайса" class="btn btn-warning"/>
 
-        <form name="administrationForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="delete_product"/>
-            <input type="submit" value="Удалить пункт прайса" class="btn btn-danger"/>
-        </form>
-    </div>
+            <br/><br/>
 
-    <div class="col-xs-8">
-        <%--таблица товаров (price)--%>
-        <table class="table table-bordered table-hover table-striped">
-            <%--<table class="table table-hover table-striped">--%>
-            <tr>
-                <th></th>
-                <th>Вид</th>
-                <th>Наименование</th>
-                <th>Цена, руб. (без НДС)</th>
-                <th>Описание</th>
+            <input type="submit" name="buttonName" value="Изменить пункт прайса" class="btn btn-warning"/>
 
-            </tr>
-            <c:forEach var="wine" items="${winesPrice}">
+            <br/><br/>
+
+            <input type="submit" name="buttonName" value="Удалить пункт прайса" class="btn btn-danger"/>
+            <%--сообщение о результате проведенного удаления объекта БД--%>
+            <h4>${messageForPrice}</h4>
+
+        </div>
+
+        <div class="col-xs-8">
+            <%--таблица товаров (price)--%>
+            <table class="table table-bordered table-hover table-striped">
+                <%--<table class="table table-hover table-striped">--%>
                 <tr>
-                    <td>
-                        <input type="radio" name="changedProductId" value=${wine.getId()}/>
-                    </td>
-                    <td>${wine.getImage()}</td>
-                        <%--название и основные характеристики--%>
-                    <td>${wine.toString()}</td>
-                    <td>${wine.getPrice()}</td>
-                    <td>${wine.getAnnotation()}</td>
+                    <th></th>
+                    <th>Вид</th>
+                    <th>Наименование</th>
+                    <th>Цена, руб. (без НДС)</th>
+                    <th>Описание</th>
 
                 </tr>
-            </c:forEach>
+                <c:forEach var="wine" items="${winesPrice}">
+                    <tr>
+                        <td>
+                            <input type="radio" name="changedProductId" value=${wine.getId()}/>
+                        </td>
+                        <td>${wine.getImage()}</td>
+                            <%--название и основные характеристики--%>
+                        <td>${wine.toString()}</td>
+                        <td>${wine.getPrice()}</td>
+                        <td>${wine.getAnnotation()}</td>
 
-        </table>
+                    </tr>
+                </c:forEach>
 
+            </table>
+
+        </div>
+        <div class="col-xs-2"></div>
     </div>
-    <div class="col-xs-2"></div>
-</div>
-
+</form>
 
 <jsp:include page="template_footer.jsp"/>
