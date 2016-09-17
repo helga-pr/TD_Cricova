@@ -18,7 +18,6 @@ public class ChangePriceCommand implements ActionCommand {
     private static final String SESSION_ATTR_WINES_PRICE = "winesPriceSessionAttr";
 
     private static final String PARAM_NAME_WINES_PRICE = "winesPrice";
-    private static final String PARAM_NAME_PRODUCT_ID_FOR_DELETE = "changedProductId";
     private static final String PARAM_NAME_PRODUCT_ID_FOR_CHANGE = "changedProductId";
     private static final String PARAM_NAME_COMMAND_BUTTON = "buttonName";
     private static final String PARAM_NAME_MESSAGE_FOR_PRICE = "messageForPrice";
@@ -83,28 +82,18 @@ public class ChangePriceCommand implements ActionCommand {
 
         if (Integer.valueOf(id) > 0 && commandButton.equals(PRESSED_BUTTON_CHANGE)) {
             forRequestAttribute.put(PARAM_NAME_COMMAND_BUTTON, commandButton);
+            forRequestAttribute.put(PARAM_NAME_PRODUCT_ID_FOR_CHANGE, Integer.valueOf(id));
 
             Wine wine = new WinesEntity().findWineById(Integer.valueOf(id));
             forRequestAttribute.put(PARAM_NAME_WINE_FOR_CHANGE, wine);
 
-            wine.getName();
-            wine.getImage();
-            wine.getPrice();
-            wine.getNdsRate();
-            wine.getWineType();
-            wine.getWineAge();
-            wine.getWineColor();
-            wine.getWineSpiritContent();
-            wine.getWineSugarContent();
-            wine.getWineCollection();
-            wine.getAnnotation();
-
             content.setRequestAttributes(forRequestAttribute);
             content.setSessionAttributes(forSessionAttr);
+
             content.insertAttributes(request);
             content.insertSessionAttributes(request);
 
-            return "/add_change_product_administration";
+            return "/add_change_product_administration.jsp";
         }
 
         if (commandButton.equals(PRESSED_BUTTON_ADD)) {

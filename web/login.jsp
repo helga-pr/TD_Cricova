@@ -17,11 +17,11 @@
                 <input type="password" name="password" value=""/>
 
                 <div>Войти как <br/>
-                    <input type="radio" name="adminflag" value="администратор"/>
-                    администратор
+                    <label><input type="radio" name="adminflag" value="администратор">
+                        администратор</label>
                     <br/>
-                    <input type="radio" name="adminflag" value="клиент" checked="true"/>
-                    клиент
+                    <label><input type="radio" name="adminflag" value="клиент" checked="true"/>
+                        клиент</label>
                 </div>
 
                 <br/>

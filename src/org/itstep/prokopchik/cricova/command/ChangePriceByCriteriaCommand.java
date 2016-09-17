@@ -64,7 +64,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
 
 /*
         //TODO для отладки
-        System.out.println(new SimpleDateFormat("-111==>  dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                 "session attributes ==> ");
 
         content.getSessionAttributes();
@@ -116,7 +116,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
                 content.insertAttributes(request);
 
                 //TODO для отладки
-                System.out.println(new SimpleDateFormat("11==>  dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "selected = " + selected +
                         "\nиз PARAM_NAME_WINES_PRICE для ChangePriceByCriteria (wineType):");
                 if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {
@@ -154,7 +154,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
                 content.insertAttributes(request);
 
                 //TODO для отладки
-                System.out.println(new SimpleDateFormat("22==>  dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "selected = " + selected +
                         "\nиз PARAM_NAME_WINES_PRICE для ChangePriceByCriteria (wineByWineAge):");
                 if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {
@@ -192,7 +192,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
                 content.insertAttributes(request);
 
                 //TODO для отладки
-                System.out.println(new SimpleDateFormat("33==>  dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "selected = " + selected +
                         "\nиз PARAM_NAME_WINES_PRICE для ChangePriceByCriteria (wineSugarContent):");
                 if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {
@@ -234,7 +234,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
                 content.insertAttributes(request);
 
                 //TODO для отладки
-                System.out.println(new SimpleDateFormat("44==>  dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "selected = " + selected +
                         "\nиз PARAM_NAME_WINES_PRICE для ChangePriceByCriteria (wineSpiritContent):");
                 if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {
@@ -272,7 +272,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
                 content.insertAttributes(request);
 
                 //TODO для отладки
-                System.out.println(new SimpleDateFormat("55==>  dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "selected = " + selected +
                         "\nиз PARAM_NAME_WINES_PRICE для ChangePriceByCriteria (wineByWineColor):");
                 if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {
@@ -310,7 +310,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
                 content.insertAttributes(request);
 
                 //TODO для отладки
-                System.out.println(new SimpleDateFormat("66==>  dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         "selected = " + selected +
                         "\nиз PARAM_NAME_WINES_PRICE для ChangePriceByCriteria (wineCollection):");
                 if (forRequestAttribute.containsKey(PARAM_NAME_WINES_PRICE)) {

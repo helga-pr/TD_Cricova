@@ -5,6 +5,8 @@
     <script type="text/javascript" src="js/jquery-ui.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
 
+    <script type="text/javascript" src="js/doActionButtons.js"></script>
+
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>

@@ -201,11 +201,13 @@
 
             <br/><br/>
 
-            <input type="submit" name="buttonName" value="Изменить пункт прайса" class="btn btn-warning"/>
+            <input type="submit" disabled="disabled" name="buttonName" value="Изменить пункт прайса"
+                   class="btn btn-warning"/>
 
             <br/><br/>
 
-            <input type="submit" name="buttonName" value="Удалить пункт прайса" class="btn btn-danger"/>
+            <input type="submit" disabled="disabled" name="buttonName" value="Удалить пункт прайса"
+                   class="btn btn-danger"/>
             <%--сообщение о результате проведенного удаления объекта БД--%>
             <h4>${messageForPrice}</h4>
 
@@ -226,7 +228,8 @@
                 <c:forEach var="wine" items="${winesPrice}">
                     <tr>
                         <td>
-                            <input type="radio" name="changedProductId" value=${wine.getId()}/>
+                            <input onchange="doActionButtons()" type="radio" name="changedProductId"
+                                   value=${wine.getId()}/>
                         </td>
                         <td>${wine.getImage()}</td>
                             <%--название и основные характеристики--%>

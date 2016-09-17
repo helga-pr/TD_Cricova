@@ -29,7 +29,7 @@ public enum CommandEnum {
 
     ADD_PRODUCT {
         {
-            this.command = new AddProductCommand();
+            this.command = new AddChangePricePositionCommand();
         }
     },
 

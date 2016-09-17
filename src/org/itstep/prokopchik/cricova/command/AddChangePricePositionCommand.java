@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class AddProductCommand implements ActionCommand {
+public class AddChangePricePositionCommand implements ActionCommand {
 
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_ADMINFLAG = "role";
@@ -90,6 +90,6 @@ public class AddProductCommand implements ActionCommand {
             System.out.println("t => " + t);
         }
 
-        return "/add_product_administration.jsp";
+        return "/add_change_product_administration.jsp";
     }
 }
