@@ -29,6 +29,8 @@ interface DAOWine {
      */
     Integer deleteWineById(Integer id);
 
+    Integer updateWine(Wine newWine);
+
     List<Wine> findAllWines();
 
     List<Wine> findWineByName(String name);
@@ -45,11 +47,5 @@ interface DAOWine {
 
     List<Wine> findWineByWineCollection(String wineCollection);
 
-    List<Wine> findWineByCriteria(WineTypeEnum wineType,
-                                  WineAgeEnum wineAge,
-                                  WineColorEnum wineColor,
-                                  WineSugarContentEnum wineSugarContent,
-                                  WineSpiritContentEnum wineSpiritContent,
-                                  WineCollectionEnum wineCollection);
 
 }

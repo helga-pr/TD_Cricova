@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,14 +37,16 @@ public class SessionRequestContent {
             String paramName = (String) parameterNames.nextElement();
             String[] paramValues = {request.getParameter(paramName)};
 
- /*           System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                    "Class = SessionRequestContent: Method extractParametersValues: " +
-                    "\nparamValues количество элеменов = " + paramValues.length +
-                    "; " + paramName + " => " + paramValues[0]);
-*/
             paramValues[0] = convertingInUtf8(paramValues[0]);
 
             requestParameters.put(paramName, paramValues);
+
+            //TODO Для отладки
+            System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                    "Class = SessionRequestContent: Method extractParametersValues: " +
+                    "\nparamValues количество элеменов = " + paramValues.length +
+                    "; " + paramName + " => " + paramValues[0]);
+
         }
 /*
         //TODO для отладки

@@ -10,6 +10,9 @@
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>
+<%--
+Шаблон-шапка для всех страниц сайта
+--%>
 <body class="main-background">
 
 <div class="conteiner-fluid">

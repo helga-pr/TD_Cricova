@@ -226,7 +226,7 @@ public class WinesEntity implements Serializable, DAOWine {
             winesEntity.setWineColor(wineColor.getValue());
             winesEntity.setWineAge(wineAge.getValue());
             winesEntity.setWineSugarContent(wineSugarContent.getValue());
-            winesEntity.setWineSpiritContent(wineSpiritContent.getValue());
+            winesEntity.setWineSpiritContent(WineSpiritContentEnum.getConstant(wineSpiritContent.getValue()).toLowerCase());
             winesEntity.setWineCollection(wineCollection.getValue());
 
             Integer newId = (Integer) session.save(winesEntity);  // возвращает сгенерированный идентификатор id
@@ -739,53 +739,84 @@ public class WinesEntity implements Serializable, DAOWine {
         return result;
     }
 
-
     @Override
-    public List<Wine> findWineByCriteria(WineTypeEnum wineType,
-                                         WineAgeEnum wineAge,
-                                         WineColorEnum wineColor,
-                                         WineSugarContentEnum wineSugarContent,
-                                         WineSpiritContentEnum wineSpiritContent,
-                                         WineCollectionEnum wineCollection) {
+    public Integer updateWine(Wine newWine) {
 
-        List<Wine> winesByCriteria = new ArrayList<Wine>();
-        List<WinesEntity> winesEntities;
+        Integer updateId = -1;
+        Wine existWine = new WinesEntity().findWineById(newWine.getId());
+
+        if (newWine.equals(existWine)) {
+            return 0; //без изменений
+        }
+
+        if (existWine == null) {
+            return -1; //объект не найден в БД
+        }
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
-            String hquery = "from WinesEntity w where w.wineType = :wineType and w.wineAge = :wineAge and w.wineColor = :wineColor and w.wineSpiritContent = :wineSpirit and w.wineSugarContent = :wineSugar and w.wineCollection = :wineCollection";
 
-            winesEntities = session.createQuery(hquery)
-                    .setParameter("wineType", wineType)
-                    .setParameter("wineAge", wineAge)
-                    .setParameter("wineColor", wineColor)
-                    .setParameter("wineSugar", wineSugarContent)
-                    .setParameter("wineSpirit", wineSpiritContent)
-                    .setParameter("wineCollection", wineCollection)
-                    .list();
-
-
-            if (!winesEntities.isEmpty()) {
-                Wine wine;
-
-                for (WinesEntity winesEntity : winesEntities) {
-                    wine = createWineFromWinesEntity(winesEntity);
-                    winesByCriteria.add(wine);
-                }
+            WinesEntity existWinesEntity = (WinesEntity) session.get(WinesEntity.class, newWine.getId());
+            if (!existWinesEntity.getNameWine().equals(newWine.getName())) {
+                existWinesEntity.setNameWine(newWine.getName());
             }
+
+            if (!(Integer.valueOf(existWinesEntity.getPriceWine()) == (newWine.getPrice()))) {
+                existWinesEntity.setPriceWine(newWine.getPrice());
+            }
+
+            if (!(Integer.valueOf(existWinesEntity.getNdsrateWine()) == (newWine.getNdsRate()))) {
+                existWinesEntity.setNdsrateWine(newWine.getNdsRate());
+            }
+
+            if ((byte[]) (byte[]) newWine.getImage() != null && !(existWinesEntity.getImageWine().equals(newWine.getImage()))) {
+                existWinesEntity.setImageWine((byte[]) newWine.getImage());
+            }
+
+            if (!existWinesEntity.getWineType().equals(newWine.getWineType().getValue())) {
+                existWinesEntity.setWineType(newWine.getWineType().getValue());
+            }
+
+            if (!existWinesEntity.getWineAge().equals(newWine.getWineAge().getValue())) {
+                existWinesEntity.setWineAge(newWine.getWineAge().getValue());
+            }
+
+            if (!existWinesEntity.getWineColor().equals(newWine.getWineColor().getValue())) {
+                existWinesEntity.setWineColor(newWine.getWineColor().getValue());
+            }
+
+            if (!existWinesEntity.getWineSugarContent().equals(newWine.getWineSugarContent().getValue())) {
+                existWinesEntity.setWineSugarContent(newWine.getWineSugarContent().getValue());
+            }
+
+            if (!existWinesEntity.getWineSpiritContent().equals(WineSpiritContentEnum.getConstant(newWine.getWineSpiritContent().getValue()))) {
+                existWinesEntity.setWineSpiritContent(WineSpiritContentEnum.getConstant(newWine.getWineSpiritContent().getValue()));
+            }
+
+            if (!existWinesEntity.getWineCollection().equals(newWine.getWineCollection().getValue())) {
+                existWinesEntity.setWineCollection(newWine.getWineCollection().getValue());
+            }
+
+            if (!existWinesEntity.getAnnotationWine().equals(newWine.getAnnotation())) {
+                existWinesEntity.setAnnotationWine(newWine.getAnnotation());
+            }
+
+            updateId = (Integer) session.save(existWinesEntity);
+
             transaction.commit();
 
-            // TODO для отладки (удалить или закомментировать)
-            if (!winesByCriteria.isEmpty()) {
+            //TODO ддя отладки
+            if (existWine != null) {
                 System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                        getClass() + " =>");
-                for (Wine wine : winesByCriteria) {
-                    System.out.println(wine);
-                }
+                        " Class: " + getClass() + "\n" +
+                        "Wine with id =" + existWine.getId() + "(" + existWine.getName() + ") -" + " изменен в БД.");
+
             } else {
-                System.out.println("No data with this criteria from table wines!");
+                System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                        " Class: " + getClass() +
+                        " : Something error (((");
             }
         } catch (HibernateException e) {
             if (session.getTransaction().isActive()) {
@@ -795,8 +826,7 @@ public class WinesEntity implements Serializable, DAOWine {
         } finally {
             session.close(); // гарантированное закрытие сеанса
         }
-
-        return winesByCriteria;
+        return updateId; //изменения успешно внесены в БД
 
     }
 

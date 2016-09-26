@@ -12,10 +12,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Класс обрабатывает нажатие кнопок управления прайсами продукции на странице Администратора
+ * "Удалить пункт прайса" - удаляется выбранный пункт прайса
+ * "Изменить пункт прайса" - перенаправляет на страницу изменения и внесения нового пункта прайса (нового товара).
+ * в аттрибутах запроса передается выбранный пункт прайса (объект класса Wine) и команда кнопки.
+ * "Добавить пункт прайса" - перенаправляет на страницу изменения и внесения нового пункта прайса (нового товара).
+ * в аттрибутах запроса передается команда кнопки.
+ */
 public class ChangePriceCommand implements ActionCommand {
 
     private static final String SESSION_ATTR_NAME_LOGIN = "login";
     private static final String SESSION_ATTR_WINES_PRICE = "winesPriceSessionAttr";
+    private static final String SESSION_ATTR_COMMAND_BUTTON = "commandButton";
 
     private static final String PARAM_NAME_WINES_PRICE = "winesPrice";
     private static final String PARAM_NAME_PRODUCT_ID_FOR_CHANGE = "changedProductId";
@@ -56,7 +65,7 @@ public class ChangePriceCommand implements ActionCommand {
         HashMap<String, Object> forRequestAttribute = new HashMap<String, Object>();
         HashMap<String, Object> forSessionAttr = content.getSessionAttributes();
 
-        //какая кнопка нажата
+        //какая кнопка была нажата
         String commandButton = null;
         if (content.getRequestParameters().containsKey(PARAM_NAME_COMMAND_BUTTON)) {
             commandButton = content.getRequestParameters().get(PARAM_NAME_COMMAND_BUTTON)[0];
@@ -66,7 +75,11 @@ public class ChangePriceCommand implements ActionCommand {
         String id = "0";
         if (content.getRequestParameters().containsKey(PARAM_NAME_PRODUCT_ID_FOR_CHANGE)) {
             id = (content.getRequestParameters().get(PARAM_NAME_PRODUCT_ID_FOR_CHANGE)[0].replace('/', ' ')).trim();
+            forRequestAttribute.put(PARAM_NAME_PRODUCT_ID_FOR_CHANGE, id);
+            content.setRequestAttributes(forRequestAttribute);
+            content.insertAttributes(request);
         }
+        //*************УДАЛЕНИЕ ЭКЗЕМПЛЯРА WINE из БД
         //если выбран пункт прайса и нажата кнопка Удалить
         if (Integer.valueOf(id) > 0 && commandButton.equals(PRESSED_BUTTON_DELETE)) {
             Integer numberRemoteLines = new WinesEntity().deleteWineById(Integer.valueOf(id));
@@ -84,6 +97,9 @@ public class ChangePriceCommand implements ActionCommand {
             forRequestAttribute.put(PARAM_NAME_COMMAND_BUTTON, commandButton);
             forRequestAttribute.put(PARAM_NAME_PRODUCT_ID_FOR_CHANGE, Integer.valueOf(id));
 
+            //сохранение переданной команды в аттрибутах сессии для использования обработчиком AddChangePricePositionCommand.java
+            forSessionAttr.put(SESSION_ATTR_COMMAND_BUTTON, commandButton);
+
             Wine wine = new WinesEntity().findWineById(Integer.valueOf(id));
             forRequestAttribute.put(PARAM_NAME_WINE_FOR_CHANGE, wine);
 
@@ -96,15 +112,19 @@ public class ChangePriceCommand implements ActionCommand {
             return "/add_change_product_administration.jsp";
         }
 
+        //*************ИЗМЕНЕНИЕ ЭКЗЕМПЛЯРА WINE в БД
         if (commandButton.equals(PRESSED_BUTTON_ADD)) {
             forRequestAttribute.put(PARAM_NAME_COMMAND_BUTTON, commandButton);
+
+            //сохранение переданной команды в аттрибутах сессии для использования обработчиком AddChangePricePositionCommand.java
+            forSessionAttr.put(SESSION_ATTR_COMMAND_BUTTON, commandButton);
 
             content.setRequestAttributes(forRequestAttribute);
             content.setSessionAttributes(forSessionAttr);
             content.insertAttributes(request);
             content.insertSessionAttributes(request);
 
-            return "/add_change_product_administration";
+            return "/add_change_product_administration.jsp";
         }
 
 

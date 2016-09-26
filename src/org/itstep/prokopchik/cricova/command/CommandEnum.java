@@ -27,16 +27,9 @@ public enum CommandEnum {
         }
     },
 
-    ADD_PRODUCT {
+    ADD_CHANGE_PRICE_POSITION {
         {
             this.command = new AddChangePricePositionCommand();
-        }
-    },
-
-
-    CHANGE_PRODUCT {
-        {
-            this.command = new ChangeProductCommand();
         }
     },
 
