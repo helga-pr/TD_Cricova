@@ -209,7 +209,7 @@
 
             <input type="submit" disabled="disabled" name="buttonName" value="Удалить пункт прайса"
                    class="btn btn-danger"/>
-            <%--сообщение о результате проведенного удаления объекта БД--%>
+            <%--сообщение о результате проведенного удаления/изменения объекта БД--%>
             <h4>${messageForPrice}</h4>
 
         </div>

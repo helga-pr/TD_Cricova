@@ -95,15 +95,6 @@ public class AddChangePricePositionCommand implements ActionCommand {
             e.printStackTrace();
         }
 
-        //TODO Для отладки
-        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                "Class = " + getClass());
-
-        for (String[] param : content.getRequestParameters().values()) {
-
-            System.out.println("requestParam => " + param[0]);
-        }
-
         //HashMap для записи аттрибутов сессии пользователя и аттрибутов запроса
         HashMap<String, Object> forRequestAttribute = new HashMap<String, Object>();
         HashMap<String, Object> forSessionAttr = content.getSessionAttributes();
@@ -231,6 +222,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                 if (changingWine.getNdsRate() != Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_UPDATE)[0])) {
                     changingWine.setNdsRate(Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_UPDATE)[0]));
                     changeFlag = true;
+
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                     System.out.println("changingWine.setNdsRate = " + content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_UPDATE)[0]);
@@ -240,6 +232,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                             .get(PARAM_NAME_WINE_IMAGE_UPDATE)[0])) {
                         changingWine.setImage(content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_UPDATE)[0].getBytes());
                         changeFlag = true;
+
                         //TODO для отладки
                         System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                         System.out.println("changingWine.setImage: Есть фото.");
@@ -248,6 +241,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                 if (!changingWine.getWineType().equals(content.getRequestParameters().get(PARAM_NAME_WINE_TYPE_UPDATE)[0])) {
                     changingWine.setWineType(WineTypeEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_TYPE_UPDATE)[0].toUpperCase()));
                     changeFlag = true;
+
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                     System.out.println("changingWine.setWineType = " + content.getRequestParameters().get(PARAM_NAME_WINE_TYPE_UPDATE)[0]);
@@ -255,6 +249,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                 if (!changingWine.getWineAge().equals(content.getRequestParameters().get(PARAM_NAME_WINE_AGE_UPDATE)[0])) {
                     changingWine.setWineAge(WineAgeEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_AGE_UPDATE)[0].toUpperCase()));
                     changeFlag = true;
+
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                     System.out.println("changingWine.setWineAge = " + content.getRequestParameters().get(PARAM_NAME_WINE_AGE_UPDATE)[0]);
@@ -264,6 +259,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
 
                     changingWine.setWineColor(WineColorEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_COLOR_UPDATE)[0].toUpperCase()));
                     changeFlag = true;
+
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                     System.out.println("changingWine.setWineColor = " + content.getRequestParameters().get(PARAM_NAME_WINE_COLOR_UPDATE)[0]);
@@ -274,6 +270,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                     changingWine.setWineSpiritContent(WineSpiritContentEnum.valueOf(WineSpiritContentEnum.getConstant(
                             content.getRequestParameters().get(PARAM_NAME_WINE_SPIRIT_UPDATE)[0])));
                     changeFlag = true;
+
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                     System.out.println("changingWine.setWineSpiritContent = " + content.getRequestParameters().get(PARAM_NAME_WINE_SPIRIT_UPDATE)[0]);
@@ -295,6 +292,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                     changingWine.setWineCollection(WineCollectionEnum.valueOf(content.getRequestParameters()
                             .get(PARAM_NAME_WINE_COLLECTION_UPDATE)[0].toUpperCase()));
                     changeFlag = true;
+
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                     System.out.println("changingWine.setWineCollection = " + content.getRequestParameters().get(PARAM_NAME_WINE_COLLECTION_UPDATE)[0]);
@@ -302,6 +300,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                 if (!changingWine.getAnnotation().equals(content.getRequestParameters().get(PARAM_NAME_WINE_ANNOTATION_UPDATE)[0])) {
                     changingWine.setAnnotation(content.getRequestParameters().get(PARAM_NAME_WINE_ANNOTATION_UPDATE)[0]);
                     changeFlag = true;
+
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()));
                     System.out.println("changingWine.setAnnotation = " + content.getRequestParameters().get(PARAM_NAME_WINE_COLLECTION_UPDATE)[0]);
@@ -349,37 +348,58 @@ public class AddChangePricePositionCommand implements ActionCommand {
         //если выполняется команда добавления нового товара и была нажата кнопка "Внести изменения"
         else {
             if (commandButton.equals(PRESSED_BUTTON_ADD) && button.equals(PRESSED_BUTTON_SAVE_CHANGE)) {
-                if (content.getRequestParameters().get(PARAM_NAME_WINES_PRICE)[0].isEmpty()
-                        || Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINES_PRICE)[0]) == 0
-                        || content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_UPDATE)[0].isEmpty()
-                        || Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_UPDATE)[0]) < 0) {
+                //Проверить, что все обязательные поля заполнены, в противном случае админ возвращается обратно на страницу
+                //внесения нового товара
+                if (content.getRequestParameters().get(PARAM_NAME_WINE_PRICE_NEW)[0].isEmpty()
+                        || Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_PRICE_NEW)[0]) <= 0
+                        || content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_NEW)[0].isEmpty()
+                        || Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_NEW)[0]) < 0) {
+
+                    forRequestAttribute.put(PARAM_NAME_MESSAGE_FOR_PRICE, "Новая позиция товара НЕ внесена в БД." +
+                            "\nПроверьте корректность внесенных данных!" +
+                            "\nДля возврата к общему прайсу нажмите кнопку \"Отмена\"");
+                    content.setRequestAttributes(forRequestAttribute);
+                    content.insertAttributes(request);
 
                     return "/add_change_product_administration.jsp";
                 } else {
+                    //Если все обязательные поля заполнены, Создать и записать в БД новый экземпляр Wine
 
                     //TODO для отладки
                     System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                             "Class = " + getClass());
                     System.out.println("Before Adding new wine:");
-                    //TODO
-                    //Проверить, что все обязательные поля заполнены
-                    //Создать и записать в БД новый экземпляр Wine
-                    //использовать метод
-                /* public Wine createWine(String name,
-                           Integer price,
-                           Integer ndsRate,
-                           Object image,
-                           String annotation,
-                           WineTypeEnum wineType,
-                           WineColorEnum wineColor,
-                           WineAgeEnum wineAge,
-                           WineSugarContentEnum wineSugarContent,
-                           WineSpiritContentEnum wineSpiritContent,
-                           WineCollectionEnum wineCollection)*/
-
-                    //вернуть админа на страницу внесения нового товара
 
 
+                    Wine newWine = new WinesEntity().createWine(
+                            content.getRequestParameters().get(PARAM_NAME_WINE_NAME_NEW)[0],
+                            Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_PRICE_NEW)[0]),
+                            Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_NEW)[0]),
+                            (byte[]) (content.getRequestAttributes().get(PARAM_NAME_WINE_IMAGE_NEW)),
+                            content.getRequestParameters().get(PARAM_NAME_WINE_ANNOTATION_NEW)[0],
+                            WineTypeEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_TYPE_NEW)[0].toUpperCase()),
+                            WineColorEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_COLOR_NEW)[0].toUpperCase()),
+                            WineAgeEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_AGE_NEW)[0].toUpperCase()),
+                            WineSugarContentEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_SUGAR_NEW)[0].toUpperCase()),
+                            WineSpiritContentEnum.valueOf(WineSpiritContentEnum.getConstant(content.getRequestParameters().get(PARAM_NAME_WINE_SPIRIT_NEW)[0])),
+                            WineCollectionEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_COLLECTION_NEW)[0].toUpperCase()));
+
+                    if (newWine != null) {
+
+                        forRequestAttribute.put(PARAM_NAME_MESSAGE_FOR_PRICE, "Новая позиция товара в БД внесена." +
+                                "\n Для возврата к общему прайсу нажмите кнопку \"Отмена\"");
+                        content.setRequestAttributes(forRequestAttribute);
+                        content.insertAttributes(request);
+
+                        //TODO для отладки
+                        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                                "Class = " + getClass());
+                        System.out.println("After Adding new wine: ");
+                        System.out.println("Товар " + newWine.toString() + "сохранен в БД!");
+
+                        //вернуть админа на страницу внесения нового товара
+
+                    }
                     /**если товар успешно добавлен, админ возвращается на страницу добавления товара и может внести
                      * следующий новый пункт прайса, для возвращения к общему прайсу нужно нажать кнопку "Отмена".
                      */
@@ -387,17 +407,6 @@ public class AddChangePricePositionCommand implements ActionCommand {
                 }
             }
         }
-
-/*
-        //TODO Для отладки
-        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                "Class = " + getClass());
-
-        for (Wine t : (List<Wine>) content.getSessionAttributes().get(SESSION_ATTR_WINES_PRICE)) {
-
-            System.out.println("t => " + t);
-        }
-*/
 
         return "/price_administration.jsp";
     }

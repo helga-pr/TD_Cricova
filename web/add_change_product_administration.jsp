@@ -46,6 +46,7 @@
     <form name="administrationForm" method="POST" action="controller">
         <input type="hidden" name="command" value="add_change_price_position"/>
         <input type="hidden" name="changedProductId" value="${changedProductId}"/>
+
         <div class="col-xs-9">
             <%--таблица для изменения/добавления товара (пункта прайса)--%>
             <table class="table table-bordered table-hover table-striped">
@@ -263,6 +264,9 @@
                 <button type="submit" class="btn btn-primary" name="buttonNameChangePage" value="Отмена">
                     Отмена
             </button>
+
+                <%--сообщение о результате проведенного сохранения нового объекта БД--%>
+                <h4>${messageForPrice}</h4>
 
         </div>
         <div class="col-xs-2"></div>

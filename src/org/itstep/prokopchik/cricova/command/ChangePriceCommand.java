@@ -89,7 +89,7 @@ public class ChangePriceCommand implements ActionCommand {
                 winesPrice = new WinesEntity().findAllWines();
                 forSessionAttr.put(SESSION_ATTR_WINES_PRICE, winesPrice);
                 forRequestAttribute.put(PARAM_NAME_WINES_PRICE, winesPrice);
-                forRequestAttribute.put(PARAM_NAME_MESSAGE_FOR_PRICE, "Товар успешно удален и БД. Прайс продукции обновлен");
+                forRequestAttribute.put(PARAM_NAME_MESSAGE_FOR_PRICE, "Товар успешно удален из БД. Прайс продукции обновлен");
             }
         }
 

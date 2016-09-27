@@ -267,12 +267,12 @@ public class WinesEntity implements Serializable, DAOWine {
             newWine.setNdsRate(winesEntity.getNdsrateWine());
             newWine.setImage(winesEntity.getImageWine());
             newWine.setAnnotation(winesEntity.getAnnotationWine());
-            newWine.setWineType(WineTypeEnum.valueOf(winesEntity.getWineType()));
-            newWine.setWineColor(WineColorEnum.valueOf(winesEntity.getWineColor()));
-            newWine.setWineAge(WineAgeEnum.valueOf(winesEntity.getWineAge()));
-            newWine.setWineSugarContent(WineSugarContentEnum.valueOf(winesEntity.getWineSugarContent()));
+            newWine.setWineType(WineTypeEnum.valueOf(winesEntity.getWineType().toUpperCase()));
+            newWine.setWineColor(WineColorEnum.valueOf(winesEntity.getWineColor().toUpperCase()));
+            newWine.setWineAge(WineAgeEnum.valueOf(winesEntity.getWineAge().toUpperCase()));
+            newWine.setWineSugarContent(WineSugarContentEnum.valueOf(winesEntity.getWineSugarContent().toUpperCase()));
             newWine.setWineSpiritContent(WineSpiritContentEnum.valueOf(winesEntity.getWineSpiritContent().toUpperCase()));
-            newWine.setWineCollection(WineCollectionEnum.valueOf(winesEntity.getWineCollection()));
+            newWine.setWineCollection(WineCollectionEnum.valueOf(winesEntity.getWineCollection().toUpperCase()));
         }
         return newWine;
     }
