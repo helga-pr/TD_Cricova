@@ -61,6 +61,6 @@ public class ShowPriceCommand implements ActionCommand {
         content.setRequestAttributes(forRequestAttribute);
         content.insertAttributes(request);
 
-        return "/price_administration.jsp";
+        return "/WEB-INF/price_administration.jsp";
     }
 }

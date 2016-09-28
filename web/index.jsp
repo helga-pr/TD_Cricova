@@ -2,7 +2,7 @@
          pageEncoding="utf-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<jsp:include page="template_header.jsp"/>
+<jsp:include page="WEB-INF/template_header.jsp"/>
 
 <div class="row">
     <div class="col-xs-8"><h2>О компании</h2></div>
@@ -144,4 +144,4 @@
     <div class="col-xs-2"></div>
 </div>
 
-<jsp:include page="template_footer.jsp"/>
+<jsp:include page="WEB-INF/template_footer.jsp"/>

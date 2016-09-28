@@ -61,6 +61,6 @@ public class ToAdministrationPageCommand implements ActionCommand {
         content.setRequestAttributes(forRequestAttribute);
         content.insertAttributes(request);
 
-        return "/administration.jsp";
+        return "/WEB-INF/administration.jsp";
     }
 }

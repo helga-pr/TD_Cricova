@@ -33,11 +33,11 @@
         </form>
         <br/><br/>
 
-        <form name="administrationForm" method="POST" action="controller">
+        <%--<form name="administrationForm" method="POST" action="controller">
             <input type="hidden" name="command" value="change_page_view"/>
             <input type="submit" value="Изменить страницу сайта" class="btn btn-warning"/>
         </form>
-
+--%>
     </div>
     <div class="col-xs-1"></div>
     <div class="col-xs-7">

@@ -109,7 +109,7 @@ public class ChangePriceCommand implements ActionCommand {
             content.insertAttributes(request);
             content.insertSessionAttributes(request);
 
-            return "/add_change_product_administration.jsp";
+            return "/WEB-INF/add_change_product_administration.jsp";
         }
 
         //*************ИЗМЕНЕНИЕ ЭКЗЕМПЛЯРА WINE в БД
@@ -124,32 +124,14 @@ public class ChangePriceCommand implements ActionCommand {
             content.insertAttributes(request);
             content.insertSessionAttributes(request);
 
-            return "/add_change_product_administration.jsp";
+            return "/WEB-INF/add_change_product_administration.jsp";
         }
-
-
-       /* //TODO для отладки
-        System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                "request attributes ==> ");
-        if (!content.getRequestParameters().isEmpty()) {
-            for (Map.Entry entry : content.getRequestParameters().entrySet()) {
-
-                System.out.println(entry.getKey() + " => " + content.getRequestParameters().get(entry.getKey())[0]);
-                if("changedProductId".equals(entry.getKey())){
-                    //id товара приходит в параметрах запроса с символом '/' в конце
-                    String id = (content.getRequestParameters().get(entry.getKey())[0].replace('/', ' ')).trim();
-                    System.out.println("id = " + Integer.valueOf(id));
-                }
-            }
-            System.out.println("<<<\n");
-        }*/
-
 
         content.setRequestAttributes(forRequestAttribute);
         content.setSessionAttributes(forSessionAttr);
         content.insertAttributes(request);
         content.insertSessionAttributes(request);
 
-        return "/price_administration.jsp";
+        return "/WEB-INF/price_administration.jsp";
     }
 }

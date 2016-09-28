@@ -198,7 +198,7 @@ public class NewClientCommand implements ActionCommand {
                 content.insertSessionAttributes(request);
 
                 // определение пути к *.jsp
-                page = "/receive_price.jsp";
+                page = "/WEB-INF/receive_price.jsp";
             }
 
         } else {
@@ -222,7 +222,7 @@ public class NewClientCommand implements ActionCommand {
 
                 content.insertAttributes(request);
                 content.insertSessionAttributes(request);
-                page = "/login.jsp";
+                page = "/WEB-INF/login.jsp";
 
                 //логин указан некорректно, клияент возвращается на страницу регистрации
                 //с указанием на ошибку
@@ -232,7 +232,7 @@ public class NewClientCommand implements ActionCommand {
 
                 content.insertAttributes(request);
 
-                page = "/registration.jsp";
+                page = "/WEB-INF/registration.jsp";
 
                 //TODO Для отладки
                 System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +

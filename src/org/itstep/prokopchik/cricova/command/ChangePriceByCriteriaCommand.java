@@ -81,9 +81,9 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
         String role = (String) content.getSessionAttributes().get(SESSION_ATTR_ROLE);
 
         if (role.equals("клиент")) {
-            page = "/receive_price.jsp";
+            page = "/WEB-INF/receive_price.jsp";
         } else {
-            page = "/price_administration.jsp";
+            page = "/WEB-INF/price_administration.jsp";
         }
 
         //HashMap для записи аттрибутов сессии пользователя и аттрибутов запроса

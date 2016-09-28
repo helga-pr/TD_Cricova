@@ -89,6 +89,6 @@ public class ChangeUserInfoCommand implements ActionCommand {
         System.out.println("Из блока (else if (клиент)) класса LoginCommand");
 
 
-        return "/user_office.jsp";
+        return "/WEB-INF/user_office.jsp";
     }
 }

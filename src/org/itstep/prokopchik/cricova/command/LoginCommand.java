@@ -114,7 +114,7 @@ public class LoginCommand implements ActionCommand {
                         "(from sessionAttr flag = " + content.getSessionAttributes().get("role") + ")" +
                         "(from sessionAttr login = " + content.getSessionAttributes().get("login") + ")");
 
-                page = "/administration.jsp";
+                page = "/WEB-INF/administration.jsp";
             }
 
             //страница клиента
@@ -153,7 +153,7 @@ public class LoginCommand implements ActionCommand {
                         "( из класса SessionRequestContent = " + content.getRequestAttributes().get("login"));
                 System.out.println("Из блока (else if (клиент)) класса LoginCommand:");
 */
-                page = "/receive_price.jsp";
+                page = "/WEB-INF/receive_price.jsp";
 
             }
         } else {
@@ -162,7 +162,7 @@ public class LoginCommand implements ActionCommand {
             content.setRequestAttributes(forRequestAttribute);
 
             //page = ConfigurationManager.getProperty("path.page.login");
-            page = "/login.jsp";
+            page = "/WEB-INF/login.jsp";
 
  /*           //TODO Для отладки
             System.out.println("\n" + new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +

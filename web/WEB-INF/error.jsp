@@ -4,8 +4,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen"/>
     <title>Error</title>
 </head>
 
@@ -18,7 +18,7 @@ Status code: ${pageContext.errorData.statusCode}
 <br/>
 Exception: ${pageContext.errorData.throwable}
 
-<script type="text/javascript" src="js/jquery-ui.js"></script>
-<script src="js/bootstrap.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.js"></script>
 </body>
 </html>

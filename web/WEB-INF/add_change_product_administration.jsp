@@ -41,13 +41,12 @@
 
 
 <div class="row">
-    <div class="col-xs-1"></div>
 
     <form name="administrationForm" method="POST" action="controller">
         <input type="hidden" name="command" value="add_change_price_position"/>
         <input type="hidden" name="changedProductId" value="${changedProductId}"/>
 
-        <div class="col-xs-9">
+        <div class="col-xs-12">
             <%--таблица для изменения/добавления товара (пункта прайса)--%>
             <table class="table table-bordered table-hover table-striped">
                 <tr>
@@ -266,10 +265,16 @@
             </button>
 
                 <%--сообщение о результате проведенного сохранения нового объекта БД--%>
-                <h4>${messageForPrice}</h4>
+                <c:choose>
+                    <c:when test="${errorFlag eq 'true'}">
+                        <h4 class="bg-danger error">${messageForPrice}</h4>
+                    </c:when>
+                    <c:otherwise>
+                        <h4>${messageForPrice}</h4>
+                    </c:otherwise>
+                </c:choose>
 
         </div>
-        <div class="col-xs-2"></div>
 
     </form>
 </div>

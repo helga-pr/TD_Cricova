@@ -6,7 +6,7 @@ public class ToLoginPage implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        String page = "/login.jsp";
+        String page = "/WEB-INF/login.jsp";
         return page;
     }
 }

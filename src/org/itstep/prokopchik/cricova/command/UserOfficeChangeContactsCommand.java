@@ -100,6 +100,6 @@ public class UserOfficeChangeContactsCommand implements ActionCommand {
         content.setRequestAttributes(forRequestAttribute);
         content.insertAttributes(request);
 
-        return "/user_office.jsp";
+        return "/WEB-INF/user_office.jsp";
     }
 }

@@ -9,7 +9,7 @@ public class NoRegistrationCommand implements ActionCommand {
         /**
          * команда перенаправляет на страницу регистрации
          */
-        String page = "/registration.jsp";
+        String page = "/WEB-INF/registration.jsp";
 
         return page;
     }
