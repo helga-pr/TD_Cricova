@@ -5,15 +5,13 @@ import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 import org.itstep.prokopchik.cricova.database.dao.wine.WinesEntity;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -101,7 +99,7 @@ public class ServletShowImageController extends HttpServlet {
 */
         response.setContentType("image/jpeg");
 
-        OutputStream outputStream = null;
+        ServletOutputStream outputStream = null;
         try {
             outputStream = response.getOutputStream();
         } catch (IOException e) {
@@ -112,22 +110,16 @@ public class ServletShowImageController extends HttpServlet {
 
             Wine wine = new WinesEntity().findWineById(id);
 
-            Blob image = (Blob) wine.getImage();
-            InputStream inputStream = image.getBinaryStream();
-            int length;
-            int bufferSize = 1024;
-            byte[] buffer = new byte[bufferSize];
-            while ((length = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, length);
-            }
-            inputStream.close();
+            byte[] image = (byte[]) wine.getImage();
+            response.setContentLength(image.length);
+            outputStream.write(image);
             outputStream.flush();
 
             //TODO Для отладки
             System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                     "Class = " + getClass());
 
-            System.out.println("image  => " + wine.getName() + " with length = " + image.length());
+            System.out.println("image  => " + wine.getName() + " with length = " + image.length);
 
 
         } catch (Exception ex) {
