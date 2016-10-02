@@ -17,7 +17,7 @@ import java.util.HashMap;
 /**
  * Servlet implementation class Controller
  */
-@WebServlet(urlPatterns = {"/controller"}, loadOnStartup = 1)
+@WebServlet(urlPatterns = {"/controller"}, loadOnStartup = 1, name = "controller")
 public class ServletController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class ServletController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
 
     }
 

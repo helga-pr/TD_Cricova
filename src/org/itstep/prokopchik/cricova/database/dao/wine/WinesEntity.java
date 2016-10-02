@@ -304,7 +304,7 @@ public class WinesEntity implements Serializable, DAOWine {
         try {
             Transaction transaction = session.beginTransaction();
 
-            allWinesEntities = session.createQuery("from WinesEntity w").list();
+            allWinesEntities = session.createQuery("from WinesEntity w ORDER BY wineCollection").list();
 
             if (!allWinesEntities.isEmpty()) {
                 Wine wine;
@@ -771,8 +771,12 @@ public class WinesEntity implements Serializable, DAOWine {
                 existWinesEntity.setNdsrateWine(newWine.getNdsRate());
             }
 
-            if ((byte[]) (byte[]) newWine.getImage() != null && !(existWinesEntity.getImageWine().equals(newWine.getImage()))) {
+            if ((byte[]) newWine.getImage() != null && (existWinesEntity.getImageWine()) != null && !(existWinesEntity.getImageWine().equals(newWine.getImage()))) {
                 existWinesEntity.setImageWine((byte[]) newWine.getImage());
+            } else {
+                if ((byte[]) newWine.getImage() != null) {
+                    existWinesEntity.setImageWine((byte[]) newWine.getImage());
+                }
             }
 
             if (!existWinesEntity.getWineType().equals(newWine.getWineType().getValue())) {

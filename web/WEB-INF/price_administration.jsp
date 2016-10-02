@@ -232,7 +232,8 @@
                             <input onchange="doActionButtons()" type="radio" name="changedProductId"
                                    value=${wine.getId()}/>
                         </td>
-                        <td>${wine.getImage()}</td>
+                            <%--для вывода изображения товара вызывается другой сервлет--%>
+                        <td><img height="80" name="wineImage" src="showImageController?id=${wine.getId()}"/></td>
                             <%--название и основные характеристики--%>
                         <td>${wine.toString()}</td>
                         <td>${wine.getPrice()}</td>

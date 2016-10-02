@@ -34,8 +34,9 @@
                 <input type="submit" value="Log in"/>
 
             </form>
-            <hr/>
+
         </div>
+        <div class="col-xs-1"></div>
     </div>
 
 <jsp:include page="template_footer.jsp"/>

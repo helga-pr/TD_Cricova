@@ -80,8 +80,12 @@
                                     <td><input onchange="doActionChangeButton()" size="4" type="text" name="wineNdsRate"
                                                value="${wineForChange.getNdsRate()}"/>
                                     </td>
-                                    <td><input onchange="doActionChangeButton()" type="image" name="wineImage"
-                                               value="${wineForChange.getImage()}"/></td>
+                                    <td><img height="100" name="wineImage" value="${wineForChange.getImage()}" size="5"
+                                             src="showImageController?id=${wineForChange.getId()}"/>
+                                            <%--Выбрать другую картинку--%>
+                                        <input onchange="doActionChangeButton()" size="5" type="file"
+                                               name="wineImageFile" accept="image/*,image/jpeg"/>
+                                    </td>
                                     <td>
                                         <select onchange="doActionChangeButton()" name="wineTypeSelected" class="small">
                                                 <%--Тип вина:--%>
@@ -193,7 +197,8 @@
                             <td><input onchange="doActionChangeButton()" size="4" type="text" name="wineNdsRateNew"
                                        value="20"/>
                             </td>
-                            <td><input onchange="doActionChangeButton()" type="file" name="wineImageNew" value=""/></td>
+                            <td><input onchange="doActionChangeButton()" type="file" name="wineImageNew"
+                                       accept="image/*,image/jpeg"/></td>
                             <td>
                                 <select onchange="doActionChangeButton()" name="wineTypeSelectedNew" class="small">
                                         <%--Тип вина:--%>

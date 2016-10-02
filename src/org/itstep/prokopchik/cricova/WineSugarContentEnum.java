@@ -5,8 +5,8 @@ public enum WineSugarContentEnum {
     BRUTE("brute"),
     DRY("dry"),
     SEMIDRY("semidry"),
-    SEMISWEETE("semisweet"),
-    SWEETE("sweet"),
+    SEMISWEET("semisweet"),
+    SWEET("sweet"),
     DESSERT("dessert");
 
     private String value;

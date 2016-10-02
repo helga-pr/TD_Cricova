@@ -6,7 +6,10 @@ import org.itstep.prokopchik.cricova.database.dao.wine.WinesEntity;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +27,8 @@ import java.util.List;
  */
 
 public class AddChangePricePositionCommand implements ActionCommand {
+
+    private static final String IMAGE_FILE_PATH = "D:/!MySTUDY/Java/FinalProject/web/files/";
 
     private static final String SESSION_ATTR_WINES_PRICE = "winesPriceSessionAttr";
     private static final String SESSION_ATTR_COMMAND_BUTTON = "commandButton";
@@ -47,7 +52,6 @@ public class AddChangePricePositionCommand implements ActionCommand {
     private static final String PARAM_NAME_WINE_NAME_UPDATE = "wineName";
     private static final String PARAM_NAME_WINE_PRICE_UPDATE = "winePrice";
     private static final String PARAM_NAME_WINE_NDS_RATE_UPDATE = "wineNdsRate";
-    private static final String PARAM_NAME_WINE_IMAGE_UPDATE = "wineImage";
     private static final String PARAM_NAME_WINE_TYPE_UPDATE = "wineTypeSelected";
     private static final String PARAM_NAME_WINE_AGE_UPDATE = "wineAgeSelected";
     private static final String PARAM_NAME_WINE_COLOR_UPDATE = "wineColorSelected";
@@ -55,6 +59,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
     private static final String PARAM_NAME_WINE_SUGAR_UPDATE = "wineSugarSelected";
     private static final String PARAM_NAME_WINE_COLLECTION_UPDATE = "wineCollectionSelected";
     private static final String PARAM_NAME_WINE_ANNOTATION_UPDATE = "wineAnnotation";
+    private static final String PARAM_NAME_WINE_IMAGE_SELECTED_FILE = "wineImageFile";
 
     /**
      * константы - поля для экземпляра Wine при добавлении нового (новый пункт прайса)
@@ -202,10 +207,11 @@ public class AddChangePricePositionCommand implements ActionCommand {
                     changeFlag = true;
 
                 }
-                if (content.getRequestParameters().containsKey(PARAM_NAME_WINE_IMAGE_UPDATE)) {
-                    if (!PARAM_NAME_WINE_IMAGE_UPDATE.isEmpty() && !changingWine.getImage().equals(content.getRequestParameters()
-                            .get(PARAM_NAME_WINE_IMAGE_UPDATE)[0])) {
-                        changingWine.setImage(content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_UPDATE)[0].getBytes());
+                if (content.getRequestParameters().containsKey(PARAM_NAME_WINE_IMAGE_SELECTED_FILE)) {
+                    if (!content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_SELECTED_FILE)[0].isEmpty()) {
+                        String fileName = content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_SELECTED_FILE)[0];
+                        byte[] imageFile = getBytesFromFile(new File(IMAGE_FILE_PATH + fileName));
+                        changingWine.setImage(imageFile);
                         changeFlag = true;
                     }
                 }
@@ -325,7 +331,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                             content.getRequestParameters().get(PARAM_NAME_WINE_NAME_NEW)[0],
                             Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_PRICE_NEW)[0]),
                             Integer.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_NDS_RATE_NEW)[0]),
-                            (byte[]) (content.getRequestAttributes().get(PARAM_NAME_WINE_IMAGE_NEW)),
+                            getBytesFromFile(new File(IMAGE_FILE_PATH + content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_NEW)[0])),
                             content.getRequestParameters().get(PARAM_NAME_WINE_ANNOTATION_NEW)[0],
                             WineTypeEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_TYPE_NEW)[0].toUpperCase()),
                             WineColorEnum.valueOf(content.getRequestParameters().get(PARAM_NAME_WINE_COLOR_NEW)[0].toUpperCase()),
@@ -361,5 +367,36 @@ public class AddChangePricePositionCommand implements ActionCommand {
 
         //эта строка не должна выполняться никогда (в случае выполнения отобразится страница с пустой таблицей
         return "/WEB-INF/price_administration.jsp";
+    }
+
+    public static byte[] getBytesFromFile(File file) throws IOException {
+        InputStream is = new FileInputStream(file);
+
+        // Get the size of the file
+        long length = file.length();
+
+        if (length > Integer.MAX_VALUE) {
+            // File is too large
+        }
+
+        // Create the byte array to hold the data
+        byte[] bytes = new byte[(int) length];
+
+        // Read in the bytes
+        int offset = 0;
+        int numRead = 0;
+        while (offset < bytes.length
+                && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+            offset += numRead;
+        }
+
+        // Ensure all the bytes have been read in
+        if (offset < bytes.length) {
+            throw new IOException("Could not completely read file " + file.getName());
+        }
+
+        // Close the input stream and return bytes
+        is.close();
+        return bytes;
     }
 }
