@@ -126,7 +126,7 @@ public class Wine extends Product {
                 " " + wineAge.getValueToString() +
                 " " + wineSugarContent.getValueToString() +
                 " Спирт - " + wineSpiritContent.getValue() +
-                " " + (wineCollection.getValue() == "-" ? "" :
+                " " + (wineCollection.getValue() == "none" ? "" :
                 " Коллекция вин \'" + wineCollection.getValue() + "\'") +
                 ")";
     }

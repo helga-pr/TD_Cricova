@@ -83,7 +83,7 @@
                                     <td><img height="100" name="wineImage" value="${wineForChange.getImage()}" size="5"
                                              src="showImageController?id=${wineForChange.getId()}"/>
                                             <%--Выбрать другую картинку--%>
-                                        <input onchange="doActionChangeButton()" size="5" type="file"
+                                        <input onchange="doActionChangeButton()" type="file"
                                                name="wineImageFile" accept="image/*,image/jpeg"/>
                                     </td>
                                     <td>

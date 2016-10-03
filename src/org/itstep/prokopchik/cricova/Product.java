@@ -70,7 +70,7 @@ abstract class Product {
         if (!name.equals(product.name)) return false;
         if (!ndsRate.equals(product.ndsRate)) return false;
         if (!price.equals(product.price)) return false;
-
+        if (image != null ? !image.equals(product.image) : product.image != null) return false;
         return true;
     }
 

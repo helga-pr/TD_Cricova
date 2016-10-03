@@ -208,10 +208,20 @@ public class AddChangePricePositionCommand implements ActionCommand {
 
                 }
                 if (content.getRequestParameters().containsKey(PARAM_NAME_WINE_IMAGE_SELECTED_FILE)) {
+                    //TODO Для отладки
+                    System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                            "Class = " + getClass());
+                    System.out.println("IMAGE: \nImageName = " + content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_SELECTED_FILE)[0]);
+
+
                     if (!content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_SELECTED_FILE)[0].isEmpty()) {
                         String fileName = content.getRequestParameters().get(PARAM_NAME_WINE_IMAGE_SELECTED_FILE)[0];
                         byte[] imageFile = getBytesFromFile(new File(IMAGE_FILE_PATH + fileName));
-                        changingWine.setImage(imageFile);
+                        changingWine.setImage(getBytesFromFile(new File(IMAGE_FILE_PATH + fileName)));
+
+                        //TODO Для отладки
+                        System.out.println("IMAGE: \nImageLength = " + imageFile.length + "\n");
+                        System.out.println("IMAGE: \nImageLength of changingWine = " + ((byte[]) changingWine.getImage()).length + "\n");
                         changeFlag = true;
                     }
                 }
@@ -251,6 +261,7 @@ public class AddChangePricePositionCommand implements ActionCommand {
                             .get(PARAM_NAME_WINE_COLLECTION_UPDATE)[0].toUpperCase()));
                     changeFlag = true;
                 }
+
                 if (!changingWine.getAnnotation().equals(content.getRequestParameters().get(PARAM_NAME_WINE_ANNOTATION_UPDATE)[0])) {
                     changingWine.setAnnotation(content.getRequestParameters().get(PARAM_NAME_WINE_ANNOTATION_UPDATE)[0]);
                     changeFlag = true;
@@ -262,6 +273,11 @@ public class AddChangePricePositionCommand implements ActionCommand {
 
                 if (changeFlag == true) {
                     idUpdateWine = new WinesEntity().updateWine(changingWine);
+
+                    //TODO Для отладки
+                    System.out.println("UPDATE_WINE:  Finish. \n");
+                    System.out.println("idUpdateWine = " + idUpdateWine);
+                    System.out.println("changingWine ID = " + changingWine.getId());
                 }
                 /**
                  * иначе возврат обратно на страницу с сообщением об ошибке
@@ -282,6 +298,10 @@ public class AddChangePricePositionCommand implements ActionCommand {
                  * если обновление прошло успешно
                  */
                 if (idUpdateWine > 0) {
+                    //TODO Для отладки
+                    System.out.println("UPDATE_WINE: ");
+                    System.out.println("Если обновление прошло успешно,");
+                    System.out.println("получение из БД обновленного прайса продукции и сохранение его в аттрибуты сессии.");
                     //получение из БД обновленного прайса продукции и сохранение его в аттрибуты сессии
                     winesPrice = new WinesEntity().findAllWines();
                     forSessionAttr.put(SESSION_ATTR_WINES_PRICE, winesPrice);
