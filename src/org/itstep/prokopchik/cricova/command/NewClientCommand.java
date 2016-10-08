@@ -2,9 +2,11 @@ package org.itstep.prokopchik.cricova.command;
 
 import org.itstep.prokopchik.cricova.Client;
 import org.itstep.prokopchik.cricova.Company;
+import org.itstep.prokopchik.cricova.Wine;
 import org.itstep.prokopchik.cricova.command.factory.SessionRequestContent;
 import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
 import org.itstep.prokopchik.cricova.database.dao.company.CompaniesEntity;
+import org.itstep.prokopchik.cricova.database.dao.wine.WinesEntity;
 import org.itstep.prokopchik.cricova.logic.MailLogic;
 import org.itstep.prokopchik.cricova.logic.UnpLogic;
 
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class NewClientCommand implements ActionCommand {
 
@@ -27,6 +30,10 @@ public class NewClientCommand implements ActionCommand {
     private static final String PARAM_NAME_COMPANY_NAME = "company_name";
     private static final String PARAM_NAME_COMPANY_UNP = "company_unp";
     private static final String PARAM_NAME_COMPANY_NOTES = "company_notes";
+
+    private static final String SESSION_ATTR_WINES_PRICE = "winesPrice";
+
+    List<Wine> winesPrice;
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -77,61 +84,6 @@ public class NewClientCommand implements ActionCommand {
         System.out.println(new SimpleDateFormat("\ndd.MM.yyyy HH:mm:ss ").format(new Date()) +
                 "\nполучены параметры из запроса: name = " + name + "(login - " + login + "); company: " + companyName);
 
-        //        String login = request.getParameter(PARAM_NAME_LOGIN);
-//        String pass = request.getParameter(PARAM_NAME_PASSWORD);
-//        String passwordRepeat = request.getParameter(PARAM_NAME_PASSWORD_REPEAT);
-//        String name = request.getParameter(PARAM_NAME_CLIENT_NAME);
-//        try {
-//            name = new String(name.getBytes("ISO-8859-1"), "utf-8");//значение параметра может быть внесено на русском языке
-//
-//        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        String middlename = request.getParameter(PARAM_NAME_CLIENT_MIDDLENAME);
-//        try {
-//            middlename = new String(middlename.getBytes("ISO-8859-1"), "utf-8");//значение параметра внесено на русском языке
-//            if (middlename.isEmpty()) {
-//                middlename = "";
-//            }
-//
-//        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        String lastname = request.getParameter(PARAM_NAME_CLIENT_LASTNAME);
-//        try {
-//            lastname = new String(lastname.getBytes("ISO-8859-1"), "utf-8");//значение параметра внесено на русском языке
-//
-//        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        String clientContacts = request.getParameter(PARAM_NAME_CLIENT_CONTACTS);
-//        try {
-//            clientContacts = new String(clientContacts.getBytes("ISO-8859-1"), "utf-8");//значение параметра внесено на русском языке
-//
-//        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        String companyName = request.getParameter(PARAM_NAME_COMPANY_NAME);
-//        try {
-//            companyName = new String(companyName.getBytes("ISO-8859-1"), "utf-8");//значение параметра внесено на русском языке
-//
-//        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        String unp = request.getParameter(PARAM_NAME_COMPANY_UNP);
-//        String companyNotes = request.getParameter(PARAM_NAME_COMPANY_NOTES);
-//        try {
-//            companyNotes = new String(companyNotes.getBytes("ISO-8859-1"), "utf-8");//значение параметра внесено на русском языке
-//
-//        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
 
         /**
          *  проверка логина и пароля, проверка УНП
@@ -192,6 +144,10 @@ public class NewClientCommand implements ActionCommand {
                 forRequestAttribute.put("login", login);
 
                 forSessionAttr.put("login", login);
+
+                //получение из БД прайса продукции и сохранение его в аттрибуты запроса, аттрибуты сессии
+                winesPrice = new WinesEntity().findAllWines();
+                forSessionAttr.put(SESSION_ATTR_WINES_PRICE, winesPrice);
 
                 //запись аттрибутов запроса и сессии для передачи на следующую страницу
                 content.insertAttributes(request);

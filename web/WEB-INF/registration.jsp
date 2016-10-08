@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="form-group">
                             <input type="hidden" name="command" value="new_client"/>
-                            <label for="inputLogin" class="col-sm-4 control-label">Логин</label>
+                            <label for="inputLogin" class="col-sm-4 control-label">Логин (Ваш e-mail)</label>
 
                             <div class="col-sm-8">
                                 <input id="inputLogin" class="form-control" type="text" name="login"

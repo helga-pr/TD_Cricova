@@ -183,7 +183,7 @@
     <div class="col-xs-2">
         <form name="administrationForm" method="POST" action="controller">
             <input type="hidden" name="command" value="logout"/>
-            <input type="submit" value="Log out"/>
+            <input type="submit" value="Выход"/>
         </form>
         <form name="changeUserInfo" method="POST" action="controller">
             <input type="hidden" name="command" value="change_user_info"/>
@@ -212,8 +212,8 @@
             </tr>
             <c:forEach var="wine" items="${winesPrice}">
                 <tr>
-                    <td>${wine.getImage()}</td>
-                        <%--<td>${wine.getName}</td>--%>
+                        <%--для вывода изображения товара вызывается другой сервлет--%>
+                    <td><img height="80" name="wineImage" src="showImageController?id=${wine.getId()}"/></td>
                     <td>${wine.toString()}</td>
                     <td>${wine.getPrice()} руб. без НДС</td>
                     <td>${wine.getAnnotation()}</td>
