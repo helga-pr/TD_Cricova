@@ -198,20 +198,21 @@
             Управление прайсами продукции
             <br/><br/>
 
-            <input type="submit" name="buttonName" value="Добавить пункт прайса" class="btn btn-warning"/>
+            <div class="ask">
+                <input type="submit" name="buttonName" value="Добавить пункт прайса" class="btn btn-warning"/>
 
-            <br/><br/>
+                <br/><br/>
 
-            <input type="submit" disabled="disabled" name="buttonName" value="Изменить пункт прайса"
-                   class="btn btn-warning"/>
+                <input type="submit" disabled="disabled" name="buttonName" value="Изменить пункт прайса"
+                       class="btn btn-warning"/>
 
-            <br/><br/>
+                <br/><br/>
 
-            <input type="submit" disabled="disabled" name="buttonName" value="Удалить пункт прайса"
-                   class="btn btn-danger"/>
-            <%--сообщение о результате проведенного удаления/изменения объекта БД--%>
-            <h4>${messageForPrice}</h4>
-
+                <input type="submit" disabled="disabled" name="buttonName" value="Удалить пункт прайса"
+                       class="btn btn-danger"/>
+                <%--сообщение о результате проведенного удаления/изменения объекта БД--%>
+                <h4>${messageForPrice}</h4>
+            </div>
         </div>
 
         <div class="col-xs-8">

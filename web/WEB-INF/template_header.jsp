@@ -1,4 +1,5 @@
 ﻿<head>
+
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen"/>
 
@@ -25,5 +26,5 @@
         <div class="col-xs-8">
             <h1>Торговый Дом &quotКрикова&quot</h1>
         </div>
-
+        <div class="col-xs-2"></div>
     </div>
