@@ -19,7 +19,7 @@ public class LoginCommand implements ActionCommand {
 
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
-    private static final String PARAM_NAME_ADMINFLAG = "adminflag";
+
     private static final String PARAM_NAME_WINES_PRICE = "winesPrice";
     private static final String PARAM_NAME_CHOSEN_CRITERIA = "chosenCriteria";
 
@@ -66,8 +66,6 @@ public class LoginCommand implements ActionCommand {
         String login = content.getRequestParameters().get(PARAM_NAME_LOGIN)[0];
         String pass = content.getRequestParameters().get(PARAM_NAME_PASSWORD)[0];
 
-        String flag = content.getRequestParameters().get(PARAM_NAME_ADMINFLAG)[0];
-
         //HashMap для записи аттрибутов сессии пользователя и аттрибутов запроса
         HashMap<String, Object> forRequestAttribute = new HashMap<String, Object>();
         HashMap<String, Object> forSessionAttr = content.getSessionAttributes();
@@ -79,18 +77,17 @@ public class LoginCommand implements ActionCommand {
         System.out.println(new SimpleDateFormat("dd.mm.yyyy hh:mm:ss ").format(new Date()) +
                 "извлечение из запроса через специальный класс SessionRequestContent логина и пароля: " +
                 "login = " + content.getRequestParameters().get(PARAM_NAME_LOGIN)[0] +
-                "; pass = " + content.getRequestParameters().get(PARAM_NAME_PASSWORD)[0] +
-                "; flag = " + content.getRequestParameters().get(PARAM_NAME_ADMINFLAG)[0]);
+                "; pass = " + content.getRequestParameters().get(PARAM_NAME_PASSWORD)[0]);
 
 */
 
         // проверка логина и пароля
-        if (LoginLogic.checkLogin(login, pass, flag)) {
+        if (LoginLogic.checkLogin(login, pass).equals("admin")) {
 
             //установить аттрибуты для данной пользовательской сессии,
             //которые будут использоваться на разных страницах приложения
 
-            forSessionAttr.put(SESSION_ATTR_ROLE, flag);
+            forSessionAttr.put(SESSION_ATTR_ROLE, "admin");
             forSessionAttr.put(SESSION_ATTR_LOGIN, login);
 
            /* //TODO Для отладки
@@ -105,23 +102,20 @@ public class LoginCommand implements ActionCommand {
 */
 
             // определение пути к *.jsp
-            if ("администратор".equals(flag)) {
+            //TODO Для отладки
+            System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
+                    "Из блока if (админ) класса LoginCommand");
+            System.out.println("role = " + SESSION_ATTR_ROLE +
+                    "(from sessionAttr login = " + content.getSessionAttributes().get("login") + ")");
 
-                //TODO Для отладки
-                System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
-                        "Из блока if (админ) класса LoginCommand");
-                System.out.println("flag = " + flag +
-                        "(from sessionAttr flag = " + content.getSessionAttributes().get("role") + ")" +
-                        "(from sessionAttr login = " + content.getSessionAttributes().get("login") + ")");
+            page = "/WEB-INF/administration.jsp";
+        }
 
-                page = "/WEB-INF/administration.jsp";
-            }
+        //страница клиента
+        else if (LoginLogic.checkLogin(login, pass).equals("client")) {
 
-            //страница клиента
-            else if ("клиент".equals(flag)) {
-
-                //передача атрибутов
-                Client client = new ClientsEntity().findClient(login);
+            //передача атрибутов
+            Client client = new ClientsEntity().findClient(login);
 
   /*
         //TODO
@@ -131,17 +125,18 @@ public class LoginCommand implements ActionCommand {
                 System.out.println(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
                         getClass() + "\nполучены данные о компании из БД:\n" + company.toString());
 */
-                String name = client.getName();
-                String middleName = client.getMiddleName();
-                String lastName = client.getLastname();
-                String fio = lastName + " " + name + " " + middleName;
-                forSessionAttr.put(SESSION_ATTR_FIO, fio);
-                forSessionAttr.put(SESSION_ATTR_LOGIN, login);
+            forSessionAttr.put(SESSION_ATTR_ROLE, "client");
+            String name = client.getName();
+            String middleName = client.getMiddleName();
+            String lastName = client.getLastname();
+            String fio = lastName + " " + name + " " + middleName;
+            forSessionAttr.put(SESSION_ATTR_FIO, fio);
+            forSessionAttr.put(SESSION_ATTR_LOGIN, login);
 
-                //получение из БД прайса продукции и сохранение его в аттрибуты сессии
-                winesPrice = new WinesEntity().findAllWines();
-                forRequestAttribute.put(PARAM_NAME_WINES_PRICE, winesPrice);
-                forSessionAttr.put(SESSION_ATTR_WINES_PRICE, winesPrice);
+            //получение из БД прайса продукции и сохранение его в аттрибуты сессии
+            winesPrice = new WinesEntity().findAllWines();
+            forRequestAttribute.put(PARAM_NAME_WINES_PRICE, winesPrice);
+            forSessionAttr.put(SESSION_ATTR_WINES_PRICE, winesPrice);
 
  /*               //TODO Для отладки
                 System.out.println("\n" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ").format(new Date()) +
@@ -153,9 +148,8 @@ public class LoginCommand implements ActionCommand {
                         "( из класса SessionRequestContent = " + content.getRequestAttributes().get("login"));
                 System.out.println("Из блока (else if (клиент)) класса LoginCommand:");
 */
-                page = "/WEB-INF/receive_price.jsp";
+            page = "/WEB-INF/receive_price.jsp";
 
-            }
         } else {
 
             forRequestAttribute.put("errorLoginPassMessage", "Incorrect login or password.");

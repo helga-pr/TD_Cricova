@@ -182,7 +182,7 @@
 
         <form name="administrationForm" method="POST" action="controller">
             <input type="hidden" name="command" value="logout"/>
-            <input type="submit" value="Log out" class="small"/>
+            <input type="submit" value="Выход" class="small btn-primary"/>
         </form>
 
     </div>
@@ -195,21 +195,21 @@
 
     <div class="row">
         <div class="col-xs-2">
-            Управление прайсами продукции
-            <br/><br/>
+            <%--Управление прайсами продукции
+            <br/><br/>--%>
 
-            <div class="ask">
-                <input type="submit" name="buttonName" value="Добавить пункт прайса" class="btn btn-warning"/>
+            <div>
+                <input type="submit" name="buttonName" value="Добавить пункт прайса" class="btn btn-warning layer3"/>
 
                 <br/><br/>
 
                 <input type="submit" disabled="disabled" name="buttonName" value="Изменить пункт прайса"
-                       class="btn btn-warning"/>
+                       class="btn btn-warning layer2"/>
 
                 <br/><br/>
 
                 <input type="submit" disabled="disabled" name="buttonName" value="Удалить пункт прайса"
-                       class="btn btn-danger"/>
+                       class="btn btn-danger layer1"/>
                 <%--сообщение о результате проведенного удаления/изменения объекта БД--%>
                 <h4>${messageForPrice}</h4>
             </div>

@@ -18,7 +18,7 @@
     <div class="col-xs-2">
         <form name="administrationForm" method="POST" action="controller">
             <input type="hidden" name="command" value="logout"/>
-            <input type="submit" value="Log out"/>
+            <input type="submit" value="Выход" class="btn-primary"/>
         </form>
     </div>
 </div>

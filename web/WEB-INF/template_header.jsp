@@ -8,6 +8,8 @@
 
     <script type="text/javascript" src="../js/doActionButtons.js"></script>
 
+    <link rel="shortcut icon" href="../resources/favicon.png" type="image/png">
+
     <title>Торговый Дом &quotКрикова&quot</title>
 
 </head>

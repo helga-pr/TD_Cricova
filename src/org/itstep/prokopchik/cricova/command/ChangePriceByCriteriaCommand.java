@@ -80,7 +80,7 @@ public class ChangePriceByCriteriaCommand implements ActionCommand {
         // извлечение из запроса через специальный класс SessionRequestContent логина и пароля
         String role = (String) content.getSessionAttributes().get(SESSION_ATTR_ROLE);
 
-        if (role.equals("клиент")) {
+        if (role.equals("client")) {
             page = "/WEB-INF/receive_price.jsp";
         } else {
             page = "/WEB-INF/price_administration.jsp";

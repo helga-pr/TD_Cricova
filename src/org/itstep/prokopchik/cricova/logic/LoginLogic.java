@@ -10,37 +10,32 @@ import org.itstep.prokopchik.cricova.database.dao.client.ClientsEntity;
  */
 public class LoginLogic {
 
+    private static final String SESSION_ATTR_ROLE = "role";//роль пользователя (клиент или администратор)
+
     /**
      * проверка логина-пароля
      *
      * @param enterLogin
      * @param enterPass
-     * @param adminflag
      * @return boolean
      */
-    public static boolean checkLogin(String enterLogin, String enterPass, String adminflag) {
+    public static String checkLogin(String enterLogin, String enterPass) {
 
+        Admin admin = null;
+        admin = new AdminsEntity().findAdmin(enterLogin);
+        Client client = null;
+        client = new ClientsEntity().findClient(enterLogin);
 
-        if (adminflag.equals("администратор")) {
-            Admin admin = null;
+        if (admin != null &&
+                admin.getPassword().equals(enterPass)) {
+            return "admin";
 
-            admin = new AdminsEntity().findAdmin(enterLogin);
-
-            return admin != null &&
-                    admin.getPassword().equals(enterPass);
-
-        } else if (adminflag.equals("клиент")) {
-
-            Client client = null;
-
-            client = new ClientsEntity().findClient(enterLogin);
-
-            return client != null &&
-                    client.getPassword().equals(enterPass);
+        } else if (client != null &&
+                client.getPassword().equals(enterPass)) {
+            return "client";
         } else
 
-
-            return false;
+            return "error_login_or_password";
     }
 
 

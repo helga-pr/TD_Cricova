@@ -56,7 +56,7 @@ public class UserOfficeChangePasswordCommand implements ActionCommand {
 
         //пользователь регистрируется в БД в таблице Clients
         //параметр запроса adminflag == "клиент"
-        if (LoginLogic.checkLogin(login, oldPass, "клиент") && !newPass.trim().isEmpty() &&
+        if (LoginLogic.checkLogin(login, oldPass).equals("client") && !newPass.trim().isEmpty() &&
                 newPass.equals(repeatePass)) {
             client.setPassword(newPass);
 

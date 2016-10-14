@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-2"></div>
     <div class="col-xs-8">
-        <h4 class="bg-primary"> Контакты: </h4>
+        <h4 class="bg-primary"><a name="contactData">Контакты:</a></h4>
         <h4>Офис в г. Минске...; тел./факс 8-017-356-**-**; сайт www.td_cricova.com;</h4>
         <h4>Торговые представители в регионах: </h4>
 

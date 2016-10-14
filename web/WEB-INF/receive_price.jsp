@@ -183,11 +183,12 @@
     <div class="col-xs-2">
         <form name="administrationForm" method="POST" action="controller">
             <input type="hidden" name="command" value="logout"/>
-            <input type="submit" value="Выход"/>
+            <input type="submit" value="Выход" class="btn-primary"/>
         </form>
+        <br/>the project is complete (for protection)
         <form name="changeUserInfo" method="POST" action="controller">
             <input type="hidden" name="command" value="change_user_info"/>
-            <h5><input type="submit" value="Изменить данные профиля" class="btn-link"/></h5>
+            <b></b><h5><input type="submit" value="Изменить данные профиля" class="btn-link"/></h5></b>
         </form>
 
     </div>

@@ -33,7 +33,7 @@
 
         <form name="administrationForm" method="POST" action="controller">
             <input type="hidden" name="command" value="logout"/>
-            <input type="submit" value="Log out" class="small"/>
+            <input type="submit" value="Выход" class="small btn-primary"/>
         </form>
 
     </div>
@@ -265,7 +265,7 @@
                     Внести изменения
                 </button>
 
-                <button type="submit" class="btn btn-primary" name="buttonNameChangePage" value="Отмена">
+                <button type="submit" class="btn btn-danger" name="buttonNameChangePage" value="Отмена">
                     Отмена
             </button>
 
